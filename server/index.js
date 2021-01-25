@@ -9,6 +9,11 @@ import filmRoute from "./routes/filmRoutes.js"; // in node, this has to end with
 // import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
+app.disable("x-powered-by");
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 app.use("/films", filmRoute);
 // app.use('/reviews', reviewRoutes);
@@ -17,12 +22,13 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-const CONNECTION_URL = `mongodb+srv://ghibli-shan:xduubVzY74qpwBk@cluster0.x3xxe.mongodb.net/ghibli?retryWrites=true&w=majority`;
+const DB = `mongodb+srv://ghibli-shan:xduubVzY74qpwBk@cluster0.x3xxe.mongodb.net/ghibli?retryWrites=true&w=majority`;
+
 const PORT = process.env.PORT || 5050;
 
 // these four params are for avoiding warning in the console
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
