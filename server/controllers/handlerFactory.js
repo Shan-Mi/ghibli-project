@@ -17,7 +17,7 @@ const deleteOne = (Model) =>
     });
   });
 
-const updateOne = (Model) =>
+const updateOne = (Model, field) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true, // return the new document
@@ -29,26 +29,26 @@ const updateOne = (Model) =>
     res.status(200).json({
       status: "success",
       data: {
-        data: doc,
+        [field]: doc,
       },
     });
   });
 
-const createOne = (Model) =>
+const createOne = (Model, field) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
     res.status(201).json({
       status: "success",
       data: {
-        data: doc,
+        [field]: doc,
       },
     });
   });
 
-const getOne = (Model, populateOption) =>
+const getOne = (Model, field, populateOption) =>
   catchAsync(async (req, res, next) => {
-    let query = Model.findById(req.params.id);
+    let query = Model.findById(req.params.filmId);
     if (populateOption) {
       query = await query.populate(populateOption);
     }
@@ -61,12 +61,12 @@ const getOne = (Model, populateOption) =>
     res.status(200).json({
       status: "success",
       data: {
-        data: doc,
+        [field]: doc,
       },
     });
   });
 
-const getAll = (Model) =>
+const getAll = (Model, field) =>
   catchAsync(async (req, res, next) => {
     // to allow for nested GET reviews on tour (hack)
     let filter;
@@ -87,7 +87,7 @@ const getAll = (Model) =>
       status: "success",
       results: doc.length,
       data: {
-        data: doc,
+        [field]: doc,
       },
     });
   });

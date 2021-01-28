@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import bcryptjs from "bcryptjs";
-// const validator = require("validator");
-// const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
   name: {

@@ -102,7 +102,7 @@ export function createUser(req, res) {
   });
 }
 
-export const getAllUsers = getAll(User);
-export const getOneUser = getOne(User);
-export const updateUser = updateOne(User);
+export const getAllUsers = getAll(User, "users");
+export const getOneUser = getOne(User, "users");
+export const updateUser = updateOne(User, "users");
 export const deleteUser = deleteOne(User);

@@ -7,7 +7,7 @@ import * as factory from "./handlerFactory.js";
 //   // console.log(reviews);
 //   res.status(200).json(reviews);
 // });
-export const getReviews = factory.getAll(Review);
+export const getReviews = factory.getAll(Review, 'reviews');
 
 export const createReview = catchAsync(async (req, res) => {
   // res.send("Created review");
