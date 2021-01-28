@@ -22,7 +22,7 @@ const filmSchema = new mongoose.Schema(
       required: [true, "A film must have a description"],
     },
     releasedDate: {
-      type: String,
+      type: Date,
       required: [true, "A film must have a releasedDate"],
     },
     runtime: { type: String, required: [true, "A film must have a runtime"] },
