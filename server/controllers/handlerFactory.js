@@ -2,7 +2,6 @@
 // we need to pass model to this function
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
-import APIFeatures from "../utils/APIFeatures.js";
 
 const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -48,7 +47,7 @@ const createOne = (Model, field) =>
 
 const getOne = (Model, field, populateOption) =>
   catchAsync(async (req, res, next) => {
-    let query = Model.findById(req.params.filmId);
+    let query = Model.findById(req.params.id);
     if (populateOption) {
       query = await query.populate(populateOption);
     }
@@ -68,20 +67,7 @@ const getOne = (Model, field, populateOption) =>
 
 const getAll = (Model, field) =>
   catchAsync(async (req, res, next) => {
-    // to allow for nested GET reviews on tour (hack)
-    let filter;
-    if (req.params.tourId) {
-      filter = { tour: req.params.tourId };
-    }
-    const features = new APIFeatures(Model.find(filter), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
-    const doc = await features.query;
-    // const doc = await features.query.explain();
-    // will get back all details about how many times excute etc.
-
+    const doc = await Model.find();
     // SEND RESPONSE
     res.status(200).json({
       status: "success",
