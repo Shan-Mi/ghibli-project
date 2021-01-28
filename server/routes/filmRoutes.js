@@ -5,8 +5,8 @@ import reviewRouter from "../routes/reviewRoutes.js";
 const router = express.Router();
 
 router.get("/", getFilms);
-router.get("/:filmId", getOneFilm);
+router.get("/:id", getOneFilm);
 
-router.use("/:filmId/reviews", reviewRouter);
+router.use("/:id/reviews", reviewRouter);
 
 export default router;
