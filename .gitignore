@@ -27,4 +27,4 @@ yarn-error.log*
 
 /client/.eslintcache
 
-/server/config.env
+server/config.env
