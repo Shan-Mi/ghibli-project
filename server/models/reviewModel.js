@@ -11,6 +11,6 @@ const reviewSchema = new mongoose.Schema({
   },
 });
 
-const Reviews = mongoose.model("review", reviewSchema);
+const Review = mongoose.model("review", reviewSchema);
 
-export default Reviews;
+export default Review;
