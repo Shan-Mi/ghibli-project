@@ -1,4 +1,8 @@
 import "./config.js";
+import path from "path";
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
+const __dirname = path.resolve();
 import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
@@ -27,6 +31,7 @@ app.use(cors());
 const DB = `mongodb+srv://ghibli-shan:xduubVzY74qpwBk@cluster0.x3xxe.mongodb.net/ghibli?retryWrites=true&w=majority`;
 
 const PORT = process.env.PORT || 5050;
+console.log(process.env.PORT);
 
 // these four params are for avoiding warning in the console
 mongoose
