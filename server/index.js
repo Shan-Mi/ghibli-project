@@ -6,7 +6,7 @@ import cors from "cors";
 import filmRoute from "./routes/filmRoutes.js"; // in node, this has to end with .js, which is different from require('./routes/filmRoutes')
 
 // import reviewRoutes from "./routes/reviewRoutes.js";
-// import userRoutes from "./routes/userRoutes.js";
+import userRoute from "./routes/userRoutes.js";
 
 const app = express();
 app.disable("x-powered-by");
@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/films", filmRoute);
+app.use("/users", userRoute);
 // app.use('/reviews', reviewRoutes);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
