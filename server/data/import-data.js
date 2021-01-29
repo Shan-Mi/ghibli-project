@@ -12,7 +12,6 @@ const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
-// const DB = `mongodb+srv://ghibli-shan:xduubVzY74qpwBk@cluster0.x3xxe.mongodb.net/ghibli?retryWrites=true&w=majority`;
 
 mongoose
   .connect(DB, {
