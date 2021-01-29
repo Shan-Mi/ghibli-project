@@ -29,10 +29,12 @@ app.use(json({ limit: "30mb", extended: true }));
 app.use(urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-const DB = `mongodb+srv://ghibli-shan:xduubVzY74qpwBk@cluster0.x3xxe.mongodb.net/ghibli?retryWrites=true&w=majority`;
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
 
 const PORT = process.env.PORT || 5050;
-console.log(process.env.PORT);
 
 // these four params are for avoiding warning in the console
 mongoose
