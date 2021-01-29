@@ -2,7 +2,7 @@
    "name": "ghibli-project",
    "version": "1.0.0",
    "description": "MERN ghibli's fans forum",
-   "main": "server.js",
+   "main": "index.js",
    "type": "module",
    "scripts": {
       "start": "nodemon index.js",

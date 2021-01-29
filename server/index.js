@@ -1,17 +1,18 @@
 import "./config.js";
 import path from "path";
 import dotenv from "dotenv";
-dotenv.config({ path: "./config.env" });
-const __dirname = path.resolve();
 import express from "express";
-import bodyParser from "body-parser";
+import { json, urlencoded } from "body-parser";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import cors from "cors";
-import filmRoute from "./routes/filmRoutes.js"; // in node, this has to end with .js, which is different from require('./routes/filmRoutes')
-
-// import reviewRoutes from "./routes/reviewRoutes.js";
+// in node, this has to end with .js, which is different from require('./routes/filmRoutes')
+import filmRoute from "./routes/filmRoutes.js";
+import reviewRoute from "./routes/reviewRoutes.js";
 import userRoute from "./routes/userRoutes.js";
+
+dotenv.config({ path: "./config.env" });
+const __dirname = path.resolve();
 
 const app = express();
 app.disable("x-powered-by");
@@ -22,10 +23,10 @@ if (process.env.NODE_ENV === "development") {
 
 app.use("/films", filmRoute);
 app.use("/users", userRoute);
-// app.use('/reviews', reviewRoutes);
+app.use("/reviews", reviewRoute);
 
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(json({ limit: "30mb", extended: true }));
+app.use(urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 const DB = `mongodb+srv://ghibli-shan:xduubVzY74qpwBk@cluster0.x3xxe.mongodb.net/ghibli?retryWrites=true&w=majority`;
