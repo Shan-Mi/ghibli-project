@@ -1,0 +1,22 @@
+[
+   {
+      "_id": "6014602409d018b7240df027",
+      "name": "Shan",
+      "email": "admin@ghibli.com",
+      "role": "admin",
+      "active": true,
+      "photo": "default.jpg",
+      "password": "$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS",
+      "likedReviews": []
+   },
+   {
+      "_id": "60145eb409d018b7240df026",
+      "name": "Jessica",
+      "email": "jessica@example.com",
+      "role": "user",
+      "active": true,
+      "photo": "user-3.jpg",
+      "password": "$2a$12$9nFqToiTmjgfFVJiQvjmreLt4k8X4gGYCETGapSZOb2hHa55t0dDq",
+      "likedReviews": []
+   }
+]

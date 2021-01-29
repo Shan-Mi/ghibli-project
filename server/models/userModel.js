@@ -1,56 +1,65 @@
 import mongoose from "mongoose";
 import validator from "validator";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "A user must have a name"], // a validator
-  },
-  email: {
-    type: String,
-    required: [true, "A user must have an email"],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email"],
-  },
-  photo: {
-    type: String,
-    default: "default.jpg",
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
-  },
-  password: {
-    type: String,
-    required: [true, "A user must have a password"],
-    minlength: 8,
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    // required: [true, 'A user must confirm password'],
-    // this works only for SAVE
-    validate: {
-      validator: function (val) {
-        return val === this.password;
-        // this only points to current doc on new document creation
-      },
-      message: "Password must consist",
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "A user must have a name"], // a validator
     },
-    select: false,
+    email: {
+      type: String,
+      required: [true, "A user must have an email"],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Please provide a valid email"],
+    },
+    photo: {
+      type: String,
+      default: "default.jpg",
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    likedReview: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "review",
+      },
+    ],
+    password: {
+      type: String,
+      required: [true, "A user must have a password"],
+      minlength: 8,
+      select: false,
+    },
+    passwordConfirm: {
+      type: String,
+      // required: [true, 'A user must confirm password'],
+      // this works only for SAVE
+      validate: {
+        validator: function (val) {
+          return val === this.password;
+          // this only points to current doc on new document creation
+        },
+        message: "Password must consist",
+      },
+      select: false,
+    },
+    passwordChangedAt: { type: Date },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
   },
-  passwordChangedAt: { type: Date },
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-});
+  { timestamps: true }
+);
 
 // we need to comment this middleware when we import users json file into db, cuz psw will be encrypt again.
 userSchema.pre("save", async function (next) {
@@ -122,3 +131,74 @@ userSchema.methods.createPasswordResetToken = function () {
 const User = mongoose.model("user", userSchema);
 
 export default User;
+
+/* 
+
+import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
+
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true
+    },
+
+    password: {
+      type: String,
+      required: true
+    },
+    settings: {
+      theme: {
+        type: String,
+        required: true,
+        default: 'dark'
+      },
+      notifications: {
+        type: Boolean,
+        required: true,
+        default: true
+      },
+      compactMode: {
+        type: Boolean,
+        required: true,
+        default: false
+      }
+    }
+  },
+  { timestamps: true }
+)
+
+userSchema.pre('save', function(next) {
+  if (!this.isModified('password')) {
+    return next()
+  }
+
+  bcrypt.hash(this.password, 8, (err, hash) => {
+    if (err) {
+      return next(err)
+    }
+
+    this.password = hash
+    next()
+  })
+})
+
+userSchema.methods.checkPassword = function(password) {
+  const passwordHash = this.password
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, passwordHash, (err, same) => {
+      if (err) {
+        return reject(err)
+      }
+
+      resolve(same)
+    })
+  })
+}
+
+export const User = mongoose.model('user', userSchema)
+
+*/

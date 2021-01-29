@@ -25,7 +25,9 @@ mongoose
 const films = JSON.parse(
   fs.readFileSync(`${__dirname}/data/films-mongodb.json`, "utf8")
 );
-// const users = JSON.parse(fs.readFileSync(`${__dirname}/data/users.json`, "utf-8"));
+const users = JSON.parse(
+  fs.readFileSync(`${__dirname}/data/users-mongodb.json`, "utf-8")
+);
 // const reviews = JSON.parse(
 //   fs.readFileSync(`${__dirname}/data/reviews.json`, "utf-8")
 // );
@@ -34,7 +36,7 @@ const films = JSON.parse(
 const importData = async () => {
   try {
     await Film.create(films);
-    // await User.create(users, { validateBeforeSave: false });
+    await User.create(users, { validateBeforeSave: false });
     // await Review.create(reviews);
     console.log("Data successfully loaded!");
   } catch (err) {
@@ -47,7 +49,7 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Film.deleteMany();
-    // await User.deleteMany();
+    await User.deleteMany();
     // await Review.deleteMany();
     console.log("Data successfully deleted!");
   } catch (err) {
