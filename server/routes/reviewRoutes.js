@@ -1,5 +1,5 @@
 import express from "express";
-import { restrictTo } from "../controllers/authController.js";
+import { protect, restrictTo } from "../controllers/authController.js";
 import {
   getReviews,
   createReview,
@@ -12,14 +12,13 @@ import {
 // const router = express.Router();
 const router = express.Router({ mergeParams: true });
 
+router.use(protect);
+
 // need to add authcontroller later, only logged in user can write, edit, or delete their own comments.
-router.get("/", getReviews).post("/", createReview);
+router.route("/").get(getReviews).post(createReview);
 // TODO: finish these
-router
-  .get("/:id", getReview)
-  .patch("/:id", updateReview)
-  .delete("/:id", deleteReview);
-router.patch("/:id/likeReview", likeReview);
+router.route("/:id").get(getReview).patch(updateReview).delete(deleteReview);
+router.route("/:id/likeReview").patch(likeReview);
 
 export default router;
 /* 
