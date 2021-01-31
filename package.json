@@ -1,7 +1,7 @@
 {
-   "name": "ghibliProject",
+   "name": "ghibli-project",
    "version": "1.0.0",
-   "description": "## TODO: 1) virtual reviews for each film; 2) make sure data can upload to db; 3) give film 'slug' field on db; 4) can use aggregation for sorting films by director's name; ``` await Film.aggregation([{   $group:{     _id: '$name',     //some data...   } }]) ```",
+   "description": "This is a website about ghibli films where provide a platform for fans to share their precious memories about these great movies.",
    "main": "index.js",
    "scripts": {
       "start": "node server/index",
