@@ -20,7 +20,7 @@ const updateOne = (Model, field) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true, // return the new document
-      runValidators: true,
+      runValidators: true, // will run validators before updated
     });
     if (!doc) {
       return next(new AppError("No document found with that ID", 404));
@@ -67,7 +67,7 @@ const getOne = (Model, field, populateOption) =>
 
 const getAll = (Model, field) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.find();
+    const doc = await Model.find({});
     // SEND RESPONSE
     res.status(200).json({
       status: "success",
