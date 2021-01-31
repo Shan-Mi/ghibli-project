@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const filmSchema = new mongoose.Schema(
   {
@@ -39,6 +40,12 @@ filmSchema.virtual("reviews", {
   ref: "review",
   foreignField: "film", // where film's id is stored
   localField: "_id", // film
+});
+
+// once write data into db, a slug will be generated automatically
+filmSchema.pre("save", function (next) {
+  this.slug = slugify(this.title, { lower: true });
+  next();
 });
 
 const Film = mongoose.model("film", filmSchema);
