@@ -1,0 +1,25 @@
+{
+   "name": "ghibliProject",
+   "version": "1.0.0",
+   "description": "## TODO: 1) virtual reviews for each film; 2) make sure data can upload to db; 3) give film 'slug' field on db; 4) can use aggregation for sorting films by director's name; ``` await Film.aggregation([{   $group:{     _id: '$name',     //some data...   } }]) ```",
+   "main": "index.js",
+   "scripts": {
+      "start": "node server/index",
+      "server": "nodemon server/index",
+      "client": "npm start --prefix client",
+      "dev": "concurrently \"npm run server\" \"npm run client\"",
+      "data:import": "node server/data/import-data --import",
+      "data:destroy": "node server/data/import-data  --delete"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Shan-Mi/ghibli-project.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/Shan-Mi/ghibli-project/issues"
+   },
+   "homepage": "https://github.com/Shan-Mi/ghibli-project#readme"
+}

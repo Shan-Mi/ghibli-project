@@ -20,13 +20,13 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("DB connect success!"));
+  .then(() => console.log("DB connect success! -- from import data🤖"));
 
 const films = JSON.parse(
-  fs.readFileSync(`${__dirname}/data/films-mongodb.json`, "utf8")
+  fs.readFileSync(`${__dirname}/server/data/films-mongodb.json`, "utf8")
 );
 const users = JSON.parse(
-  fs.readFileSync(`${__dirname}/data/users-mongodb.json`, "utf-8")
+  fs.readFileSync(`${__dirname}/server/data/users-mongodb.json`, "utf-8")
 );
 // const reviews = JSON.parse(
 //   fs.readFileSync(`${__dirname}/data/reviews.json`, "utf-8")
