@@ -2,6 +2,7 @@
    {
       "_id": "6006e957ba3446a48dd25fd4",
       "title": "Laputa: Castle in the sky",
+      "slug": "laputa",
       "trailer": "https://www.youtube.com/watch?v=8ykEy-yPBFc",
       "rating": 8,
       "directors": "Hayao Miyazaki",
@@ -18,6 +19,7 @@
    {
       "_id": "6012975b46a8222a96684058",
       "title": "Grave of the Fireflies",
+      "slug": "grave-of-the-fireflies",
       "trailer": "https://www.youtube.com/watch?v=4vPeTSRd580",
       "rating": 8.5,
       "directors": "Isao Takahata",
@@ -34,6 +36,7 @@
    {
       "_id": "601298a246a8222a96684059",
       "title": "My Neighbor Totoro",
+      "slug": "my-neighbor-totoro",
       "trailer": "https://www.youtube.com/watch?v=WJC1qciW_3k",
       "rating": 8.2,
       "directors": "Hayao Miyazaki",
@@ -50,6 +53,7 @@
    {
       "_id": "6012996f46a8222a9668405a",
       "title": "Kiki's Delivery Service",
+      "slug": "kikis-delivery-service",
       "trailer": "https://www.youtube.com/watch?v=4bG17OYs-GA",
       "rating": 7.8,
       "directors": "Hayao Miyazaki",
@@ -66,6 +70,7 @@
    {
       "_id": "60129a5f46a8222a9668405b",
       "title": "Only Yesterday",
+      "slug": "only-yesterday",
       "trailer": "https://www.youtube.com/watch?v=OfkQlZArxw0",
       "rating": 7.6,
       "directors": "Isao Takahata",
@@ -82,6 +87,7 @@
    {
       "_id": "60129af646a8222a9668405c",
       "title": "Porco Rosso",
+      "slug": "porco-rosso",
       "trailer": "https://www.youtube.com/watch?v=awEC-aLDzjs",
       "rating": 7.7,
       "directors": "Hayao Miyazaki",
@@ -98,6 +104,7 @@
    {
       "_id": "60129bc546a8222a9668405d",
       "title": "Pom Poko",
+      "slug": "pom-poko",
       "trailer": "https://www.youtube.com/watch?v=_7cowIHjCD4",
       "rating": 8,
       "directors": "Isao Takahata",
@@ -114,6 +121,7 @@
    {
       "_id": "6012b71d46a8222a9668405e",
       "title": "Whisper of the Heart",
+      "slug": "whisper-of-the-heart",
       "trailer": "https://www.youtube.com/watch?v=0pVkiod6V0U",
       "rating": 7.9,
       "directors": "Yoshifumi Kondō",
@@ -130,6 +138,7 @@
    {
       "_id": "6012b7b246a8222a9668405f",
       "title": "Princess Mononoke",
+      "slug": "princess-mononoke",
       "trailer": "https://www.youtube.com/watch?v=4OiMOHRDs14",
       "rating": 8.4,
       "directors": "Hayao Miyazaki",
@@ -146,6 +155,7 @@
    {
       "_id": "6012b83746a8222a96684060",
       "title": "My Neighbors the Yamadas",
+      "slug": "my-neighbors-the-yamadas",
       "trailer": "https://www.youtube.com/watch?v=1C9ujuCPlnY",
       "rating": 7.2,
       "directors": "Isao Takahata",
@@ -162,6 +172,7 @@
    {
       "_id": "6012b8d746a8222a96684061",
       "title": "Spirited Away",
+      "slug": "spirited-away",
       "trailer": "https://www.youtube.com/watch?v=ByXuk9QqQkk",
       "rating": 8.6,
       "directors": "Hayao Miyazaki",
@@ -178,6 +189,7 @@
    {
       "_id": "6012b96846a8222a96684062",
       "title": "The Cat Returns",
+      "slug": "the-cat-returns",
       "trailer": "https://www.youtube.com/watch?v=Gp-H_YOcYTM",
       "rating": 7.2,
       "directors": "Hiroyuki Morita",
@@ -194,6 +206,7 @@
    {
       "_id": "6012b9ed46a8222a96684063",
       "title": "Howl's Moving Castle",
+      "slug": "howls-moving-castle",
       "trailer": "https://www.youtube.com/watch?v=iwROgK94zcM",
       "rating": 8.2,
       "directors": "Hayao Miyazaki",
@@ -210,6 +223,7 @@
    {
       "_id": "6012ba7746a8222a96684064",
       "title": "Tales from Earthsea",
+      "slug": "tales-from-earthsea",
       "trailer": "https://www.youtube.com/watch?v=8hxYx3Jq3kI",
       "rating": 6.4,
       "directors": "Gorō Miyazaki",
@@ -226,6 +240,7 @@
    {
       "_id": "6012bba246a8222a96684065",
       "title": "Ponyo",
+      "slug": "ponyo",
       "trailer": "https://www.youtube.com/watch?v=CsR3KVgBzSM",
       "rating": 7.7,
       "directors": "Hayao Miyazaki",
@@ -242,6 +257,7 @@
    {
       "_id": "6012bc2346a8222a96684066",
       "title": "Arrietty",
+      "slug": "arrietty",
       "trailer": "https://www.youtube.com/watch?v=9CtIXPhPo0g",
       "rating": 7.6,
       "directors": "Hayao Miyazaki",
@@ -258,6 +274,7 @@
    {
       "_id": "6012bca646a8222a96684067",
       "title": "From Up on Poppy Hill",
+      "slug": "from-up-on-poppy-hill",
       "trailer": "https://www.youtube.com/watch?v=9nzpk_Br6yo",
       "rating": 7.4,
       "directors": "Gorō Miyazaki",
@@ -274,6 +291,7 @@
    {
       "_id": "6012bd2446a8222a96684068",
       "title": "The Wind Rises",
+      "slug": "the-wind-rises",
       "trailer": "https://www.youtube.com/watch?v=6zhLBe319KE",
       "rating": 7.8,
       "directors": "Hayao Miyazaki",
@@ -290,6 +308,7 @@
    {
       "_id": "6012bda346a8222a96684069",
       "title": "The Tale of the Princess Kaguya",
+      "slug": "the-tale-of-the-princess-kaguya",
       "trailer": "https://www.youtube.com/watch?v=W71mtorCZDw",
       "rating": 8,
       "directors": "Isao Takahata",
