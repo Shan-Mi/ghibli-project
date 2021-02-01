@@ -5,19 +5,45 @@ import {
   logout,
   forgotPassword,
   resetPassword,
+  protect,
+  updatePassword,
+  restrictTo,
 } from "../controllers/authController.js";
-import { getAllUsers, getOneUser } from "../controllers/userController.js";
+import {
+  createUser,
+  deleteMe,
+  deleteUser,
+  getAllUsers,
+  getMe,
+  getOneUser,
+  updateUser,
+} from "../controllers/userController.js";
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
-router.get("/:id", getOneUser);
-
-// new added
+// all endpoints that can get accessed by both users and admin
 router.post("/signup", signup);
 router.post("/login", login);
 router.get("/logout", logout);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);
+
+// protect all routes that come after this endpoint,
+// user has to be logged in to continue next middleware
+router.use(protect);
+
+// don't show below info to public
+router.patch("/updateMyPassword", updatePassword);
+
+// by getMe, we get current user's id, then pass it to req.params.id, then reuse getUser
+router.get("/me", getMe, getOneUser);
+// router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
+router.patch("/deleteMe", deleteMe);
+
+// can only run by admin user
+router.use(restrictTo("admin"));
+
+router.route("/").get(getAllUsers).post(createUser);
+router.route("/:id").get(getOneUser).patch(updateUser).delete(deleteUser);
 
 export default router;

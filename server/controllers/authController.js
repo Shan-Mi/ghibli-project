@@ -5,6 +5,7 @@ const { sign, verify } = pkg;
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 import Email from "../utils/email.js";
+import User from "../models/userModel.js";
 
 const signToken = (id) => {
   return sign({ id }, process.env.JWT_SECRET, {
@@ -43,13 +44,13 @@ const createSendToken = (user, statusCode, req, res) => {
 };
 
 export const signup = catchAsync(async (req, res, next) => {
-  const newUser = await create({
+  const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
-    role: req.body.role,
+    role: "user",
     passwordResetToken: req.body.passwordResetToken,
     passwordResetExpires: req.body.passwordResetExpires,
   });
@@ -69,9 +70,9 @@ export const login = catchAsync(async (req, res, next) => {
   }
 
   // 2) check if user exists && password is correct
-  const user = await findOne({ email }).select("+password");
+  const user = await User.findOne({ email }).select("+password");
   // const correct = await user.correctPassword(password, user.password);
-
+  console.log(user);
   // now if the user doesnot exist, it will not run the correct function
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Increct email or password", 401));
@@ -124,7 +125,7 @@ export const protect = catchAsync(async (req, res, next) => {
   // console.log(decoded);
   // { id: '5fc812a2ea315627edcdbb9d', iat: 1606947861, exp: 1614723861 }
   // 3) Check if user still exists
-  const currentUser = await findById(decoded.id);
+  const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
       new AppError("The user belonging to this token does no longer exist", 401)
@@ -139,6 +140,7 @@ export const protect = catchAsync(async (req, res, next) => {
   // Grant access to protected route
   req.user = currentUser;
   res.locals.user = currentUser;
+  console.log(res.locals.user.id);
   next();
 });
 
@@ -159,7 +161,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   // console.log(
   //   `${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/`
   // );
-  const user = await findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new AppError("There is no user with that email address.", 404));
   }
@@ -199,7 +201,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
     .update(req.params.token)
     .digest("hex");
 
-  const user = await findOne({
+  const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: {
       $gt: Date.now(),
@@ -225,7 +227,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 
 export const updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-  const user = await findById(req.user.id).select("+password");
+  const user = await User.findById(req.user.id).select("+password");
   // 2) Check if POSTed current password is correct
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
     return next(new AppError("Your current password is wrong.", 401));
@@ -251,7 +253,7 @@ export async function isLoggedIn(req, res, next) {
       const decoded = await promisify(verify)(token, process.env.JWT_SECRET);
 
       // 2) Check if user still exists
-      const currentUser = await findById(decoded.id);
+      const currentUser = await User.findById(decoded.id);
       if (!currentUser) {
         return next();
       }

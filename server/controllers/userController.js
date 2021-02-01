@@ -103,6 +103,6 @@ export function createUser(req, res) {
 }
 
 export const getAllUsers = getAll(User, "users");
-export const getOneUser = getOne(User, "users");
+export const getOneUser = getOne(User, "user");
 export const updateUser = updateOne(User, "users");
 export const deleteUser = deleteOne(User);
