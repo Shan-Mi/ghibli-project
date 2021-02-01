@@ -9,15 +9,11 @@ import {
   likeReview,
 } from "../controllers/reviewController.js";
 
-// const router = express.Router();
 const router = express.Router({ mergeParams: true });
 
-// FIXME:
-// router.use(protect);
-
-// need to add authcontroller later, only logged in user can write, edit, or delete their own comments.
+// only logged in user can write, edit, or delete their own comments.
 router.route("/").get(getReviews).post(protect, createReview);
-// TODO: finish these
+
 router
   .route("/:id")
   .get(getReview)
