@@ -4,7 +4,7 @@
    "description": "This is a website about ghibli films where provide a platform for fans to share their precious memories about these great movies.",
    "main": "index.js",
    "scripts": {
-      "start": "node server/index",
+      "start": "nodemon server/index",
       "server": "nodemon server/index",
       "client": "npm start --prefix client",
       "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -15,8 +15,14 @@
       "type": "git",
       "url": "git+https://github.com/Shan-Mi/ghibli-project.git"
    },
-   "keywords": [],
-   "author": "",
+   "keywords": [
+      "nodejs",
+      "express",
+      "rest",
+      "api",
+      "mongodb"
+   ],
+   "author": "Shan Mi",
    "license": "ISC",
    "bugs": {
       "url": "https://github.com/Shan-Mi/ghibli-project/issues"
