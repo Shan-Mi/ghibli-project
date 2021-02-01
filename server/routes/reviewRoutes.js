@@ -11,26 +11,21 @@ import {
 
 const router = express.Router({ mergeParams: true });
 
+// this is for nested films/filmId/reviews/
 // only logged in user can write, edit, or delete their own comments.
 router.route("/").get(getReviews).post(protect, createReview);
 
 router
   .route("/:id")
   .get(getReview)
-  .patch(protect, updateReview)
-  .delete(protect, deleteReview);
+  .patch(protect, restrictTo("admin"), updateReview)
+  .delete(protect, restrictTo("admin"), deleteReview);
+
 router.route("/:id/likeReview").patch(protect, likeReview);
 
 export default router;
-/* 
-router
-  .route("/") // since it is nested, now the base actually is /tour/:tourId/reviews/
-  .get(getAllReviews)
-  .post(restrictTo("user"), setTourUserIds, createReview);
 
-router
-  .route("/:id")
-  .get(getReview)
-  .patch(restrictTo("admin"), updateReview) 
-
-*/
+// TODO:
+// 1. updateReview and deleteReview
+// should only allow the user who wrote that review and admin to update and delete
+// now only admin can do that.
