@@ -74,7 +74,7 @@ export const updateMe = catchAsync(async (req, res, next) => {
   // 3) Update user document
   // cuz not handle sensitive data(password), so we can use findByIdAndUpdate now.
   // x should only contain name and email, nothing else.
-  const updatedUser = await findByIdAndUpdate(req.user.id, filteredBody, {
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
   });
@@ -88,19 +88,14 @@ export const updateMe = catchAsync(async (req, res, next) => {
 });
 
 export const deleteMe = catchAsync(async (req, res, next) => {
-  await findByIdAndUpdate(req.user.id, { active: false });
+  await User.findByIdAndUpdate(req.user.id, { active: false });
   res.status(204).json({
     status: "success",
     data: null,
   });
 });
 
-export function createUser(req, res) {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined! Please use /signup instead.",
-  });
-}
+
 
 export const getAllUsers = getAll(User, "users");
 export const getOneUser = getOne(User, "user");
