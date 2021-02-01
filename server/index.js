@@ -6,28 +6,51 @@ import { json, urlencoded } from "body-parser";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 // in node, this has to end with .js, which is different from require('./routes/filmRoutes')
 import filmRoute from "./routes/filmRoutes.js";
 import reviewRoute from "./routes/reviewRoutes.js";
 import userRoute from "./routes/userRoutes.js";
+import mongoSanitize from "express-mongo-sanitize";
+import cookieParser from "cookie-parser";
+import xss from "xss-clean";
 
 dotenv.config({ path: "./config.env" });
 const __dirname = path.resolve();
 
 const app = express();
 app.disable("x-powered-by");
+app.enable("trust proxy");
+
+app.use(cors());
+app.options("*", cors());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use("/films", filmRoute);
-app.use("/users", userRoute);
-app.use("/reviews", reviewRoute);
+// limiter is a middleware function
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000, // 100 request from 1 same ip within 1 hour
+  message: "Too many requests from this IP, please try again in an hour!",
+});
 
-app.use(json({ limit: "30mb", extended: true }));
+app.use("/api", limiter); // specify this route
+
 app.use(urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(json({ limit: "30mb", extended: true }));
+app.use(cookieParser()); // parser from the cookie
+
+// Data sanitization against noSQL query injection (mongodb query)
+app.use(mongoSanitize());
+
+// Data sanitization against XSS (html code)
+app.use(xss());
+
+app.use("/api/v1/films", filmRoute);
+app.use("/api/v1/users", userRoute);
+app.use("/api/v1/reviews", reviewRoute);
 
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
