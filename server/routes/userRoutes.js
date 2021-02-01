@@ -10,7 +10,6 @@ import {
   restrictTo,
 } from "../controllers/authController.js";
 import {
-  createUser,
   deleteMe,
   deleteUser,
   getAllUsers,
@@ -43,7 +42,7 @@ router.patch("/deleteMe", deleteMe);
 // can only run by admin user
 router.use(restrictTo("admin"));
 
-router.route("/").get(getAllUsers).post(createUser);
+router.route("/").get(getAllUsers);
 router.route("/:id").get(getOneUser).patch(updateUser).delete(deleteUser);
 
 export default router;
