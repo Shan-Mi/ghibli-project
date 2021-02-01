@@ -12,13 +12,18 @@ import {
 // const router = express.Router();
 const router = express.Router({ mergeParams: true });
 
-router.use(protect);
+// FIXME:
+// router.use(protect);
 
 // need to add authcontroller later, only logged in user can write, edit, or delete their own comments.
-router.route("/").get(getReviews).post(createReview);
+router.route("/").get(getReviews).post(protect, createReview);
 // TODO: finish these
-router.route("/:id").get(getReview).patch(updateReview).delete(deleteReview);
-router.route("/:id/likeReview").patch(likeReview);
+router
+  .route("/:id")
+  .get(getReview)
+  .patch(protect, updateReview)
+  .delete(protect, deleteReview);
+router.route("/:id/likeReview").patch(protect, likeReview);
 
 export default router;
 /* 
