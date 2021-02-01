@@ -50,7 +50,7 @@ export const signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
-    role: "user",
+    // role: req.body.role,
     passwordResetToken: req.body.passwordResetToken,
     passwordResetExpires: req.body.passwordResetExpires,
   });
@@ -72,7 +72,7 @@ export const login = catchAsync(async (req, res, next) => {
   // 2) check if user exists && password is correct
   const user = await User.findOne({ email }).select("+password");
   // const correct = await user.correctPassword(password, user.password);
-  console.log(user);
+  // console.log(user);
   // now if the user doesnot exist, it will not run the correct function
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Increct email or password", 401));
@@ -84,17 +84,10 @@ export const login = catchAsync(async (req, res, next) => {
 
 // Set-Cookie: flavor=choco; SameSite=None; Secure
 export function logout(req, res) {
-  // if (navigator.userAgent.indexOf('Firefox') !== -1) {
-  //   res.cookie('jwt', 'loggedout', {
-  //     expires: new Date(Date.now() + 10 * 1000),
-  //     httpOnly: true,
-  //     sameSite: 'strict',
-  //     // secure: true,
-  //   });
-  //   console.log('firefox is here');
-  // } else {
-  res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 10 * 1000),
+  res.cookie("jwt", "", {
+    // res.cookie("jwt", "loggedout", {
+    // expires: new Date(Date.now() + 10 * 1000),
+    expires: new Date(0),
     httpOnly: true,
     // sameSite: 'strict',
     // secure: true,
@@ -140,7 +133,6 @@ export const protect = catchAsync(async (req, res, next) => {
   // Grant access to protected route
   req.user = currentUser;
   res.locals.user = currentUser;
-  console.log(res.locals.user.id);
   next();
 });
 
@@ -184,7 +176,8 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   } catch (err) {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
-    await user.save({ validateBeforeSave: false }); // Do the same thing, save to db.
+    await user.save({ validateBeforeSave: false });
+    // Do the same thing, save to db.
 
     return next(
       new AppError(
