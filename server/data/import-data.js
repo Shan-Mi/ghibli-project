@@ -28,16 +28,16 @@ const films = JSON.parse(
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/server/data/users-mongodb.json`, "utf-8")
 );
-// const reviews = JSON.parse(
-//   fs.readFileSync(`${__dirname}/data/reviews.json`, "utf-8")
-// );
+const reviews = JSON.parse(
+  fs.readFileSync(`${__dirname}/server/data/reviews.json`, "utf-8")
+);
 
 // import data into db
 const importData = async () => {
   try {
     await Film.create(films);
     await User.create(users, { validateBeforeSave: false });
-    // await Review.create(reviews);
+    await Review.create(reviews);
     console.log("Data successfully loaded!");
   } catch (err) {
     console.log(err);
