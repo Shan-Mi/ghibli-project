@@ -4,7 +4,7 @@
    "description": "This is a website about ghibli films where provide a platform for fans to share their precious memories about these great movies.",
    "main": "index.js",
    "scripts": {
-      "start": "nodemon server/index",
+      "start": "concurrently \"yarn start:prod\" \"yarn client\"",
       "server": "nodemon server/index",
       "start:prod": "NODE_ENV=production nodemon server/index",
       "client": "npm start --prefix client",
