@@ -6,6 +6,7 @@
    "scripts": {
       "start": "nodemon server/index",
       "server": "nodemon server/index",
+      "start:prod": "NODE_ENV=production nodemon server/index",
       "client": "npm start --prefix client",
       "dev": "concurrently \"npm run server\" \"npm run client\"",
       "data:import": "node server/data/import-data --import",
