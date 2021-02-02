@@ -1,6 +1,9 @@
 import React from 'react'
 import * as S from './styled'
 
+// Here should contain 2 parts
+// one for film detail area
+// one for reviews area
 const FilmPage = () => {
   return (
     <div>
