@@ -24,11 +24,6 @@ reviewSchema.index({ film: 1, user: 1 }, { unique: true });
 // film + user combination always be unique
 
 reviewSchema.pre(/^find/, function (next) {
-  // 2 queries will need longer time
-  // this.populate({ path: 'film', select: 'name' }).populate({
-  //   path: 'user',
-  //   select: 'name photo',
-  // });
   this.populate({
     path: "user",
     select: "name photo",
