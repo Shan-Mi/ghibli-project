@@ -93,6 +93,8 @@ export function logout(req, res) {
     // secure: true,
   });
   // }
+  // ADD this, try to see if it works
+  req.user = null;
   res.status(200).json({ status: "success" });
 }
 
