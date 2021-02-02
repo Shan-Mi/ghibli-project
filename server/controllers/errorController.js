@@ -8,7 +8,7 @@ const handleDuplicateFieldsDB = (err) => {
   // const value = err.message.match(/(["'])(?:(?=(\\?))\2.)*?\1/);
   const value = err.keyValue.title;
   // console.log(err.keyValue.name);
-  const message = `Duplicate field value: '${value}'. Please use another value!`;
+  const message = `Duplicate field value: '${value}'. Each user can only write one review for one film. Sorry dude!`;
   return new AppError(message, 400);
 };
 
