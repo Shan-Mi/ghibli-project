@@ -21,7 +21,7 @@ const __dirname = path.resolve();
 
 const app = express();
 app.disable("x-powered-by");
-app.enable("trust proxy");
+// app.enable("trust proxy");
 
 app.use(cors());
 app.options("*", cors());
