@@ -48,6 +48,15 @@ filmSchema.pre("save", function (next) {
   next();
 });
 
+// populate reviews filed for films
+filmSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "reviews",
+    select: "title, content, user, likedBy",
+  });
+  next();
+});
+
 const Film = mongoose.model("film", filmSchema);
 
 export default Film;
