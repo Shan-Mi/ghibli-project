@@ -1,16 +1,22 @@
 import catchAsync from "../utils/catchAsync.js";
 import Review from "../models/reviewModel.js";
 import * as factory from "./handlerFactory.js";
+import AppError from "../utils/appError.js";
 
 export const getReviews = factory.getAll(Review, "reviews");
 
-export const createReview = catchAsync(async (req, res) => {
+export const createReview = catchAsync(async (req, res, next) => {
   // HERE, we need to get user.id from params,
   // get to know film's id, then override any possible input data
+  console.log(req)
+  if (!req.user) {
+    return next(new AppError("You need to login to create a review", 401));
+  }
   const review = { ...req.body, user: req.user.id, film: req.params.filmId };
   const newReview = new Review(review);
   await newReview.save();
   res.status(200).json(newReview);
+
 });
 
 export const likeReview = async (req, res) => {
