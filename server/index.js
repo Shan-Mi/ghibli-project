@@ -14,6 +14,7 @@ import userRoute from "./routes/userRoutes.js";
 import mongoSanitize from "express-mongo-sanitize";
 import cookieParser from "cookie-parser";
 import xss from "xss-clean";
+import globalErrorHandler from "./controllers/errorController.js";
 
 dotenv.config({ path: "./config.env" });
 const __dirname = path.resolve();
@@ -51,6 +52,8 @@ app.use(xss());
 app.use("/api/v1/films", filmRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/reviews", reviewRoute);
+
+app.use(globalErrorHandler);
 
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
