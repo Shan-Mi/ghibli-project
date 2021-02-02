@@ -1,3 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Nav = styled.nav`
+  background-color: red;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Btn = styled.button`
+  padding: 1rem;
+`;

@@ -1,12 +1,15 @@
-import React from 'react'
-import * as S from './styled'
+import React from "react";
+import { Link } from "react-router-dom";
+import * as S from "./styled";
 
 const Header = () => {
   return (
-    <div>
-      This is header.
-    </div>
-  )
-}
+    <S.Nav>
+      <Link to="/">This is header.</Link>
+      <Link to="/login">Login</Link>
+      <S.Btn>Logout</S.Btn>
+    </S.Nav>
+  );
+};
 
-export default Header
+export default Header;

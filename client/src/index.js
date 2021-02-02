@@ -2,14 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+// import { Provider } from "react-redux";
+// import store from "./store";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import GlobalContext from "./context/GlobalContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <GlobalContext>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </GlobalContext>
   </React.StrictMode>,
   document.getElementById("root")
 );
