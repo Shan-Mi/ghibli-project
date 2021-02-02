@@ -6,9 +6,9 @@ const handleCastErrorDB = (err) => {
 };
 const handleDuplicateFieldsDB = (err) => {
   // const value = err.message.match(/(["'])(?:(?=(\\?))\2.)*?\1/);
-  const value = err.keyValue.name;
+  const value = err.keyValue.title;
   // console.log(err.keyValue.name);
-  const message = `Duplicate field value: ${value}. Please use another value!`;
+  const message = `Duplicate field value: '${value}'. Please use another value!`;
   return new AppError(message, 400);
 };
 
@@ -81,7 +81,7 @@ const sendErrorProd = (err, req, res) => {
   });
 };
 
-module.exports = (err, req, res, next) => {
+export default (err, req, res, next) => {
   // console.log(err.stack);
   // because errors come from mongoose, so there is no statusCode
 
@@ -95,7 +95,6 @@ module.exports = (err, req, res, next) => {
     error.message = err.message;
     error.name = err.name;
     if (error.name === "CastError") {
-      // if (err.message.includes('Cast')) {
       error = handleCastErrorDB(error);
     }
 
