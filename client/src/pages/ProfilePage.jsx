@@ -1,10 +1,9 @@
 import React from 'react'
-import * as S from './styled'
 
 const ProfilePage = () => {
   return (
     <div>
-      
+      Profile Page comes here.
     </div>
   )
 }

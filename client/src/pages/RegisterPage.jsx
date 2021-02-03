@@ -1,10 +1,9 @@
 import React from 'react'
-import * as S from './styled'
 
 const RegisterPage = () => {
   return (
     <div>
-      
+      Register page with form should be here.
     </div>
   )
 }

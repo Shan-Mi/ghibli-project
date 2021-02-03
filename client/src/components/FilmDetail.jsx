@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchFilms } from "../../api";
-import { GhibliContext } from "../../context/GlobalContext";
-import { getOneFilm } from "../../utilities";
-import * as S from "./styled";
+import { fetchFilms } from "../api";
+import { GhibliContext } from "../context/GlobalContext";
+import { getOneFilm } from "../utilities";
+import ReactPlayer from "react-player";
 
 const FilmDetail = () => {
   const { films, setFilms } = useContext(GhibliContext);
@@ -46,8 +46,7 @@ const FilmDetail = () => {
       <p>{description}</p>
       <p>{rating}</p>
       <p>{releasedDate}</p>
-
-      <p>{trailer}</p>
+      <ReactPlayer url={trailer} />
       <p>{directors}</p>
       <p>{runtime}</p>
     </div>

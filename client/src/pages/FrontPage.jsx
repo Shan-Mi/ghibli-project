@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { fetchFilms } from "../../api";
-import FilmReview from "../../components/FilmReview/FilmReview";
-import { GhibliContext } from "../../context/GlobalContext";
-import * as S from "./styled";
+import { fetchFilms } from "../api";
+import FilmReview from "../components/FilmReview";
+import { GhibliContext } from "../context/GlobalContext";
+
 
 // Here comes films reviews part.
 const FrontPage = () => {
@@ -20,13 +20,13 @@ const FrontPage = () => {
   }, [setFilms]);
 
   return (
-    <S.Container>
+    <div className="flex flex-wrap justify-around">
       {films.map((film, index) => (
         <div key={index}>
           <FilmReview film={film} />
         </div>
       ))}
-    </S.Container>
+    </div>
   );
 };
 

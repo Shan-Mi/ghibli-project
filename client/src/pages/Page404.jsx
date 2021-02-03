@@ -1,6 +1,4 @@
 import React from 'react'
-import * as S from './styled'
-
 
 const Page404 = () => {
   return (

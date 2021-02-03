@@ -1,6 +1,5 @@
 import React from 'react'
-import FilmDetail from '../../components/FilmDetail/FilmDetail'
-import * as S from './styled'
+import FilmDetail from '../components/FilmDetail'
 
 // Here should contain 2 parts
 // one for film detail area

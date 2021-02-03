@@ -1,12 +1,13 @@
 import { Switch, Route } from "react-router-dom";
+import Header from "./components/Header";
+import FrontPage from "./pages/FrontPage";
+import FilmPage from "./pages/FilmPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
+import Page404 from "./pages/Page404";
 import About from "./pages/About";
-import FilmPage from "./pages/FilmPage/FilmPage";
-import FrontPage from "./pages/FrontPage/FrontPage";
-import Page404 from "./pages/Page404/Page404";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import Header from "./components/Header/Header";
+
 
 function App() {
   return (
@@ -26,3 +27,4 @@ function App() {
 }
 
 export default App;
+
