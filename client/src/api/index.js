@@ -32,3 +32,6 @@ export const login = async (email, password) => {
 };
 
 export const logout = async () => await axios.get(`${URL}users/logout/`);
+
+export const register = async (payload) =>
+  await axios.post(`${URL}users/signup`, payload, publicHeaderConfig);
