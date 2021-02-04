@@ -8,18 +8,17 @@ import ProfilePage from "./pages/ProfilePage";
 import Page404 from "./pages/Page404";
 import About from "./pages/About";
 
-
 function App() {
   return (
     <>
       <Header />
       <Switch>
         <Route path="/" exact component={FrontPage} />
+        <Route path="/about" component={About} />
         <Route path="/films/:id" component={FilmPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/profile" component={ProfilePage} />
-        <Route path="/about" component={About} />
         <Route path="*" component={Page404} />
       </Switch>
     </>
@@ -27,4 +26,3 @@ function App() {
 }
 
 export default App;
-
