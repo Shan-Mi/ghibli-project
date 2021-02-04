@@ -50,6 +50,16 @@ const userSchema = new mongoose.Schema(
       },
       select: false,
     },
+    isVerified: {
+      type: Boolean,
+      required: [
+        true,
+        "A user must verify email address to successfully log in",
+      ],
+      default: false,
+    },
+    verifyEmailToken: String,
+    verifyEmailTokenExpires: Date,
     passwordChangedAt: { type: Date },
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -129,6 +139,19 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
+userSchema.methods.createVerifyEmailToken = function () {
+  const verifyToken = crypto.randomBytes(32).toString("hex");
+
+  this.verifyEmailToken = crypto
+    .createHash("sha256")
+    .update(verifyToken)
+    .digest("hex");
+
+  this.verifyEmailTokenExpires = Date.now() + 10 * 60 * 1000;
+  
+  return verifyToken;
+};
+
 const User = mongoose.model("user", userSchema);
 
 export default User;
@@ -202,4 +225,12 @@ userSchema.methods.checkPassword = function(password) {
 
 export const User = mongoose.model('user', userSchema)
 
+*/
+
+/* 
+- Create a long random string (128 characters is usually good) with a crypto library and store it in your database with a reference to the User ID
+- Send an email to the supplied email address with the hash as part of a link pointing back to a route on your server
+When a user clicks the link and hits your route, check for the hash passed in the URL
+- If the hash exists in the database, get the related user and set their active property to true
+- Delete the hash from the database, it is no longer needed
 */
