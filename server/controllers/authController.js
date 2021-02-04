@@ -74,6 +74,12 @@ export const login = catchAsync(async (req, res, next) => {
   // const correct = await user.correctPassword(password, user.password);
   // console.log(user);
   // now if the user doesnot exist, it will not run the correct function
+  
+  // TODO: Add this step to check if a user's email is verified.
+  // if (!user.isverified) {
+  //   return next(new AppError(`User's email needs to be verified first`, 401));
+  // }
+
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Increct email or password", 401));
   }
@@ -267,3 +273,14 @@ export async function isLoggedIn(req, res, next) {
   }
   next();
 }
+
+export const sendVerifyEmail = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError("There is no user with that email address.", 404));
+  }
+
+  const verifyEmailToken = user.createVerifyEmailToken();
+
+  next();
+});
