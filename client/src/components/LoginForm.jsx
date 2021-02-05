@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { login } from "../api";
+import { login, sendResetPassword } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 // import {IoCloseOutline} from ''
 // should include signup / login / logout
@@ -109,9 +109,13 @@ const LoginForm = () => {
             </button>
 
             <div className="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-              <a href="forgot-password" className="flex-2 underline">
+              <Link
+                to="/sendResetPassword"
+                href="forgot-password"
+                className="flex-2 underline"
+              >
                 Forgot password?
-              </a>
+              </Link>
 
               <p className="flex-1 text-gray-500 text-md mx-4 my-1 sm:my-auto">
                 or
