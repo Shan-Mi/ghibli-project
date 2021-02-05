@@ -1,3 +1,6 @@
+import "./../config.js";
+import path from "path";
+import dotenv from "dotenv";
 import { createHash } from "crypto";
 import { promisify } from "util";
 import pkg from "jsonwebtoken";
@@ -7,7 +10,11 @@ import AppError from "../utils/appError.js";
 import Email from "../utils/email.js";
 import User from "../models/userModel.js";
 
+dotenv.config({ path: "./../config.env" });
+const __dirname = path.resolve();
+
 const signToken = (id) => {
+  console.log(process.env.JWT_EXPIRES_IN);
   return sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
@@ -19,10 +26,11 @@ const createSendToken = (user, statusCode, req, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true, // prevent cors attack
+    httpOnly: false, // have to pass it to client side
+    // httpOnly: true, // prevent cors attack
     // sameSite: "strict",
     // TODO: secure's value should be boolean, to check it out!
-    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+    // secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   };
 
   if (process.env.NODE_ENV === "production") {
@@ -30,17 +38,25 @@ const createSendToken = (user, statusCode, req, res) => {
     cookieOptions.secure = true;
   }
 
-  res.cookie("jwt", token, cookieOptions);
-
   user.password = undefined;
-
-  res.status(statusCode).json({
+  // console.log(res);
+  res.cookie("jwt", token, cookieOptions).status(statusCode).send({
     status: "success",
     token,
     data: {
       user,
     },
   });
+  // console.log(res);
+
+  // TODO: ADD this return!!!
+  // return res.status(statusCode).json({
+  //   status: "success",
+  //   token,
+  //   data: {
+  //     user,
+  //   },
+  // });
 };
 
 export const signup = catchAsync(async (req, res, next) => {
@@ -74,7 +90,7 @@ export const login = catchAsync(async (req, res, next) => {
   // const correct = await user.correctPassword(password, user.password);
   // console.log(user);
   // now if the user doesnot exist, it will not run the correct function
-  
+
   // TODO: Add this step to check if a user's email is verified.
   // if (!user.isverified) {
   //   return next(new AppError(`User's email needs to be verified first`, 401));
@@ -101,7 +117,7 @@ export function logout(req, res) {
   // }
   // ADD this, try to see if it works
   req.user = null;
-  res.status(200).json({ status: "success" });
+  return res.status(200).json({ status: "success" });
 }
 
 export const protect = catchAsync(async (req, res, next) => {
@@ -175,6 +191,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
     const resetURL = `${req.protocol}://${req.get(
       "host"
     )}/api/v1/users/resetPassword/${resetToken}`; // send original token
+    // const resetURL = `localhost:3000/resetPassword/${resetToken}`; // send original token
 
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
@@ -198,9 +215,14 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
 export const resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
+  // console.log('req', req);
+  // token = req.headers.authorization.split(" ")[1];
+  // console.log('token', token);
   const hashedToken = createHash("sha256")
-    .update(req.params.token)
-    .digest("hex");
+  .update(req.params.token)
+  .digest("hex");
+  // console.log(req.params.token)
+  // console.log('hashed token', hashedToken);
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
