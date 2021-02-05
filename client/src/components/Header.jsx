@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import GhibliLogo from "../assets/GhibliLogo.svg";
 import { GhibliContext } from "../context/GlobalContext";
 import { logout } from "../api";
 
 const Header = () => {
-  const { user } = useContext(GhibliContext);
+  const { user, setUser, setToken } = useContext(GhibliContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const res = Object.keys(user).length ? true : false;
@@ -17,6 +18,11 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     setIsLoggedIn(false);
+    setUser({});
+    setToken("");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    history.push("/");
   };
 
   return (
