@@ -5,7 +5,7 @@ import { formulateInput } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
 
 const RegisterForm = () => {
-  const { setUser } = useContext(GhibliContext);
+  const { setUser, setToken } = useContext(GhibliContext);
   const FirstNameInput = useRef();
   const LastNameInput = useRef();
   const EmailInput = useRef();
@@ -37,6 +37,7 @@ const RegisterForm = () => {
         },
       } = await register(payload);
       setUser(user);
+      setToken(token);
       history.push("/");
       // console.log(token);
     } catch (e) {
