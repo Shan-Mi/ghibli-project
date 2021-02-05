@@ -8,10 +8,13 @@ const publicHeaderConfig = {
   },
 };
 
-// const getPrivateHeaders = () => ({
-//   "Content-Type": "application/json",
-//   Authorization: `Bearer ${this.getToken()}`,
-// });
+const privateHeaders = (token) => ({
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 export const fetchFilms = async () => await axios.get(`${URL}films/`);
 
@@ -25,9 +28,11 @@ export const deletePost = (id) => axios.delete(`${URL}/${id}`);
 export const login = async (email, password) => {
   try {
     const payload = { email, password };
-    return await axios.post(`${URL}users/login`, payload, publicHeaderConfig);
+    return await axios.post(`${URL}users/login`, payload, publicHeaderConfig, {
+      withCredentials: true,
+    });
   } catch (e) {
-    console.log(e);
+    console.error(e.response.data.message);
   }
 };
 
@@ -35,3 +40,13 @@ export const logout = async () => await axios.get(`${URL}users/logout/`);
 
 export const register = async (payload) =>
   await axios.post(`${URL}users/signup`, payload, publicHeaderConfig);
+
+export const sendResetPassword = async (payload) =>
+  await axios.post(`${URL}users/forgotPassword`, payload, publicHeaderConfig);
+
+export const resetPassword = async (payload, token) =>
+  await axios.patch(`${URL}users/resetPassword/${token}`, payload, privateHeaders(token));
+
+// export const getErrorMessage = (e) => e.response;
+export const getErrorMessage = (e) => e.response.data.message;
+export const getSuccessMessage = (res) => res.data.message;
