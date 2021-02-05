@@ -5,7 +5,7 @@ import { GhibliContext } from "../context/GlobalContext";
 // import {IoCloseOutline} from ''
 // should include signup / login / logout
 const LoginForm = () => {
-  const { setUser } = useContext(GhibliContext);
+  const { setUser, setToken } = useContext(GhibliContext);
   const [isHidden, setIsHidden] = useState("hidden");
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -23,8 +23,14 @@ const LoginForm = () => {
           token,
         },
       } = await login(email, password);
+      // const res = await login(email, password);
+      // console.log(res);
+
       setUser(user);
-      // setLoginToken(token);
+      setToken(token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", JSON.stringify(token));
+      // console.log(token);
       history.push("/");
     } catch (e) {
       console.error(e);
