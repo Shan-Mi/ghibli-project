@@ -24,7 +24,23 @@ app.disable("x-powered-by");
 // app.enable("trust proxy");
 
 app.use(cors());
-app.options("*", cors());
+// app.options("*", cors());
+
+// TODO: move coodieParser above
+app.use(cookieParser()); // parser from the cookie
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
+  next();
+});
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -41,7 +57,7 @@ app.use("/api", limiter); // specify this route
 
 app.use(urlencoded({ limit: "30mb", extended: true }));
 app.use(json({ limit: "30mb", extended: true }));
-app.use(cookieParser()); // parser from the cookie
+// app.use(cookieParser()); // parser from the cookie
 
 // Data sanitization against noSQL query injection (mongodb query)
 app.use(mongoSanitize());
