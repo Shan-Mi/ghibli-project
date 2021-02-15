@@ -26,11 +26,8 @@ await Film.aggregation([{
 8) Login/ Register works
 ## RUN
 ```
-# Run frontend (:3000) & backend (:8080)
-`npm run dev`
-
-# Run development mode
-`yarn start`
+# Run frontend (:3000) & backend (:8080) development mode
+`yarn start` or `npm start`
 
 # Run production mode
 `yarn start:prod`
