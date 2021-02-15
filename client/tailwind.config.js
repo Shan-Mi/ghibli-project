@@ -6,6 +6,13 @@ module.exports = {
       fontFamily: {
         Montserrat: ["Montserrat", "sans-serif"],
       },
+      spacing: {
+        128: "32rem",
+        144: "36rem",
+      },
+      borderRadius: {
+        "4xl": "2rem",
+      },
     },
   },
   variants: {
