@@ -26,7 +26,7 @@ app.disable("x-powered-by");
 app.use(cors());
 // app.options("*", cors());
 
-// TODO: move coodieParser above
+// TODO: move cookieParser above
 app.use(cookieParser()); // parser from the cookie
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Credentials", true);
@@ -55,9 +55,15 @@ const limiter = rateLimit({
 
 app.use("/api", limiter); // specify this route
 
+// static path reference to a upload folder for user's avatar
+// app.use('/uploads', express.static('uploads'));
+
 app.use(urlencoded({ limit: "30mb", extended: true }));
 app.use(json({ limit: "30mb", extended: true }));
 // app.use(cookieParser()); // parser from the cookie
+
+// NOW public is static root, we can get access to all folders inside of public, we can utilize img/users for avatar for example.
+app.use(express.static(path.join(__dirname, "public")));
 
 // Data sanitization against noSQL query injection (mongodb query)
 app.use(mongoSanitize());

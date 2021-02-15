@@ -46,8 +46,8 @@ const ResetPasswordPage = () => {
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", JSON.stringify(token));
         setTimeout(() => {
-          showMsg("Password reset completed! Welcome back!")
-        }, 2000)
+          showMsg("Password reset completed! Welcome back!");
+        }, 2000);
         history.push("/");
       }
     } catch (e) {

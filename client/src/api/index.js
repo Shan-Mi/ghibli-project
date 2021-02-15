@@ -45,8 +45,15 @@ export const sendResetPassword = async (payload) =>
   await axios.post(`${URL}users/forgotPassword`, payload, publicHeaderConfig);
 
 export const resetPassword = async (payload, token) =>
-  await axios.patch(`${URL}users/resetPassword/${token}`, payload, privateHeaders(token));
+  await axios.patch(
+    `${URL}users/resetPassword/${token}`,
+    payload,
+    privateHeaders(token)
+  );
 
 // export const getErrorMessage = (e) => e.response;
 export const getErrorMessage = (e) => e.response.data.message;
 export const getSuccessMessage = (res) => res.data.message;
+
+export const updateUser = async (payload, token) =>
+  await axios.patch(`${URL}users/updateMe`, payload, privateHeaders(token));

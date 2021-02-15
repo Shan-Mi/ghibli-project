@@ -15,6 +15,8 @@ import {
   getAllUsers,
   getMe,
   getOneUser,
+  uploadUserPhoto,
+  resizeUserPhoto,
   updateUser,
   updateMe,
 } from "../controllers/userController.js";
@@ -37,8 +39,8 @@ router.patch("/updateMyPassword", updatePassword);
 
 // by getMe, we get current user's id, then pass it to req.params.id, then reuse getUser
 router.get("/me", getMe, getOneUser);
-// router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
-router.patch("/updateMe", updateMe);
+router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
+// router.patch("/updateMe", updateMe);
 router.patch("/deleteMe", deleteMe);
 // as a user, you can only change show status, cannot really delete yourself
 

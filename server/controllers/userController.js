@@ -4,6 +4,8 @@ import AppError from "../utils/appError.js";
 import User from "../models/userModel.js";
 import catchAsync from "../utils/catchAsync.js";
 import { getAll, getOne, updateOne, deleteOne } from "./handlerFactory.js";
+import fs from 'fs'
+
 
 // store image as a buffer
 const multerStorage = memoryStorage();
@@ -11,7 +13,7 @@ const multerStorage = memoryStorage();
 // multer filter, check if it is an image
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
-    cb(null, true);
+    cb(null, "../public/img/users");
   } else {
     cb(new AppError("Not an image! Please upload only images.", 400), false);
   }
@@ -94,8 +96,6 @@ export const deleteMe = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
-
-
 
 export const getAllUsers = getAll(User, "users");
 export const getOneUser = getOne(User, "user");
