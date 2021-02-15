@@ -9,8 +9,10 @@ const FilmReview = ({ film }) => {
       <div className="bg-white shadow-lg rounded-lg px-4 py-6 mx-4 my-4">
         <Link to={`/films/${slug}`}>
           <img
-            className="mx-auto bg-gray-200 rounded-md"
-            src="https://images.unsplash.com/photo-1611500730105-02d129cd71f0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=500"
+            className="mx-auto bg-gray-200 rounded-md sm:object-fill sm:h-auto sm:w-auto
+            md:h-80 md:w-full md:object-cover md:object-top
+            lg:object-cover lg:h-128 lg:w-full lg:object-center"
+            src={imageCover}
             alt={title}
           />
           <h2 className="text-xl h-20 pt-8 text-center text-gray-700 capitalize p-3 font-Montserrat">
