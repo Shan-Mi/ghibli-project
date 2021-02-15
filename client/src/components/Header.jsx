@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import cx from "classnames";
 import { FiMenu } from "react-icons/fi";
 import GhibliLogo from "../assets/GhibliLogo.svg";
 import { GhibliContext } from "../context/GlobalContext";
@@ -9,7 +10,7 @@ const Header = () => {
   const { user, setUser, setToken } = useContext(GhibliContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const history = useHistory();
-  const navContext = document.querySelector("#navigation");
+  const [isHidden, setIsHidden] = useState(true);
 
   useEffect(() => {
     const res = Object.keys(user).length ? true : false;
@@ -37,25 +38,26 @@ const Header = () => {
       <button
         className="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
         data-target="#navigation"
+        onClick={() => {
+          setIsHidden(!isHidden);
+        }}
       >
-        <FiMenu
-          onClick={() => {
-            if (navContext.classList.contains("hidden")) {
-              navContext.classList.remove("hidden");
-              return;
-            }
-            navContext.classList.add("hidden");
-          }}
-        />
+        <FiMenu />
       </button>
       <div
-        className="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto"
+        className={cx(
+          "top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto",
+          isHidden && "hidden"
+        )}
         id="navigation"
       >
         <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
           <Link
             to="/"
             className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+            onClick={() => {
+              setIsHidden(!isHidden);
+            }}
           >
             <span>Home</span>
           </Link>
@@ -63,6 +65,9 @@ const Header = () => {
           <Link
             to="/about"
             className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+            onClick={() => {
+              setIsHidden(!isHidden);
+            }}
           >
             <span>About</span>
           </Link>
@@ -70,6 +75,9 @@ const Header = () => {
           <Link
             to="/profile"
             className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+            onClick={() => {
+              setIsHidden(!isHidden);
+            }}
           >
             <span>Profile</span>
           </Link>
@@ -78,6 +86,9 @@ const Header = () => {
             <Link
               to="/register"
               className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+              onClick={() => {
+                setIsHidden(!isHidden);
+              }}
             >
               <span>Register</span>
             </Link>
@@ -87,6 +98,9 @@ const Header = () => {
             <Link
               to="/login"
               className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+              onClick={() => {
+                setIsHidden(!isHidden);
+              }}
             >
               <span>Login</span>
             </Link>
