@@ -10,7 +10,7 @@ const FilmReview = ({ film }) => {
         <Link to={`/films/${slug}`}>
           <img
             className="mx-auto bg-gray-200 rounded-md sm:object-fill sm:h-auto sm:w-auto
-            md:h-80 md:w-full md:object-cover md:object-top
+            md:h-128 md:w-full md:object-cover md:object-center
             lg:object-cover lg:h-128 lg:w-full lg:object-center"
             src={imageCover}
             alt={title}
