@@ -9,6 +9,7 @@ const Header = () => {
   const { user, setUser, setToken } = useContext(GhibliContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const history = useHistory();
+  const navContext = document.querySelector("#navigation");
 
   useEffect(() => {
     const res = Object.keys(user).length ? true : false;
@@ -37,7 +38,15 @@ const Header = () => {
         className="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
         data-target="#navigation"
       >
-        <FiMenu />
+        <FiMenu
+          onClick={() => {
+            if (navContext.classList.contains("hidden")) {
+              navContext.classList.remove("hidden");
+              return;
+            }
+            navContext.classList.add("hidden");
+          }}
+        />
       </button>
       <div
         className="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto"
