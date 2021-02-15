@@ -39,7 +39,7 @@ const createSendToken = (user, statusCode, req, res) => {
   }
 
   user.password = undefined;
-  // console.log(res);
+
   res.cookie("jwt", token, cookieOptions).status(statusCode).send({
     status: "success",
     token,
@@ -47,10 +47,11 @@ const createSendToken = (user, statusCode, req, res) => {
       user,
     },
   });
-  // console.log(res);
 
   // TODO: ADD this return!!!
-  // return res.status(statusCode).json({
+  // no, we cannot do this, otherwise will cause problem
+  // will send header again
+  // return res.status(statusCode).send({
   //   status: "success",
   //   token,
   //   data: {
@@ -67,6 +68,7 @@ export const signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
     // role: req.body.role,
+    // now we cannot register as an admin
     passwordResetToken: req.body.passwordResetToken,
     passwordResetExpires: req.body.passwordResetExpires,
   });
@@ -74,7 +76,6 @@ export const signup = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get("host")}/me`;
 
   await new Email(newUser, url).sendWelcome();
-  // now we cannot register as an admin
   createSendToken(newUser, 201, req, res);
 });
 
@@ -124,11 +125,13 @@ export const protect = catchAsync(async (req, res, next) => {
   // 1) Getting token, and check if it's there
   let token;
   if (
+    // we use authorization headers
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
   } else if (req.cookies.jwt) {
+    // or cookies with jwt credentials
     token = req.cookies.jwt;
   }
 
@@ -219,8 +222,8 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   // token = req.headers.authorization.split(" ")[1];
   // console.log('token', token);
   const hashedToken = createHash("sha256")
-  .update(req.params.token)
-  .digest("hex");
+    .update(req.params.token)
+    .digest("hex");
   // console.log(req.params.token)
   // console.log('hashed token', hashedToken);
 

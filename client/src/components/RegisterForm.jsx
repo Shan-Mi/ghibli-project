@@ -36,10 +36,12 @@ const RegisterForm = () => {
           token,
         },
       } = await register(payload);
+
+      console.log(user);
+      console.log(token);
       setUser(user);
       setToken(token);
       history.push("/");
-      // console.log(token);
     } catch (e) {
       console.error(e);
     }
