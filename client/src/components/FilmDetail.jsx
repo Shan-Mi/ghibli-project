@@ -4,10 +4,14 @@ import { fetchFilms } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 import { getOneFilm } from "../utilities";
 import ReactPlayer from "react-player";
+import Review from "./Review";
+import ReviewCreater from "./ReviewCreater";
+import ErrorMessage from "./ErrorMessage";
 
 const FilmDetail = () => {
-  const { films, setFilms } = useContext(GhibliContext);
+  const { setFilms } = useContext(GhibliContext);
   const [film, setFilm] = useState({});
+  const [openNewReview, setOpenNewReview] = useState(false);
   const slug = useLocation().pathname.split("/")[2];
 
   useEffect(() => {
@@ -44,8 +48,13 @@ const FilmDetail = () => {
     console.log("tada...");
   };
 
+  const handleOpenNewReview = () => {
+    setOpenNewReview(true);
+  };
+
   return (
     <div className="px-10 ">
+      <ErrorMessage message="errrrroorrrrr" />
       <div>
         <h1 className="text-3xl text-center font-Montserrat py-10 font-bold text-gray-800">
           {title}
@@ -62,37 +71,18 @@ const FilmDetail = () => {
 
       <hr className="mt-10" />
 
+      <button
+        onClick={handleOpenNewReview}
+        className="px-5 py-2 mt-5 ml-auto block bg-primary rounded-md text-dark font-Amaranth"
+      >
+        Share my story:
+      </button>
+      {openNewReview && <ReviewCreater />}
+
       <div className="py-20">
         {reviews &&
           reviews.map((review, index) => {
-            return (
-              <div
-                key={`film-review-${index}`}
-                className="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl rounded-md"
-              >
-                <input
-                  className=" bg-gray-100 border border-gray-300 p-2 mb-4 outline-none rounded-md"
-                  placeholder="Titles"
-                  type="text"
-                  defaultValue={review.title}
-                />
-                <input
-                  className=" bg-gray-100 sec p-3 h-40 border border-gray-300 outline-none rounded-md hidden"
-                  placeholder="Describe everything about this post here"
-                  type="text"
-                  defaultValue={review.content}
-                />
-                <p>{review.content}</p>
-                <button
-                  className="px-3 py-1 bg-indigo-300"
-                  onClick={editContent}
-                >
-                  Edit
-                </button>
-                <p>{review?.user?.name}</p>
-                <p>{review.createdAt}</p>
-              </div>
-            );
+            return <Review key={index} review={review} />;
           })}
       </div>
     </div>
