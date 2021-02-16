@@ -29,3 +29,5 @@ yarn-error.log*
 
 server/config.env
 config.env
+
+server/public
