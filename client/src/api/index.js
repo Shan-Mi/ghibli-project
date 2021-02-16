@@ -19,7 +19,7 @@ const privateHeaders = (token) => ({
 export const fetchFilms = async () => await axios.get(`${URL}films/`);
 
 export const fetchFilm = (id) => axios.get(`${URL}${id}`);
-export const createReview = (newReview) => axios.post(URL, newReview);
+
 // export const likePost = (id) => axios.patch(`${URL}/${id}/likePost`);
 // export const updatePost = (id, updatedPost) =>
 // axios.patch(`${URL}/${id}`, updatedPost);
@@ -57,3 +57,11 @@ export const getSuccessMessage = (res) => res.data.message;
 
 export const updateUser = async (payload, token) =>
   await axios.patch(`${URL}users/updateMe`, payload, privateHeaders(token));
+
+// in payload, should have {userId, filmId, title, content}
+export const createNewReview = async (payload, filmId, token) =>
+  await axios.post(
+    `${URL}films/${filmId}/reviews/`,
+    payload,
+    privateHeaders(token)
+  );
