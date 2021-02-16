@@ -8,15 +8,20 @@ export const getReviews = factory.getAll(Review, "reviews");
 export const createReview = catchAsync(async (req, res, next) => {
   // HERE, we need to get user.id from params,
   // get to know film's id, then override any possible input data
-  console.log(req)
+  // console.log(req.params);
   if (!req.user) {
     return next(new AppError("You need to login to create a review", 401));
   }
   const review = { ...req.body, user: req.user.id, film: req.params.filmId };
   const newReview = new Review(review);
-  await newReview.save();
-  res.status(200).json(newReview);
 
+  await newReview
+    .save()
+    .then(() => res.status(200).json(newReview))
+    .catch((err) => {
+      // console.log(err);
+      res.status(500).send(err);
+    });
 });
 
 export const likeReview = async (req, res) => {
