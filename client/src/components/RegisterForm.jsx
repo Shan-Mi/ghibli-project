@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { register } from "../api";
-import { formulateInput } from "../utilities";
+import { formatInput } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
 
 const RegisterForm = () => {
@@ -22,10 +22,10 @@ const RegisterForm = () => {
         return;
       }
       const payload = {
-        name: `${formulateInput(FirstNameInput.current.value)} ${formulateInput(
+        name: `${formatInput(FirstNameInput.current.value)} ${formatInput(
           LastNameInput.current.value
         )}`,
-        email: `${formulateInput(EmailInput.current.value)}`,
+        email: `${formatInput(EmailInput.current.value)}`,
         password: `${PasswordInput.current.value}`,
         passwordConfirm: `${PasswordConfirmInput.current.value}`,
       };

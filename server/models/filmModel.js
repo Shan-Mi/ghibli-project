@@ -53,7 +53,7 @@ filmSchema.pre(/^find/, function (next) {
   this.populate({
     path: "reviews",
     // have to select _id, because we use this as the localField
-    select:"-__v"
+    select: "-__v",
   });
   next();
 });

@@ -61,7 +61,7 @@ const FilmDetail = () => {
       </div>
 
       <hr className="mt-10" />
-      
+
       <div className="py-20">
         {reviews &&
           reviews.map((review, index) => {
