@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Montserrat: ["Montserrat", "sans-serif"],
+        Amaranth: ["Amaranth", "sans-serif"],
       },
       spacing: {
         128: "32rem",
@@ -12,6 +13,10 @@ module.exports = {
       },
       borderRadius: {
         "4xl": "2rem",
+      },
+      colors: {
+        primary: "#deacab",
+        dark: "#1d3e6b",
       },
     },
   },
