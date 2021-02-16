@@ -1,10 +1,11 @@
 import React from "react";
+import cx from "classnames";
 
 const Message = ({ text }) => {
   const message = document.querySelector("#popupMessage");
-  message.classList.remove("hidden");
+  message?.classList.remove("hidden");
   setTimeout(() => {
-    message.classList.add("hidden");
+    message?.classList.add("hidden");
     // setIsHidden("hidden");
   }, 2500);
 
