@@ -6,6 +6,7 @@ const GlobalContext = ({ children }) => {
   const [user, setUser] = useState({});
   const [films, setFilms] = useState([]);
   const [token, setToken] = useState(null);
+  const [error, setError] = useState({ hidden: true, message: "" });
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -18,7 +19,16 @@ const GlobalContext = ({ children }) => {
 
   return (
     <GhibliContext.Provider
-      value={{ user, setUser, films, setFilms, token, setToken }}
+      value={{
+        user,
+        setUser,
+        films,
+        setFilms,
+        token,
+        setToken,
+        error,
+        setError,
+      }}
     >
       {children}
     </GhibliContext.Provider>
