@@ -21,7 +21,7 @@ const FilmDetail = () => {
       setFilm(currentFilm);
     };
     // TODO: NEED TO avoid multiple fetching data, if data is in context, we don't need to fetch from api.
-    getFilms();
+    !films && getFilms();
     // console.log("you should run");
   }, []);
 
