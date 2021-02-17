@@ -5,8 +5,6 @@
 2) user's email needs to be verified
 3) frontend error handling, e.g. mongoError duplicated index
 
-
-- ~~Need to store jwt in cookie (cannot do that, remove now)~~
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
 
 ```
