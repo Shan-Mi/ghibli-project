@@ -1,6 +1,6 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { createNewReview, getErrorMessage } from "../api";
+import { createNewReview } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 import { getOneFilm } from "../utilities";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -9,7 +9,7 @@ const ReviewCreater = ({ setOpenNewReview }) => {
   const [textLength, setTextLength] = useState(0);
   const titleRef = useRef();
   const contentRef = useRef();
-  const { films, setError } = useContext(GhibliContext);
+  const { films, error, setError } = useContext(GhibliContext);
   const { id } = useParams();
   const [film] = getOneFilm(id, films);
   const filmId = film.id;
@@ -27,25 +27,38 @@ const ReviewCreater = ({ setOpenNewReview }) => {
       const title = titleRef.current?.value;
       const content = contentRef.current?.value;
       const payload = { title, content };
-      const res = await createNewReview(payload, filmId);
-      // console.log(res);
+      await createNewReview(payload, filmId);
+      setOpenNewReview(false);
     } catch (e) {
-      setError({
-        hidden: false,
-        message: e.response.data.message,
-      });
-
-      if (e.response.data.code === 11000) {
-        // this error code is caused by reviewModel, filmId + userId index should be unique
-        setError({
+      const { data } = e.response;
+      if (Object.keys(data).includes("errors")) {
+        // this is any validation error
+        return setError({
           hidden: false,
-          message: "One user can only create one review.",
+          message: e.response.data.message,
         });
-        return;
       }
-      console.error(getErrorMessage(e));
+
+      if (data.code === 11000) {
+        // this 11000 is for handling mongo error
+        const { keyPattern } = data;
+        if (Object.keys(keyPattern).includes("film", "user")) {
+          return setError({
+            hidden: false,
+            message: "One user can only create one review.",
+          });
+        }
+      }
     }
   };
+
+  useEffect(() => {
+    // hide error message after 4500 ms if the user is not closing this component by themselves.
+    const timer = setTimeout(() => {
+      setError({ ...error, hidden: true });
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, [error, setError]);
 
   const handleCloseErr = () => {
     setError({ message: "", hidden: true });

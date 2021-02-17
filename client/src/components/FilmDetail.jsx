@@ -26,10 +26,7 @@ const FilmDetail = () => {
     };
     // TODO: NEED TO avoid multiple fetching data, if data is in context, we don't need to fetch from api.
     getFilms();
-    // console.log("you should run");
-  }, [setFilms, slug]);
-
-  // console.log(films);
+  }, [setFilms, slug, openNewReview]);
 
   const {
     description,
@@ -42,7 +39,6 @@ const FilmDetail = () => {
     title,
     trailer,
   } = film;
-  // console.log(film);
 
   const editContent = () => {
     console.log("tada...");
