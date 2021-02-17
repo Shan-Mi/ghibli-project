@@ -1,8 +1,11 @@
 import React from "react";
+import cx from "classnames";
 
 const Review = ({ review: { content, title, user, createdAt } }) => {
+  const currUser = JSON.parse(localStorage.getItem("user"));
+
   const editContent = () => {
-    console.log("tada...");
+    console.log(user._id, "you are the creator, and you may edit me!");
   };
 
   return (
@@ -20,7 +23,13 @@ const Review = ({ review: { content, title, user, createdAt } }) => {
         defaultValue={content}
       />
       <p>{content}</p>
-      <button className="px-3 py-1 bg-indigo-300" onClick={editContent}>
+      <button
+        className={cx(
+          "px-3 py-1 bg-indigo-300",
+          currUser?._id !== user?._id && "hidden"
+        )}
+        onClick={editContent}
+      >
         Edit
       </button>
       <p>{user?.name}</p>
