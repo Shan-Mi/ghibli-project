@@ -21,16 +21,17 @@ const LoginForm = () => {
       const {
         data: {
           data: { user },
-          token,
+          // token,
         },
       } = await login(email, password);
       // const res = await login(email, password);
       // console.log(res);
+      // const token = document.cookie.jwt;
 
       setUser(user);
-      setToken(token);
+      // setToken(token);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", JSON.stringify(token));
+      // localStorage.setItem("token", JSON.stringify(token));
       // console.log(token);
       history.push("/");
     } catch (e) {

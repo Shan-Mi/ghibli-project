@@ -13,9 +13,9 @@ const GlobalContext = ({ children }) => {
     if (localStorage.getItem("user")) {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
-    if (localStorage.getItem("token")) {
-      setToken(JSON.parse(localStorage.getItem("token")));
-    }
+    // if (localStorage.getItem("token")) {
+    //   setToken(JSON.parse(localStorage.getItem("token")));
+    // }
   }, []);
 
   return (

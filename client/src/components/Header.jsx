@@ -17,7 +17,7 @@ const Header = () => {
   useEffect(() => {
     const res = Object.keys(user).length ? true : false;
     setIsLoggedIn(res);
-  }, [user]);
+  }, [setIsLoggedIn, user]);
 
   const handleLogout = () => {
     logout();

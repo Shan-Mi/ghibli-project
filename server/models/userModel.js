@@ -148,7 +148,7 @@ userSchema.methods.createVerifyEmailToken = function () {
     .digest("hex");
 
   this.verifyEmailTokenExpires = Date.now() + 10 * 60 * 1000;
-  
+
   return verifyToken;
 };
 

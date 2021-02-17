@@ -8,7 +8,7 @@ const ReviewCreater = () => {
   const [textLength, setTextLength] = useState(0);
   const titleRef = useRef();
   const contentRef = useRef();
-  const { films, token, setError } = useContext(GhibliContext);
+  const { films, setError } = useContext(GhibliContext);
   const { id } = useParams();
   const [film] = getOneFilm(id, films);
   const filmId = film.id;
@@ -25,7 +25,7 @@ const ReviewCreater = () => {
       const title = titleRef.current?.value;
       const content = contentRef.current?.value;
       const payload = { title, content };
-      const res = await createNewReview(payload, filmId, token);
+      const res = await createNewReview(payload, filmId);
       console.log(res);
     } catch (e) {
       setError({
