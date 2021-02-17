@@ -77,7 +77,7 @@ const FilmDetail = () => {
       >
         Share my story:
       </button>
-      {openNewReview && <ReviewCreater />}
+      {openNewReview && <ReviewCreater setOpenNewReview={setOpenNewReview} />}
 
       <div className="py-20">
         {reviews &&
