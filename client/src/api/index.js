@@ -1,13 +1,6 @@
 import axios from "axios";
 import { URL } from "../constants/";
 
-const publicHeaderConfig = {
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
-
 const privateHeaders = (token) => ({
   headers: {
     "Content-Type": "application/json",
@@ -28,7 +21,7 @@ export const deletePost = (id) => axios.delete(`${URL}/${id}`);
 export const login = async (email, password) => {
   try {
     const payload = { email, password };
-    return await axios.post(`${URL}users/login`, payload, publicHeaderConfig);
+    return await axios.post(`${URL}users/login`, payload);
   } catch (e) {
     console.error(e.response.data.message);
   }
@@ -37,10 +30,10 @@ export const login = async (email, password) => {
 export const logout = async () => await axios.get(`${URL}users/logout/`);
 
 export const register = async (payload) =>
-  await axios.post(`${URL}users/signup`, payload, publicHeaderConfig);
+  await axios.post(`${URL}users/signup`, payload);
 
 export const sendResetPassword = async (payload) =>
-  await axios.post(`${URL}users/forgotPassword`, payload, publicHeaderConfig);
+  await axios.post(`${URL}users/forgotPassword`, payload);
 
 export const resetPassword = async (payload, token) =>
   await axios.patch(
@@ -57,9 +50,5 @@ export const updateUser = async (payload, token) =>
   await axios.patch(`${URL}users/updateMe`, payload, privateHeaders(token));
 
 // in payload, should have {userId, filmId, title, content}
-export const createNewReview = async (payload, filmId, token) =>
-  await axios.post(
-    `${URL}films/${filmId}/reviews/`,
-    payload,
-    privateHeaders(token)
-  );
+export const createNewReview = async (payload, filmId) =>
+  await axios.post(`${URL}films/${filmId}/reviews/`, payload);
