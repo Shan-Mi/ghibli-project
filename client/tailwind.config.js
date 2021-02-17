@@ -17,11 +17,15 @@ module.exports = {
       colors: {
         primary: "#deacab",
         dark: "#1d3e6b",
+        light: "#a6a0a0",
       },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      scale: ["active", "group-hover", "hover"],
+      transform: ['hover', 'focus'],
+    },
   },
   plugins: [],
 };
