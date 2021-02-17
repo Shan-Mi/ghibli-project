@@ -28,10 +28,12 @@ const ReviewCreater = () => {
       const res = await createNewReview(payload, filmId);
       console.log(res);
     } catch (e) {
+      
       setError({
         hidden: false,
         message: e.response.data.message,
       });
+      console.error(e.response.data)
       console.error(getErrorMessage(e));
     }
   };
