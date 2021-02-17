@@ -7,8 +7,10 @@ import { GhibliContext } from "../context/GlobalContext";
 import { logout } from "../api";
 
 const Header = () => {
-  const { user, setUser, setToken } = useContext(GhibliContext);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, setUser, setToken, isLoggedIn, setIsLoggedIn } = useContext(
+    GhibliContext
+  );
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const history = useHistory();
   const [isHidden, setIsHidden] = useState(true);
 

@@ -26,9 +26,11 @@ const createSendToken = (user, statusCode, req, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: false, // have to pass it to client side
-    // httpOnly: true, // prevent cors attack
-    // sameSite: "strict",
+    // httpOnly: false, // have to pass it to client side
+    httpOnly: true, // prevent cors attack
+    // sameSite: "none",
+    // secure: true,
+    sameSite: "strict",
     // TODO: secure's value should be boolean, to check it out!
     // secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   };
@@ -40,13 +42,21 @@ const createSendToken = (user, statusCode, req, res) => {
 
   user.password = undefined;
 
-  res.cookie("jwt", token, cookieOptions).status(statusCode).send({
+  res.cookie("jwt", token, cookieOptions);
+  res.status(statusCode).send({
     status: "success",
     token,
     data: {
       user,
     },
   });
+  // res.cookie("jwt", token, cookieOptions).status(statusCode).send({
+  //   status: "success",
+  //   token,
+  //   data: {
+  //     user,
+  //   },
+  // });
 
   // TODO: ADD this return!!!
   // no, we cannot do this, otherwise will cause problem
@@ -107,18 +117,10 @@ export const login = catchAsync(async (req, res, next) => {
 
 // Set-Cookie: flavor=choco; SameSite=None; Secure
 export function logout(req, res) {
-  res.cookie("jwt", "", {
-    // res.cookie("jwt", "loggedout", {
-    // expires: new Date(Date.now() + 10 * 1000),
-    expires: new Date(0),
-    httpOnly: true,
-    // sameSite: 'strict',
-    // secure: true,
-  });
-  // }
+  res.status(202).clearCookie("jwt").json({ status: "success" });
   // ADD this, try to see if it works
   req.user = null;
-  return res.status(200).json({ status: "success" });
+  // return res.status(200).json({ status: "success" });
 }
 
 export const protect = catchAsync(async (req, res, next) => {

@@ -28,9 +28,7 @@ export const deletePost = (id) => axios.delete(`${URL}/${id}`);
 export const login = async (email, password) => {
   try {
     const payload = { email, password };
-    return await axios.post(`${URL}users/login`, payload, publicHeaderConfig, {
-      withCredentials: true,
-    });
+    return await axios.post(`${URL}users/login`, payload, publicHeaderConfig);
   } catch (e) {
     console.error(e.response.data.message);
   }

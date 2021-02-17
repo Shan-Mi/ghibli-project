@@ -23,21 +23,24 @@ const app = express();
 app.disable("x-powered-by");
 // app.enable("trust proxy");
 
-app.use(cors());
-// app.options("*", cors());
-
 // TODO: move cookieParser above
 app.use(cookieParser()); // parser from the cookie
+
+// https://stackoverflow.com/questions/53898031/how-to-set-cookies-express-react-js
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+// app.options("*", cors());
+
 app.use(function (req, res, next) {
+  res.header("Content-Type", "application/json;charset=UTF-8");
   res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
-  );
   res.header(
     "Access-Control-Allow-Headers",
-    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
 });
