@@ -52,3 +52,6 @@ export const updateUser = async (payload, token) =>
 // in payload, should have {userId, filmId, title, content}
 export const createNewReview = async (payload, filmId) =>
   await axios.post(`${URL}films/${filmId}/reviews/`, payload);
+
+export const updateReview = async (payload, filmId, reviewId) =>
+  await axios.patch(`${URL}films/${filmId}/reviews/${reviewId}`, payload);
