@@ -5,7 +5,6 @@ export const GhibliContext = createContext({});
 const GlobalContext = ({ children }) => {
   const [user, setUser] = useState({});
   const [films, setFilms] = useState([]);
-  const [token, setToken] = useState(null);
   const [error, setError] = useState({ hidden: true, message: "" });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -13,9 +12,6 @@ const GlobalContext = ({ children }) => {
     if (localStorage.getItem("user")) {
       setUser(JSON.parse(localStorage.getItem("user")));
     }
-    // if (localStorage.getItem("token")) {
-    //   setToken(JSON.parse(localStorage.getItem("token")));
-    // }
   }, []);
 
   return (
@@ -25,8 +21,8 @@ const GlobalContext = ({ children }) => {
         setUser,
         films,
         setFilms,
-        token,
-        setToken,
+        // token,
+        // setToken,
         error,
         setError,
         isLoggedIn,
