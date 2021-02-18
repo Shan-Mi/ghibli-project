@@ -28,6 +28,7 @@ await Film.aggregation([{
 9) each user can create one review for each film
 10) cookie works fine now
 11) frontend error handling, e.g. mongoError duplicated index
+12) backend: restrict edit access to creator, from frontend, user cannot send and edit review if they are not creator for that review.
 ## RUN
 ```
 # Run frontend (:3000) & backend (:8080) development mode
