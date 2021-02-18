@@ -58,3 +58,6 @@ import ReactPlayer from 'react-player'
 - `sudo lsof -i :8080`
 - `kill -9 {PID}`
 > this is for server is running on 8080 already error. Maybe need to set some setting for error, will try to fix this if possible.
+
+## BUG
+if we `edit` - `update` (successful) - `edit` - `cancel` then we will get back the previous review before successfully updated one
