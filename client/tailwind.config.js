@@ -19,12 +19,15 @@ module.exports = {
         dark: "#1d3e6b",
         light: "#a6a0a0",
       },
+      height: {
+        fullHeight: "calc(-240px + 100vh)",
+      },
     },
   },
   variants: {
     extend: {
       scale: ["active", "group-hover", "hover"],
-      transform: ['hover', 'focus'],
+      transform: ["hover", "focus"],
     },
   },
   plugins: [],
