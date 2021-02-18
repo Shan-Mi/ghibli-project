@@ -14,7 +14,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Footer from "./components/Footer";
 
 function App() {
-  const { user } = useContext(GhibliContext);
+  const { user, isLoggedIn } = useContext(GhibliContext);
   return (
     <div className="flex-col ">
       <Header />
@@ -30,7 +30,9 @@ function App() {
         <Route path="/register" component={RegisterPage} />
         <Route path="/resetPassword/:token" component={ResetPasswordPage} />
         <Route path="/sendResetPassword" component={ResetPage} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/profile">
+          {isLoggedIn ? <ProfilePage /> : <Redirect to="/" />}
+        </Route>
         <Route path="*" component={Page404} />
       </Switch>
       <Footer />
