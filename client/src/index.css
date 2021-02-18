@@ -11,6 +11,6 @@
   }
 
   .primaryBtn {
-    @apply px-5 py-2 mt-5 ml-auto block bg-primary rounded-md text-dark font-Amaranth;
+    @apply px-5 py-2 mt-5 ml-auto block bg-primary rounded-md text-dark font-Amaranth transform hover:bg-light hover:text-gray-100 duration-200 ease-in-out;
   }
 }
