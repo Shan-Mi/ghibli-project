@@ -20,7 +20,7 @@ module.exports = {
         light: "#a6a0a0",
       },
       height: {
-        fullHeight: "calc(-240px + 100vh)",
+        fullHeight: "calc(-276px + 100vh)",
       },
     },
   },
