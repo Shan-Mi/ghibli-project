@@ -38,8 +38,11 @@ const ProfilePage = () => {
   };
 
   return (
-    <div>
-      <form className=" mt-5 flex-col px-20" onSubmit={handleSubmit}>
+    <div className="h-fullHeight">
+      <form
+        className="pt-5 flex-col px-20 h-fullHeight"
+        onSubmit={handleSubmit}
+      >
         <div className="flex-col ">
           <label className="block" htmlFor="name">
             Name:
@@ -65,7 +68,7 @@ const ProfilePage = () => {
           />
         </div>
         <div>
-          <img alt="user" src={avatar} />
+          <img className="h-28" alt="user" src={avatar} />
           <input type="file" accept="image/*" id="photo" name="photo" />
           <label className="block" htmlFor="photo">
             Choose new photo

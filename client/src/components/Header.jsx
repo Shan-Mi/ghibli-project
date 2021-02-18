@@ -7,7 +7,7 @@ import { GhibliContext } from "../context/GlobalContext";
 import { logout } from "../api";
 
 const Header = () => {
-  const { user, setUser, setToken, isLoggedIn, setIsLoggedIn } = useContext(
+  const { user, setUser, isLoggedIn, setIsLoggedIn } = useContext(
     GhibliContext
   );
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,9 +23,7 @@ const Header = () => {
     logout();
     setIsLoggedIn(false);
     setUser({});
-    setToken("");
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
     history.push("/");
   };
 
@@ -74,15 +72,17 @@ const Header = () => {
             <span>About</span>
           </Link>
 
-          <Link
-            to="/profile"
-            className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
-            onClick={() => {
-              setIsHidden(!isHidden);
-            }}
-          >
-            <span>Profile</span>
-          </Link>
+          {isLoggedIn && (
+            <Link
+              to="/profile"
+              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+              onClick={() => {
+                setIsHidden(!isHidden);
+              }}
+            >
+              <span>Profile</span>
+            </Link>
+          )}
 
           {!isLoggedIn && (
             <Link
