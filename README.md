@@ -3,7 +3,7 @@
 ## TODO:
 1) once the user click like-btn, we should insert user's id as well as film's id into both likedBy(for review) and likedReview (for user), before doing that, we need to check if that id already existed in the list, so that we can render out filled heart to indicate that the user has already liked this review.
 2) user's email needs to be verified
-3) frontend error handling, e.g. mongoError duplicated index
+
 
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
 
@@ -27,6 +27,7 @@ await Film.aggregation([{
 8) Login/ Register works
 9) each user can create one review for each film
 10) cookie works fine now
+11) frontend error handling, e.g. mongoError duplicated index
 ## RUN
 ```
 # Run frontend (:3000) & backend (:8080) development mode
