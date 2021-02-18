@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getOneFilm } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
@@ -6,9 +6,9 @@ import cx from "classnames";
 import { updateReview } from "../api";
 
 const Review = ({ review }) => {
-  const { user, createdAt, id: reviewId, updatedAt } = review;
+  const { user, title, content, createdAt, id: reviewId, updatedAt } = review;
   const currUser = JSON.parse(localStorage.getItem("user"));
-  const { films, error, setError } = useContext(GhibliContext);
+  const { films, setError } = useContext(GhibliContext);
   const [isEditable, setIsEditable] = useState(false);
   const titleRef = useRef();
   const contentRef = useRef();
@@ -28,8 +28,10 @@ const Review = ({ review }) => {
           data: { review },
         },
       } = await updateReview(payload, filmId, reviewId);
+      console.log("res from db", review);
       setCurrReview(review);
       setIsEditable(false);
+      console.log(review);
     } catch (e) {
       const { data } = e.response;
       if (
@@ -56,23 +58,24 @@ const Review = ({ review }) => {
     }
   };
 
-  useEffect(() => {
-    // hide error message after 4500 ms if the user is not closing this component by themselves.
-    const timer = setTimeout(() => {
-      setError({ ...error, hidden: true });
-    }, 4500);
-    return () => clearTimeout(timer);
-  }, [error, setError]);
-
   // TODO:
   // use this toLocaleString method, maybe will convert this to some more customized formatting func
   const formatDate = (date) => {
     const newDate = new Date(date);
     return newDate.toLocaleString();
   };
-  const handleCloseErr = () => {
-    setError({ message: "", hidden: true });
+
+  const handleEdit = () => {
+    setIsEditable(true);
+    // setCurrReview(review);
+  };
+
+  const handleCancel = () => {
     setIsEditable(false);
+    setCurrReview(review);
+    console.log(review);
+    console.log(currReview);
+    // setCurrReview(review)
   };
 
   return (
@@ -83,9 +86,12 @@ const Review = ({ review }) => {
           "bg-gray-100 p-2 mb-4 outline-none rounded-md font-Amaranth text-lg",
           !isEditable && "pointer-events-none"
         )}
-        placeholder="Titles"
+        placeholder="Title"
         type="text"
-        defaultValue={currReview.title}
+        value={currReview.title}
+        onChange={(e) =>
+          setCurrReview({ ...currReview, title: e.target?.value })
+        }
       />
       <textarea
         ref={contentRef}
@@ -95,7 +101,10 @@ const Review = ({ review }) => {
         )}
         placeholder="Describe everything about this post here"
         type="text"
-        defaultValue={currReview.content}
+        value={currReview.content}
+        onChange={(e) =>
+          setCurrReview({ ...currReview, content: e.target?.value })
+        }
       />
       <p className={cx("font-Amaranth py-5 px-1", isEditable && "hidden")}>
         {currReview.content}
@@ -106,16 +115,14 @@ const Review = ({ review }) => {
           currUser?._id !== user?._id && "hidden",
           isEditable && "hidden"
         )}
-        onClick={() => {
-          setIsEditable(true);
-        }}
+        onClick={handleEdit}
       >
         Edit
       </button>
       <div className="flex justify-around mt-4">
         <button
           className={cx("editBtn", !isEditable && "hidden")}
-          onClick={handleCloseErr}
+          onClick={handleCancel}
         >
           Cancel
         </button>
@@ -131,7 +138,7 @@ const Review = ({ review }) => {
         {user?.name.toUpperCase()}
       </p>
       <p className="font-Montserrat pb-2 pr-3 text-right italic text-sm font-light">
-        {createdAt === updatedAt
+        {!updatedAt || createdAt === updatedAt
           ? formatDate(currReview.createdAt)
           : `Edited at: ${formatDate(currReview.updatedAt)}`}
       </p>

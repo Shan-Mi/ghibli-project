@@ -13,7 +13,7 @@ const FilmDetail = () => {
   const { setFilms, isLoggedIn } = useContext(GhibliContext);
   const [film, setFilm] = useState({});
   const [openNewReview, setOpenNewReview] = useState(false);
-  const [openEditReview, setOpenEditReview] = useState(false);
+  // const [openEditReview, setOpenEditReview] = useState(false);
   const slug = useLocation().pathname.split("/")[2];
   const history = useHistory();
 
@@ -29,7 +29,7 @@ const FilmDetail = () => {
     };
     // TODO: NEED TO avoid multiple fetching data, if data is in context, we don't need to fetch from api.
     getFilms();
-  }, [setFilms, slug, openNewReview, openEditReview]);
+  }, [setFilms, slug, openNewReview]);
 
   const {
     description,
@@ -49,7 +49,7 @@ const FilmDetail = () => {
 
   return (
     <div className="px-10 ">
-      <ErrorMessage message="errrrroorrrrr" />
+      <ErrorMessage />
       <div>
         <h1 className="text-3xl text-center font-Montserrat py-10 font-bold text-gray-800">
           {title}
@@ -85,7 +85,7 @@ const FilmDetail = () => {
       {!isLoggedIn && (
         <button
           onClick={() => history.push("/register")}
-          className="px-5 py-2 mb-10 mx-auto block bg-primary rounded-md text-dark font-Amaranth"
+          className="primaryBtn mb-10 mx-auto"
         >
           You need an account to leave a review:
         </button>
