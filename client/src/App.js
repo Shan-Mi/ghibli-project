@@ -11,27 +11,12 @@ import ResetPage from "./pages/ResetPage";
 import { GhibliContext } from "./context/GlobalContext";
 import { useContext } from "react";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import Footer from "./components/Footer";
 
-// import axios from 'axios'
-// import { URL } from "./constants";
-// axios.defaults.withCredentials = true
-
-// URL
-
-// const createCookie = () => {
-//   axios.get('http://localhost:4000',{ withCredentials: true }).then((res) =>{
-//     console.log(res.data)
-//   })
-// }
-// const deleteCookie = () => {
-//   axios.get('http://localhost:4000/deleteCookie',{ withCredentials: true }).then((res) =>{
-//     console.log(res.data)
-//   })
-// }
 function App() {
   const { user } = useContext(GhibliContext);
   return (
-    <>
+    <div className="flex-col ">
       <Header />
       <Switch>
         <Route path="/" exact component={FrontPage} />
@@ -48,7 +33,8 @@ function App() {
         <Route path="/profile" component={ProfilePage} />
         <Route path="*" component={Page404} />
       </Switch>
-    </>
+      <Footer />
+    </div>
   );
 }
 
