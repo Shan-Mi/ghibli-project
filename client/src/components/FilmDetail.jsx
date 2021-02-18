@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { fetchFilms } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 import { getOneFilm } from "../utilities";
@@ -7,12 +7,15 @@ import ReactPlayer from "react-player";
 import Review from "./Review";
 import ReviewCreater from "./ReviewCreater";
 import ErrorMessage from "./ErrorMessage";
+import cx from "classnames";
 
 const FilmDetail = () => {
-  const { setFilms } = useContext(GhibliContext);
+  const { setFilms, isLoggedIn } = useContext(GhibliContext);
   const [film, setFilm] = useState({});
   const [openNewReview, setOpenNewReview] = useState(false);
+  const [openEditReview, setOpenEditReview] = useState(false);
   const slug = useLocation().pathname.split("/")[2];
+  const history = useHistory();
 
   useEffect(() => {
     const getFilms = async () => {
@@ -26,7 +29,7 @@ const FilmDetail = () => {
     };
     // TODO: NEED TO avoid multiple fetching data, if data is in context, we don't need to fetch from api.
     getFilms();
-  }, [setFilms, slug, openNewReview]);
+  }, [setFilms, slug, openNewReview, openEditReview]);
 
   const {
     description,
@@ -39,10 +42,6 @@ const FilmDetail = () => {
     title,
     trailer,
   } = film;
-
-  const editContent = () => {
-    console.log("tada...");
-  };
 
   const handleOpenNewReview = () => {
     setOpenNewReview(true);
@@ -69,18 +68,28 @@ const FilmDetail = () => {
 
       <button
         onClick={handleOpenNewReview}
-        className="px-5 py-2 mt-5 ml-auto block bg-primary rounded-md text-dark font-Amaranth"
+        className={cx("primaryBtn", !isLoggedIn && "hidden")}
       >
         Share my story:
       </button>
+
       {openNewReview && <ReviewCreater setOpenNewReview={setOpenNewReview} />}
 
-      <div className="py-20">
+      <div className="pt-20">
         {reviews &&
           reviews.map((review, index) => {
             return <Review key={index} review={review} />;
           })}
       </div>
+
+      {!isLoggedIn && (
+        <button
+          onClick={() => history.push("/register")}
+          className="px-5 py-2 mb-10 mx-auto block bg-primary rounded-md text-dark font-Amaranth"
+        >
+          You need an account to leave a review:
+        </button>
+      )}
     </div>
   );
 };
