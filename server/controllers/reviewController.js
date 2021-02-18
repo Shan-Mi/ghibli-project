@@ -76,5 +76,25 @@ export const getReview = factory.getOne(Review, "review");
 
 // if this review's creater's id === currentuser.id, we can delete it
 // or current user's role is admin
-export const updateReview = factory.updateOne(Review, "review");
+// export const updateReview = factory.updateOne(Review, "review");
 export const deleteReview = factory.deleteOne(Review);
+
+export const updateReview = catchAsync(async (req, res, next) => {
+  const doc = await Review.findOneAndUpdate(
+    { _id: req.params.id, user: req.user.id },
+    req.body,
+    {
+      new: true, // return the new document
+      runValidators: true, // will run validators before updated
+    }
+  );
+  if (!doc) {
+    return next(new AppError("Only creator can edit this review", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      review: doc,
+    },
+  });
+});

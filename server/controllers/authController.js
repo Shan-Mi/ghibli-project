@@ -9,6 +9,7 @@ import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 import Email from "../utils/email.js";
 import User from "../models/userModel.js";
+import Review from "../models/reviewModel.js";
 
 dotenv.config({ path: "./../config.env" });
 const __dirname = path.resolve();
@@ -26,10 +27,7 @@ const createSendToken = (user, statusCode, req, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    // httpOnly: false, // have to pass it to client side
     httpOnly: true, // prevent cors attack
-    // sameSite: "none",
-    // secure: true,
     sameSite: "strict",
     // TODO: secure's value should be boolean, to check it out!
     // secure: req.secure || req.headers["x-forwarded-proto"] === "https",
@@ -50,24 +48,6 @@ const createSendToken = (user, statusCode, req, res) => {
       user,
     },
   });
-  // res.cookie("jwt", token, cookieOptions).status(statusCode).send({
-  //   status: "success",
-  //   token,
-  //   data: {
-  //     user,
-  //   },
-  // });
-
-  // TODO: ADD this return!!!
-  // no, we cannot do this, otherwise will cause problem
-  // will send header again
-  // return res.status(statusCode).send({
-  //   status: "success",
-  //   token,
-  //   data: {
-  //     user,
-  //   },
-  // });
 };
 
 export const signup = catchAsync(async (req, res, next) => {
@@ -120,7 +100,6 @@ export function logout(req, res) {
   res.status(202).clearCookie("jwt").json({ status: "success" });
   // ADD this, try to see if it works
   req.user = null;
-  // return res.status(200).json({ status: "success" });
 }
 
 export const protect = catchAsync(async (req, res, next) => {
@@ -162,6 +141,7 @@ export const protect = catchAsync(async (req, res, next) => {
   // Grant access to protected route
   req.user = currentUser;
   res.locals.user = currentUser;
+  // console.log(req.params.id);
   next();
 });
 
