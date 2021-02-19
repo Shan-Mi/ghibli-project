@@ -19,6 +19,7 @@ const Review = ({ review }) => {
   } = review;
   const currUser = JSON.parse(localStorage.getItem("user"));
   const { films, setError } = useContext(GhibliContext);
+  const [textLength, setTextLength] = useState(content.length);
   const [isEditable, setIsEditable] = useState(false);
   const titleRef = useRef();
   const contentRef = useRef();
@@ -42,7 +43,6 @@ const Review = ({ review }) => {
       // console.log("res from db", review);
       setCurrReview(review);
       setIsEditable(false);
-      // console.log(review);
     } catch (e) {
       const { data } = e.response;
       if (
@@ -88,8 +88,13 @@ const Review = ({ review }) => {
   };
 
   const handleLikesClick = async () => {
-    const { data } = await likeReview(filmId, reviewId);
-    setLikesCount(data.likedCount);
+    try {
+      const { data } = await likeReview(filmId, reviewId);
+      setLikesCount(data.likedCount);
+    } catch (e) {
+      // console.error(e.response.data.message);
+      setError({ hidden: false, message: e.response.data.message });
+    }
   };
 
   return (
@@ -116,14 +121,22 @@ const Review = ({ review }) => {
         placeholder="Describe everything about this post here"
         type="text"
         value={currReview.content}
-        onChange={(e) =>
-          setCurrReview({ ...currReview, content: e.target?.value })
-        }
+        onChange={(e) => {
+          setCurrReview({ ...currReview, content: e.target?.value });
+          setTextLength(contentRef.current?.value.length);
+        }}
       />
       <p className={cx("font-Amaranth py-5 px-1", isEditable && "hidden")}>
         {currReview.content}
       </p>
-      {currUser?._id === user?._id && (
+      {isEditable && (
+        <div className="icons flex text-gray-500 m-2">
+          <div className="count ml-auto text-gray-400 text-xs font-semibold">
+            {textLength}/1200
+          </div>
+        </div>
+      )}
+      {currUser?._id === user?._id && currUser?._id && (
         <EditReviewGroup
           isEditable={isEditable}
           handleEdit={handleEdit}
@@ -133,7 +146,7 @@ const Review = ({ review }) => {
       )}
 
       <p className="font-Montserrat pb-2 pr-3 text-right font-light">
-        {user?.name.toUpperCase()}
+        {!user?._id ? "deleted user".toUpperCase() : user?.name.toUpperCase()}
       </p>
       <p className="font-Montserrat pb-2 pr-3 text-right italic text-sm font-light">
         {!updatedAt || createdAt === updatedAt
