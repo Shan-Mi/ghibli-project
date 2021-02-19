@@ -109,30 +109,33 @@ const Review = ({ review }) => {
       <p className={cx("font-Amaranth py-5 px-1", isEditable && "hidden")}>
         {currReview.content}
       </p>
-      <button
-        className={cx(
-          "editBtn",
-          currUser?._id !== user?._id && "hidden",
-          isEditable && "hidden"
-        )}
-        onClick={handleEdit}
-      >
-        Edit
-      </button>
-      <div className="flex justify-around mt-4">
-        <button
-          className={cx("editBtn", !isEditable && "hidden")}
-          onClick={handleCancel}
-        >
-          Cancel
-        </button>
-        <button
-          className={cx("editBtn", !isEditable && "hidden")}
-          onClick={handleUpdate}
-        >
-          Update
-        </button>
-      </div>
+      {currUser?._id === user?._id && (
+        <>
+          <button
+            className={cx(
+              "editBtn",
+              isEditable && "hidden"
+            )}
+            onClick={handleEdit}
+          >
+            Edit
+          </button>
+          <div className="flex justify-around mt-4">
+            <button
+              className={cx("editBtn", !isEditable && "hidden")}
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className={cx("editBtn", !isEditable && "hidden")}
+              onClick={handleUpdate}
+            >
+              Update
+            </button>
+          </div>
+        </>
+      )}
 
       <p className="font-Montserrat pb-2 pr-3 text-right font-light">
         {user?.name.toUpperCase()}
