@@ -13,9 +13,6 @@ export const fetchFilms = async () => await axios.get(`${URL}films/`);
 
 export const fetchFilm = (id) => axios.get(`${URL}${id}`);
 
-// export const likePost = (id) => axios.patch(`${URL}/${id}/likePost`);
-// export const updatePost = (id, updatedPost) =>
-// axios.patch(`${URL}/${id}`, updatedPost);
 export const deletePost = (id) => axios.delete(`${URL}/${id}`);
 
 export const login = async (email, password) => {
@@ -55,3 +52,6 @@ export const createNewReview = async (payload, filmId) =>
 
 export const updateReview = async (payload, filmId, reviewId) =>
   await axios.patch(`${URL}films/${filmId}/reviews/${reviewId}`, payload);
+
+export const likeReview = async (filmId, reviewId) =>
+  await axios.patch(`${URL}films/${filmId}/reviews/${reviewId}/likeReview`);

@@ -6,6 +6,7 @@ const reviewSchema = new mongoose.Schema(
     content: { type: String, required: true, minlength: 20, maxlength: 1200 },
     createdAt: { type: Date, default: Date.now },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+
     film: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "film" },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +23,11 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.index({ film: 1, user: 1 }, { unique: true });
 // film + user combination always be unique
+// reviewSchema.aggregate({
+//   likedCount: {
+//     $size: "$likedBy",
+//   },
+// });
 
 reviewSchema.pre(/^find/, function (next) {
   this.populate({

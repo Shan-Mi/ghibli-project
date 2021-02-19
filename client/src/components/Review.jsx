@@ -3,11 +3,20 @@ import { useParams } from "react-router-dom";
 import { getOneFilm } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
 import cx from "classnames";
-import { updateReview } from "../api";
+import { updateReview, likeReview } from "../api";
 import EditReviewGroup from "./EditReviewGroup";
+import { AiTwotoneHeart } from "react-icons/ai";
 
 const Review = ({ review }) => {
-  const { user, title, content, createdAt, id: reviewId, updatedAt } = review;
+  const {
+    user,
+    title,
+    content,
+    createdAt,
+    id: reviewId,
+    updatedAt,
+    likedBy,
+  } = review;
   const currUser = JSON.parse(localStorage.getItem("user"));
   const { films, setError } = useContext(GhibliContext);
   const [isEditable, setIsEditable] = useState(false);
@@ -74,9 +83,12 @@ const Review = ({ review }) => {
   const handleCancel = () => {
     setIsEditable(false);
     setCurrReview(review);
-    // console.log(review);
-    // console.log(currReview);
     // setCurrReview(review)
+  };
+
+  const handleLikesClick = async () => {
+    const result = await likeReview(filmId, reviewId);
+    console.log(result);
   };
 
   return (
@@ -127,6 +139,16 @@ const Review = ({ review }) => {
           ? formatDate(currReview.createdAt)
           : `Edited at: ${formatDate(currReview.updatedAt)}`}
       </p>
+
+      <div className="flex justify-end items-center w-10 ml-auto">
+        <button
+          className="mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7 text-primary"
+          onClick={handleLikesClick}
+        >
+          <AiTwotoneHeart className="w-5 h-5" />
+        </button>
+        <p>{likedBy.length}</p>
+      </div>
     </div>
   );
 };
