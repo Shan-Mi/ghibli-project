@@ -16,12 +16,8 @@ export const fetchFilm = (id) => axios.get(`${URL}${id}`);
 export const deletePost = (id) => axios.delete(`${URL}/${id}`);
 
 export const login = async (email, password) => {
-  try {
-    const payload = { email, password };
-    return await axios.post(`${URL}users/login`, payload);
-  } catch (e) {
-    console.error(e.response.data.message);
-  }
+  const payload = { email, password };
+  return await axios.post(`${URL}users/login`, payload);
 };
 
 export const logout = async () => await axios.get(`${URL}users/logout/`);

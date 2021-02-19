@@ -1,12 +1,13 @@
 import React, { useContext, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { login, sendResetPassword } from "../api";
+import { login } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
+import ErrorMessage from "./ErrorMessage";
 // import {IoCloseOutline} from ''
 // should include signup / login / logout
 const LoginForm = () => {
-  const { setUser, setToken, setIsLoggedIn } = useContext(GhibliContext);
-  const [isHidden, setIsHidden] = useState("hidden");
+  const { setUser, setIsLoggedIn, setError } = useContext(GhibliContext);
+  // const [isHidden, setIsHidden] = useState("hidden");
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
@@ -21,35 +22,21 @@ const LoginForm = () => {
       const {
         data: {
           data: { user },
-          // token,
         },
       } = await login(email, password);
-      // const res = await login(email, password);
-      // console.log(res);
-      // const token = document.cookie.jwt;
 
       setUser(user);
-      // setToken(token);
       localStorage.setItem("user", JSON.stringify(user));
-      // localStorage.setItem("token", JSON.stringify(token));
-      // console.log(token);
       history.push("/");
     } catch (e) {
-      console.error(e);
-      setIsHidden("");
-      setTimeout(() => {
-        setIsHidden("hidden");
-      }, 2500);
+      setError({message: e.response.data.message, hidden: false});
     }
   };
 
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-      <div
-        className={`absolute ${isHidden} left-1/2 -translate-x-1/2 md:w-6/12 lg:w-5/12 2xl:w-4/12 h-20 bg-blue-400 rounded-md shadow-sm flex justify-center items-center text-red-700 text-2xl font-Montserrat transition transform all duration-150 ease-in-out`}
-      >
-        Invalid user
-      </div>
+    <ErrorMessage/>
+     
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 
@@ -74,10 +61,7 @@ const LoginForm = () => {
               placeholder="e-mail address"
               autoComplete="email"
               ref={emailRef}
-              className="block w-full py-3 px-1 mt-2 
-                    text-gray-800 appearance-none 
-                    border-b-2 border-gray-100
-                    focus:text-gray-500 focus:outline-none focus:border-gray-200"
+              className="underLine"
               required
             />
 
@@ -94,19 +78,11 @@ const LoginForm = () => {
               placeholder="password"
               autoComplete="current-password"
               ref={passwordRef}
-              className="block w-full py-3 px-1 mt-2 mb-4
-                    text-gray-800 appearance-none 
-                    border-b-2 border-gray-100
-                    focus:text-gray-500 focus:outline-none focus:border-gray-200"
+              className="underLine"
               required
             />
 
-            <button
-              type="submit"
-              className="w-full py-3 mt-8 bg-gray-800 rounded-sm
-                    font-medium text-white uppercase
-                    focus:outline-none hover:bg-gray-700 hover:shadow-none"
-            >
+            <button type="submit" className="subBtn">
               Login
             </button>
 
