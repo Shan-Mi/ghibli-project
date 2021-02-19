@@ -15,10 +15,8 @@ export const fetchFilm = (id) => axios.get(`${URL}${id}`);
 
 export const deletePost = (id) => axios.delete(`${URL}/${id}`);
 
-export const login = async (email, password) => {
-  const payload = { email, password };
-  return await axios.post(`${URL}users/login`, payload);
-};
+export const login = async (payload) =>
+  await axios.post(`${URL}users/login`, payload);
 
 export const logout = async () => await axios.get(`${URL}users/logout/`);
 
@@ -35,9 +33,8 @@ export const resetPassword = async (payload, token) =>
     privateHeaders(token)
   );
 
-// export const getErrorMessage = (e) => e.response;
 export const getErrorMessage = (e) => e.response.data.message;
-export const getSuccessMessage = (res) => res.data.message;
+// export const getSuccessMessage = (res) => res.data.message;
 
 export const updateUser = async (payload, token) =>
   await axios.patch(`${URL}users/updateMe`, payload, privateHeaders(token));

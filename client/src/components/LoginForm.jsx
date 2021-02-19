@@ -17,26 +17,27 @@ const LoginForm = () => {
       e.preventDefault();
       const email = emailRef.current?.value;
       const password = passwordRef.current?.value;
-      // await login(email, password);
+      const payload = { email, password };
       setIsLoggedIn(true);
+
       const {
         data: {
           data: { user },
         },
-      } = await login(email, password);
+      } = await login(payload);
 
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
       history.push("/");
     } catch (e) {
-      setError({message: e.response.data.message, hidden: false});
+      setError({ message: e.response.data.message, hidden: false });
     }
   };
 
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-    <ErrorMessage/>
-     
+      <ErrorMessage />
+
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 
