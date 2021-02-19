@@ -2,17 +2,9 @@
 
 ## TODO:
 1) user's email needs to be verified
+2) refactor private header token part, cuz now cookie works fine.
 
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
-
-```
-await Film.aggregation([{
-  $group:{
-    _id: '$name',
-    //some data...
-  }
-}])
-```
 
 ## DONE:
 1) make sure data can upload to db;
@@ -29,6 +21,7 @@ await Film.aggregation([{
 12) backend: restrict edit access to creator, from frontend, user cannot send and edit review if they are not creator for that review.
 13) once a user click like-btn, likesCount increase by 1 (only once) by inserting user's id into likedBy array on reviewsModel, and populate likedCount
 14) Remove unused components, use ErrorMessage and error/setError from context for errorHandling globally.
+15) LikedBy heart shows different color, if the user has liked, then it's red-400, otherwise it is red-200; once been liked by currUser, it will become red-400
 ## RUN
 ```
 # Run frontend (:3000) & backend (:8080) development mode
