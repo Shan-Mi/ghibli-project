@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getErrorMessage, login } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 import ErrorMessage from "./ErrorMessage";
@@ -8,7 +8,6 @@ const LoginForm = () => {
   const { setUser, setIsLoggedIn, setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const passwordRef = useRef();
-  const history = useHistory();
 
   const handleSubmit = async (e) => {
     try {
@@ -26,7 +25,6 @@ const LoginForm = () => {
 
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
-      history.push("/");
     } catch (e) {
       setError({ message: getErrorMessage(e), hidden: false });
     }
