@@ -10,13 +10,13 @@ const ErrorMessage = () => {
     setError({ message: "", hidden: true });
   };
 
-  useEffect(() => {
-    // hide error message after 4500 ms if the user is not closing this component by themselves.
-    const timer = setTimeout(() => {
-      setError({ ...error, hidden: true });
-    }, 4500);
-    return () => clearTimeout(timer);
-  }, [error, setError]);
+  // useEffect(() => {
+  //   // hide error message after 4500 ms if the user is not closing this component by themselves.
+  //   const timer = setTimeout(() => {
+  //     setError({ ...error, hidden: true });
+  //   }, 4500);
+  //   return () => clearTimeout(timer);
+  // }, [error, setError]);
 
   return (
     <div
