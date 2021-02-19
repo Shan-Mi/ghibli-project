@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import cx from "classnames";
 import { FiMenu } from "react-icons/fi";
 import GhibliLogo from "../assets/GhibliLogo.svg";
@@ -10,8 +10,7 @@ const Header = () => {
   const { user, setUser, isLoggedIn, setIsLoggedIn } = useContext(
     GhibliContext
   );
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const history = useHistory();
+
   const [isHidden, setIsHidden] = useState(true);
 
   useEffect(() => {
@@ -24,7 +23,6 @@ const Header = () => {
     setIsLoggedIn(false);
     setUser({});
     localStorage.removeItem("user");
-    history.push("/");
   };
 
   return (
