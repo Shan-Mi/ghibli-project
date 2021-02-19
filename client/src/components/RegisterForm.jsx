@@ -3,9 +3,10 @@ import { Link, useHistory } from "react-router-dom";
 import { register } from "../api";
 import { formatInput } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
+import ErrorMessage from "./ErrorMessage";
 
 const RegisterForm = () => {
-  const { setUser, setToken } = useContext(GhibliContext);
+  const { setUser, setError } = useContext(GhibliContext);
   const FirstNameInput = useRef();
   const LastNameInput = useRef();
   const EmailInput = useRef();
@@ -18,6 +19,10 @@ const RegisterForm = () => {
       e.preventDefault();
 
       if (PasswordInput.current?.value !== PasswordConfirmInput.current.value) {
+        setError({
+          message: "Passwords are not consistent",
+          hidden: false,
+        });
         console.error("your psw are not consistent with your password");
         return;
       }
@@ -33,22 +38,31 @@ const RegisterForm = () => {
       const {
         data: {
           data: { user },
-          token,
         },
       } = await register(payload);
 
-      // console.log(user);
-      // console.log(token);
       setUser(user);
-      setToken(token);
       history.push("/");
     } catch (e) {
-      console.error(e);
+      if (e.response.data?.error?.errors?.password?.kind === "minlength") {
+        return setError({
+          message: "Password should have at least 8 char",
+          hidden: false,
+        });
+      }
+
+      if (e.response.data.name === "MongoError") {
+        return setError({
+          message: "Email already exists",
+          hidden: false,
+        });
+      }
     }
   };
 
   return (
     <div className="grid place-items-center">
+      <ErrorMessage />
       <div className="w-11/12 p-12 bg-white sm:w-8/12 md:w-1/2 lg:w-5/12">
         <h1 className="text-xl font-semibold">
           <span className="block text-center font-Montserrat text-xl mb-5">
@@ -63,7 +77,7 @@ const RegisterForm = () => {
             <span className="w-1/2">
               <label
                 htmlFor="firstname"
-                className="block text-xs font-semibold text-gray-600 uppercase"
+                className="labelStyle"
               >
                 Firstname
               </label>
@@ -74,14 +88,14 @@ const RegisterForm = () => {
                 placeholder="John"
                 autoComplete="given-name"
                 ref={FirstNameInput}
-                className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                className="inputStyle"
                 required
               />
             </span>
             <span className="w-1/2">
               <label
                 htmlFor="lastname"
-                className="block text-xs font-semibold text-gray-600 uppercase"
+                className="labelStyle"
               >
                 Lastname
               </label>
@@ -92,14 +106,14 @@ const RegisterForm = () => {
                 placeholder="Doe"
                 autoComplete="family-name"
                 ref={LastNameInput}
-                className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+                className="inputStyle"
                 required
               />
             </span>
           </div>
           <label
             htmlFor="email"
-            className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
+            className="labelStyle mt-2"
           >
             E-mail
           </label>
@@ -110,12 +124,12 @@ const RegisterForm = () => {
             placeholder="john.doe@company.com"
             autoComplete="email"
             ref={EmailInput}
-            className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            className="inputStyle "
             required
           />
           <label
             htmlFor="password"
-            className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
+            className="labelStyle mt-2"
           >
             Password
           </label>
@@ -126,12 +140,12 @@ const RegisterForm = () => {
             placeholder="********"
             autoComplete="new-password"
             ref={PasswordInput}
-            className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            className="inputStyle"
             required
           />
           <label
             htmlFor="password-confirm"
-            className="block mt-2 text-xs font-semibold text-gray-600 uppercase"
+            className="labelStyle mt-2"
           >
             Confirm password
           </label>
@@ -142,12 +156,12 @@ const RegisterForm = () => {
             placeholder="********"
             autoComplete="new-password"
             ref={PasswordConfirmInput}
-            className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+            className="inputStyle"
             required
           />
           <button
             type="submit"
-            className="w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none"
+            className="subBtn"
           >
             Sign up
           </button>
