@@ -26,6 +26,7 @@ const Review = ({ review }) => {
   const [film] = getOneFilm(id, films);
   const filmId = film.id;
   const [currReview, setCurrReview] = useState(review);
+  const [likesCount, setLikesCount] = useState(likedBy.length);
 
   // Add error handling
   const handleUpdate = async (e) => {
@@ -87,8 +88,8 @@ const Review = ({ review }) => {
   };
 
   const handleLikesClick = async () => {
-    const result = await likeReview(filmId, reviewId);
-    console.log(result);
+    const { data } = await likeReview(filmId, reviewId);
+    setLikesCount(data.likedCount);
   };
 
   return (
@@ -147,7 +148,7 @@ const Review = ({ review }) => {
         >
           <AiTwotoneHeart className="w-5 h-5" />
         </button>
-        <p>{likedBy.length}</p>
+        <p>{likesCount}</p>
       </div>
     </div>
   );
