@@ -38,18 +38,6 @@ export const likeReview = catchAsync(async (req, res, next) => {
   // then we calc length of that array to get back likedCount
   // also populate that.
 
-  // aggregate new piece of data.
-  const newReview = await Review.aggregate([
-    {
-      $project: {
-        title: 1,
-        content: 1,
-        createdAt: 1,
-        likedCount: { $sum: { $size: "$likedBy" } },
-      },
-    },
-  ]);
-
   const query = { _id: req.params.id };
   const update = [
     {
@@ -64,7 +52,6 @@ export const likeReview = catchAsync(async (req, res, next) => {
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
   const result = await Review.findOneAndUpdate(query, update, options);
   res.status(200).json(result);
-  // res.json(updatedReview);
 });
 
 export const getReview = factory.getOne(Review, "review");
