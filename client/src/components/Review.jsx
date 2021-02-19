@@ -12,9 +12,7 @@ const Review = ({ review }) => {
     user,
     title,
     content,
-    createdAt,
     id: reviewId,
-    updatedAt,
     likedBy,
   } = review;
   const currUser = JSON.parse(localStorage.getItem("user"));
@@ -27,9 +25,11 @@ const Review = ({ review }) => {
   const [film] = getOneFilm(id, films);
   const filmId = film.id;
   const [currReview, setCurrReview] = useState(review);
-  const [likesCount, setLikesCount] = useState(likedBy.length);
-  const [isLiked, setIsLiked] = useState(likedBy.includes(currUser?._id));
 
+  const [likes, setLikes] = useState({
+    count: likedBy.length,
+    isLiked: likedBy.includes(currUser?._id),
+  });
   // Add error handling
   const handleUpdate = async (e) => {
     try {
@@ -76,8 +76,7 @@ const Review = ({ review }) => {
   const handleLikesClick = async () => {
     try {
       const { data } = await likeReview(filmId, reviewId);
-      setIsLiked(true);
-      setLikesCount(data.likedCount);
+      setLikes({ count: data.likedCount, isLiked: true });
     } catch (e) {
       // console.error(e.response.data.message);
       setError({ hidden: false, message: getErrorMessage(e) });
@@ -141,7 +140,7 @@ const Review = ({ review }) => {
         {!user?._id ? "deleted user".toUpperCase() : user?.name.toUpperCase()}
       </p>
       <p className="font-Montserrat pb-2 pr-3 text-right italic text-sm font-light">
-        {!updatedAt || createdAt === updatedAt
+        {!currReview.updatedAt || currReview.createdAt === currReview.updatedAt
           ? formatDate(currReview.createdAt)
           : `Edited at: ${formatDate(currReview.updatedAt)}`}
       </p>
@@ -150,13 +149,13 @@ const Review = ({ review }) => {
         <button
           className={cx(
             "mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7",
-            isLiked ? "text-red-400" : "text-primary"
+            likes.isLiked ? "text-red-400" : "text-primary"
           )}
           onClick={handleLikesClick}
         >
           <AiTwotoneHeart className="w-5 h-5" />
         </button>
-        <p>{likesCount}</p>
+        <p>{likes.count}</p>
       </div>
     </div>
   );
