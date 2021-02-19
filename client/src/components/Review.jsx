@@ -4,6 +4,7 @@ import { getOneFilm } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
 import cx from "classnames";
 import { updateReview } from "../api";
+import EditReviewGroup from "./EditReviewGroup";
 
 const Review = ({ review }) => {
   const { user, title, content, createdAt, id: reviewId, updatedAt } = review;
@@ -28,10 +29,10 @@ const Review = ({ review }) => {
           data: { review },
         },
       } = await updateReview(payload, filmId, reviewId);
-      console.log("res from db", review);
+      // console.log("res from db", review);
       setCurrReview(review);
       setIsEditable(false);
-      console.log(review);
+      // console.log(review);
     } catch (e) {
       const { data } = e.response;
       if (
@@ -73,8 +74,8 @@ const Review = ({ review }) => {
   const handleCancel = () => {
     setIsEditable(false);
     setCurrReview(review);
-    console.log(review);
-    console.log(currReview);
+    // console.log(review);
+    // console.log(currReview);
     // setCurrReview(review)
   };
 
@@ -110,31 +111,12 @@ const Review = ({ review }) => {
         {currReview.content}
       </p>
       {currUser?._id === user?._id && (
-        <>
-          <button
-            className={cx(
-              "editBtn",
-              isEditable && "hidden"
-            )}
-            onClick={handleEdit}
-          >
-            Edit
-          </button>
-          <div className="flex justify-around mt-4">
-            <button
-              className={cx("editBtn", !isEditable && "hidden")}
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              className={cx("editBtn", !isEditable && "hidden")}
-              onClick={handleUpdate}
-            >
-              Update
-            </button>
-          </div>
-        </>
+        <EditReviewGroup
+          isEditable={isEditable}
+          handleEdit={handleEdit}
+          handleCancel={handleCancel}
+          handleUpdate={handleUpdate}
+        />
       )}
 
       <p className="font-Montserrat pb-2 pr-3 text-right font-light">
