@@ -44,28 +44,13 @@ const Review = ({ review }) => {
       setCurrReview(review);
       setIsEditable(false);
     } catch (e) {
-      const { data } = e.response;
-      if (
-        Object.keys(data).includes("errors") ||
-        Object.keys(data).includes("error")
-      ) {
-        // this is any validation error
-        return setError({
-          hidden: false,
-          message: e.response.data.message,
-        });
-      }
-
-      if (data.code === 11000) {
-        // this 11000 is for handling mongo error
-        const { keyPattern } = data;
-        if (Object.keys(keyPattern).includes("film", "user")) {
-          return setError({
-            hidden: false,
-            message: "One user can only create one review.",
-          });
-        }
-      }
+      const {
+        data: { message },
+      } = e.response;
+      setError({
+        hidden: false,
+        message: message,
+      });
     }
   };
 

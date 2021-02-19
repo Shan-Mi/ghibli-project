@@ -9,7 +9,6 @@ import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 import Email from "../utils/email.js";
 import User from "../models/userModel.js";
-import Review from "../models/reviewModel.js";
 
 dotenv.config({ path: "./../config.env" });
 const __dirname = path.resolve();
@@ -250,36 +249,6 @@ export const updatePassword = catchAsync(async (req, res, next) => {
   // 4) Log user in, send JWT
   createSendToken(user, 200, req, res);
 });
-
-// only for conditional rendering, no errors
-export async function isLoggedIn(req, res, next) {
-  let token;
-  if (req.cookies.jwt) {
-    try {
-      // 1 verify token
-      token = req.cookies.jwt;
-      const decoded = await promisify(verify)(token, process.env.JWT_SECRET);
-
-      // 2) Check if user still exists
-      const currentUser = await User.findById(decoded.id);
-      if (!currentUser) {
-        return next();
-      }
-      // 3) Check if user changed password after the token was issued
-      if (currentUser.changedPasswordAfter(decoded.iat)) {
-        return next();
-      }
-      // There is a logged in user
-      // pug will get access to this user
-      res.locals.user = currentUser;
-      // console.log(res.locals);
-      return next();
-    } catch (err) {
-      return next();
-    }
-  }
-  next();
-}
 
 export const sendVerifyEmail = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });

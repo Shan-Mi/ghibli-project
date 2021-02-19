@@ -30,25 +30,28 @@ const ReviewCreater = ({ setOpenNewReview }) => {
       await createNewReview(payload, filmId);
       setOpenNewReview(false);
     } catch (e) {
-      const { data } = e.response;
-      if (Object.keys(data).includes("errors")) {
-        // this is any validation error
-        return setError({
-          hidden: false,
-          message: e.response.data.message,
-        });
-      }
+      const {
+        data: { message },
+      } = e.response;
+      // console.log(data);
+      // if (Object.keys(data).includes("errors")) {
+      // this is any validation error
+      setError({
+        hidden: false,
+        message: message,
+      });
+      // }
 
-      if (data.code === 11000) {
-        // this 11000 is for handling mongo error
-        const { keyPattern } = data;
-        if (Object.keys(keyPattern).includes("film", "user")) {
-          return setError({
-            hidden: false,
-            message: "One user can only create one review.",
-          });
-        }
-      }
+      // if (data.code === 11000) {
+      //   // this 11000 is for handling mongo error
+      //   const { keyPattern } = data;
+      //   if (Object.keys(keyPattern).includes("film", "user")) {
+      //     return setError({
+      //       hidden: false,
+      //       message: "One user can only create one review.",
+      //     });
+      //   }
+      // }
     }
   };
 

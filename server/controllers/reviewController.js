@@ -23,20 +23,18 @@ export const createReview = catchAsync(async (req, res, next) => {
     .save()
     .then(() => res.status(200).json(newReview))
     .catch((err) => {
-      // console.log(err);
-      res.status(500).send(err);
+      return next(err);
     });
 });
 
 export const likeReview = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No review with id: ${id}`);
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(new AppError(`No review with id: ${id}`, 400));
+  }
 
-  // const review = await Review.findById(id);
-
-  // TODO: make sure each user can only click once, likeCount can only increase by 1 for each user.
+  // DONE: make sure each user can only click once, likeCount can only increase by 1 for each user.
   // we push this user's id to likedBy array on review model, only if that id doesn't already exist there.
   // then we calc length of that array to get back likedCount
   // also populate that.
@@ -54,6 +52,7 @@ export const likeReview = catchAsync(async (req, res, next) => {
   ];
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
   const result = await Review.findOneAndUpdate(query, update, options);
+
   res.status(200).json(result);
 });
 
@@ -65,14 +64,24 @@ export const getReview = factory.getOne(Review, "review");
 export const deleteReview = factory.deleteOne(Review);
 
 export const updateReview = catchAsync(async (req, res, next) => {
+  const query = { _id: req.params.id, user: req.user.id };
+  const update = req.body;
+  const options = {
+    new: true, // return the new document
+    runValidators: true, // will run validators before updated
+  };
   const doc = await Review.findOneAndUpdate(
-    { _id: req.params.id, user: req.user.id },
-    req.body,
-    {
-      new: true, // return the new document
-      runValidators: true, // will run validators before updated
+    query,
+    update,
+    options,
+    function (err) {
+      if (err) {
+        return next(err);
+      }
     }
   );
+
+  // console.log(doc);
   if (!doc) {
     return next(new AppError("Only creator can edit this review", 404));
   }
