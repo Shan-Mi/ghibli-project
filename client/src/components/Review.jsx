@@ -28,6 +28,7 @@ const Review = ({ review }) => {
   const filmId = film.id;
   const [currReview, setCurrReview] = useState(review);
   const [likesCount, setLikesCount] = useState(likedBy.length);
+  const [isLiked, setIsLiked] = useState(likedBy.includes(currUser?._id));
 
   // Add error handling
   const handleUpdate = async (e) => {
@@ -75,6 +76,7 @@ const Review = ({ review }) => {
   const handleLikesClick = async () => {
     try {
       const { data } = await likeReview(filmId, reviewId);
+      setIsLiked(true);
       setLikesCount(data.likedCount);
     } catch (e) {
       // console.error(e.response.data.message);
@@ -141,7 +143,10 @@ const Review = ({ review }) => {
 
       <div className="flex justify-end items-center w-10 ml-auto">
         <button
-          className="mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7 text-primary"
+          className={cx(
+            "mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7 ",
+            isLiked ? "text-red-400" : "text-primary"
+          )}
           onClick={handleLikesClick}
         >
           <AiTwotoneHeart className="w-5 h-5" />
