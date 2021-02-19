@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getOneFilm } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
 import cx from "classnames";
-import { updateReview, likeReview } from "../api";
+import { updateReview, likeReview, getErrorMessage } from "../api";
 import EditReviewGroup from "./EditReviewGroup";
 import { AiTwotoneHeart } from "react-icons/ai";
 
@@ -80,7 +80,7 @@ const Review = ({ review }) => {
       setLikesCount(data.likedCount);
     } catch (e) {
       // console.error(e.response.data.message);
-      setError({ hidden: false, message: e.response.data.message });
+      setError({ hidden: false, message: getErrorMessage(e) });
     }
   };
 

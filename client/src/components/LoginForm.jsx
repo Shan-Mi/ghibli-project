@@ -1,13 +1,11 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { login } from "../api";
+import { getErrorMessage, login } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 import ErrorMessage from "./ErrorMessage";
-// import {IoCloseOutline} from ''
-// should include signup / login / logout
+
 const LoginForm = () => {
   const { setUser, setIsLoggedIn, setError } = useContext(GhibliContext);
-  // const [isHidden, setIsHidden] = useState("hidden");
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
@@ -30,7 +28,7 @@ const LoginForm = () => {
       localStorage.setItem("user", JSON.stringify(user));
       history.push("/");
     } catch (e) {
-      setError({ message: e.response.data.message, hidden: false });
+      setError({ message: getErrorMessage(e), hidden: false });
     }
   };
 
