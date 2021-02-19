@@ -23,11 +23,6 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.index({ film: 1, user: 1 }, { unique: true });
 // film + user combination always be unique
-// reviewSchema.aggregate({
-//   likedCount: {
-//     $size: "$likedBy",
-//   },
-// });
 
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
@@ -41,7 +36,5 @@ const Review = mongoose.model("review", reviewSchema);
 
 export default Review;
 
-// TODO:
+// DONE:
 // use virtual & populate likedCount, on film page, when a user logged in, we can get user's _id and that review's id, once the user clicked like, we add this review id into user's likedReview list(as an array),
-
-// now add likedBy filed to reviewModel,

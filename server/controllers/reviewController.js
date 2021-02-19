@@ -16,6 +16,9 @@ export const createReview = catchAsync(async (req, res, next) => {
   const review = { ...req.body, user: req.user.id, film: req.params.filmId };
   const newReview = new Review(review);
 
+  // Error handling:
+  // success: send back response
+  // fail: send back error message
   await newReview
     .save()
     .then(() => res.status(200).json(newReview))
