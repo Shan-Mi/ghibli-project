@@ -1,27 +1,16 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useRef, useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { getErrorMessage, resetPassword } from "../api";
+import ErrorMessage from "../components/ErrorMessage";
 import { GhibliContext } from "../context/GlobalContext";
 
 const ResetPasswordPage = () => {
-  const { setUser, setToken } = useContext(GhibliContext);
+  const { setUser, setError } = useContext(GhibliContext);
   const history = useHistory();
-  const [isHidden, setIsHidden] = useState("hidden");
-  const [text, setText] = useState("");
   const psw = useRef();
   const pswConfirm = useRef();
   const location = useLocation();
   const tokenVal = location.pathname.split("/")[2];
-
-  // console.log(tokenVal);
-
-  const showMsg = (text) => {
-    setIsHidden("");
-    setText(text);
-    setTimeout(() => {
-      setIsHidden("hidden");
-    }, 2500);
-  };
 
   const ResetPsw = async (e) => {
     e.preventDefault();
@@ -40,29 +29,24 @@ const ResetPasswordPage = () => {
       } = await resetPassword(payload, tokenVal);
       console.log(user, token);
       if (status === 200) {
-        showMsg("You have successfully reset password.");
+        setError({
+          message: "You have successfully reset password.",
+          hidden: false,
+        });
         setUser(user);
-        setToken(token);
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", JSON.stringify(token));
-        setTimeout(() => {
-          showMsg("Password reset completed! Welcome back!");
-        }, 2000);
         history.push("/");
       }
     } catch (e) {
       console.error(e.response);
-      showMsg(getErrorMessage(e));
+      setError({ message: getErrorMessage(e), hidden: false });
     }
   };
 
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-      <div
-        className={`absolute ${isHidden} left-1/2 -translate-x-1/2 md:w-6/12 lg:w-5/12 2xl:w-4/12 h-20 bg-blue-400 rounded-md shadow-sm flex justify-center items-center text-red-700 text-2xl font-Montserrat transition transform all duration-150 ease-in-out`}
-      >
-        {text}
-      </div>
+      <ErrorMessage />
+
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 
