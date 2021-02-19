@@ -93,16 +93,16 @@ const ReviewCreater = ({ setOpenNewReview }) => {
           </div>
         </div>
 
-        <div className="buttons flex">
+        <div className="flex">
           <div
             onClick={handleCancel}
-            className="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto"
+            className="rounded-md border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto transform hover:bg-gray-200 hover:text-gray-700 duration-200 ease-in-out"
           >
             Cancel
           </div>
           <button
             type="submit"
-            className="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500"
+            className="rounded-md border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500 transform hover:bg-indigo-600 hover:text-gray-50 duration-200 ease-in-out"
           >
             Post
           </button>
