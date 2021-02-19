@@ -38,7 +38,7 @@ const ResetPasswordPage = () => {
         history.push("/");
       }
     } catch (e) {
-      console.error(e.response);
+      // console.error(e.response);
       setError({ message: getErrorMessage(e), hidden: false });
     }
   };

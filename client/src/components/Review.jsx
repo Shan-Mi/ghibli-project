@@ -123,14 +123,19 @@ const Review = ({ review }) => {
           </div>
         </div>
       )}
-      {currUser?._id === user?._id && currUser?._id && (
-        <EditReviewGroup
-          isEditable={isEditable}
-          handleEdit={handleEdit}
-          handleCancel={handleCancel}
-          handleUpdate={handleUpdate}
-        />
-      )}
+      {
+        // this is for condition that user who wrote that review may not exist,
+        // and when user is not logged in, both _id === undefined, and this becomes true
+        // so add extra check for currUser is not equal to undefined
+        currUser?._id === user?._id && currUser?._id && (
+          <EditReviewGroup
+            isEditable={isEditable}
+            handleEdit={handleEdit}
+            handleCancel={handleCancel}
+            handleUpdate={handleUpdate}
+          />
+        )
+      }
 
       <p className="font-Montserrat pb-2 pr-3 text-right font-light">
         {!user?._id ? "deleted user".toUpperCase() : user?.name.toUpperCase()}
@@ -144,7 +149,7 @@ const Review = ({ review }) => {
       <div className="flex justify-end items-center w-10 ml-auto">
         <button
           className={cx(
-            "mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7 ",
+            "mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7",
             isLiked ? "text-red-400" : "text-primary"
           )}
           onClick={handleLikesClick}
