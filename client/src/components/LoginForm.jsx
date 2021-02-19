@@ -26,7 +26,7 @@ const LoginForm = () => {
 
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
-      history.push("/");
+      // history.push("/");
     } catch (e) {
       setError({ message: getErrorMessage(e), hidden: false });
     }
