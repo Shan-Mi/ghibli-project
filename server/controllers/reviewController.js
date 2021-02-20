@@ -50,7 +50,12 @@ export const likeReview = catchAsync(async (req, res, next) => {
     },
     { $set: { likedCount: { $size: "$likedBy" } } },
   ];
-  const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+  const options = {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+    fields: { likedBy: 1, likedCount: 1 },
+  };
   const result = await Review.findOneAndUpdate(query, update, options);
 
   res.status(200).json(result);
