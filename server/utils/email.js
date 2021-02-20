@@ -44,7 +44,7 @@ export default class Email {
   async send(template, subject) {
     // 1) render html based on a pug template
     const html = pug.renderFile(
-      `${__dirname}/views/emails/${template}.pug`,
+      `${__dirname}/server/views/emails/${template}.pug`,
       {
         firstName: this.firstName,
         url: this.url,
