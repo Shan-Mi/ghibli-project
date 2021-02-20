@@ -76,13 +76,21 @@ export const login = catchAsync(async (req, res, next) => {
   }
 
   // 2) check if user exists && password is correct
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ email }).select("+password +active");
   // const correct = await user.correctPassword(password, user.password);
-  // console.log(user);
   // now if the user doesnot exist, it will not run the correct function
 
+  // check if user is still active
+  if (user.active === false) {
+    return next(
+      new AppError(
+        "User has been deleted, to activate please contact admin",
+        400
+      )
+    );
+  }
   // TODO: Add this step to check if a user's email is verified.
-  // if (!user.isverified) {
+  // if (!user.isVerified) {
   //   return next(new AppError(`User's email needs to be verified first`, 401));
   // }
 
