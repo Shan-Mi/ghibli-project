@@ -1,4 +1,5 @@
 # Ghibli-films-site-project
+# Understructure 👩🏻‍💻
 
 ## TODO:
 1) refactor private header token part, since cookie works fine now.
