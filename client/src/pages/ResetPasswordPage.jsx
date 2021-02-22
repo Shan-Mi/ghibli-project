@@ -23,11 +23,11 @@ const ResetPasswordPage = () => {
       const {
         data: {
           data: { user },
-          token,
+          // token,
         },
         status,
       } = await resetPassword(payload, tokenVal);
-      console.log(user, token);
+
       if (status === 200) {
         setError({
           message: "You have successfully reset password.",
