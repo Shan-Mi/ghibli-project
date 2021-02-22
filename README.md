@@ -2,9 +2,9 @@
 # Understructure 👩🏻‍💻
 
 ## TODO:
-1) refactor private header token part, since cookie works fine now.
-2) update password (on frontend profile page)
-3) create admin panel for updating and creating films data
+1) create admin panel for updating and creating films data
+2) use react-toast for displaying error/success message, to make your life easier..
+3) fix film page, maybe add some reviewsPage, and on film page, we list out several most liked reviews, and with a show all button. once clicked that button, we go to reviews page for this film. (if have time, will think about that.)
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
 
 ## DONE:
@@ -24,6 +24,8 @@
 14) Remove unused components, use ErrorMessage and error/setError from context for errorHandling globally.
 15) LikedBy heart shows different color, if the user has liked, then it's red-400, otherwise it is red-200; once been liked by currUser, it will become red-400
 16) user's email needs to be verified to login
+17) Except for resetPassword, we need to manually set privateHeader, for other condition, we use cookie.jwt (10)
+18) update password (on frontend profile page) and error handling
 ## RUN
 ```
 # Run frontend (:3000) & backend (:8080) development mode
