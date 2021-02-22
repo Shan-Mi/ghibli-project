@@ -1,8 +1,8 @@
 # Ghibli-films-site-project
 
 ## TODO:
-1) refactor private header token part, cuz now cookie works fine.
-2) update password
+1) refactor private header token part, since cookie works fine now.
+2) update password (on frontend profile page)
 3) create admin panel for updating and creating films data
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
 
@@ -31,7 +31,7 @@
 # Run production mode
 `yarn start:prod`
 
-# Import data to DB
+# Import data to DB (delete this for now, will fix this later)
 `yarn data:import`
 
 # Destroy data from DB
