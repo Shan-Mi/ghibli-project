@@ -1,26 +1,25 @@
 import React, { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { getErrorMessage, sendResetPassword } from "../api";
+import { getErrorMessage, sendVerifyEmail } from "../api";
 import ErrorMessage from "../components/ErrorMessage";
 import { GhibliContext } from "../context/GlobalContext";
 
-const ResetPage = () => {
+const VerifyEmailPage = () => {
   const { setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const history = useHistory();
 
-  const handleResetPsw = async (e) => {
+  const handleSendVerification = async (e) => {
     e.preventDefault();
 
     try {
       const payload = { email: emailRef.current?.value };
-      const res = await sendResetPassword(payload);
+      const res = await sendVerifyEmail(payload);
       setError({ hidden: false, message: res });
       setTimeout(() => {
         history.push("/resetPassword");
       }, 3000);
     } catch (e) {
-      // console.error(getErrorMessage(e));
       setError({ hidden: false, message: getErrorMessage(e) });
     }
   };
@@ -36,10 +35,10 @@ const ResetPage = () => {
           bg-white rounded-lg shadow-md lg:shadow-lg"
         >
           <h2 className="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
-            Send Reset Token
+            Verify Your Account
           </h2>
 
-          <form className="mt-10" onSubmit={handleResetPsw}>
+          <form className="mt-10" onSubmit={handleSendVerification}>
             <label htmlFor="email" className="labelStyle">
               E-mail
             </label>
@@ -55,7 +54,7 @@ const ResetPage = () => {
             />
 
             <button type="submit" className="subBtn">
-              Send reset password mail
+              Send Verification mail
             </button>
           </form>
         </div>
@@ -64,4 +63,4 @@ const ResetPage = () => {
   );
 };
 
-export default ResetPage;
+export default VerifyEmailPage;

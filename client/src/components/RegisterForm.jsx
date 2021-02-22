@@ -35,23 +35,31 @@ const RegisterForm = () => {
         passwordConfirm: `${PasswordConfirmInput.current.value}`,
       };
 
-      const {
-        data: {
-          data: { user },
-        },
-      } = await register(payload);
+      // const {
+      //   data: {
+      //     data: { user },
+      //   },
+      // } = await register(payload);
 
-      setUser(user);
-      history.push("/");
+      // setUser(user);
+      await register(payload);
+      history.push("/result");
+
+      // if (result?.data?.data.status === "success") {
+      //   console.log("sent verification mail");
+      //   history.push("/result");
+      //   return;
+      // }
+      // history.push("/");
     } catch (e) {
-      if (e.response.data?.error?.errors?.password?.kind === "minlength") {
+      if (e.response?.data?.error?.errors?.password?.kind === "minlength") {
         return setError({
           message: "Password should have at least 8 char",
           hidden: false,
         });
       }
 
-      if (e.response.data.name === "MongoError") {
+      if (e.response?.data.name === "MongoError") {
         return setError({
           message: "Email already exists",
           hidden: false,
@@ -75,10 +83,7 @@ const RegisterForm = () => {
         <form className="mt-6" onSubmit={handleSubmit}>
           <div className="flex justify-between gap-3">
             <span className="w-1/2">
-              <label
-                htmlFor="firstname"
-                className="labelStyle"
-              >
+              <label htmlFor="firstname" className="labelStyle">
                 Firstname
               </label>
               <input
@@ -93,10 +98,7 @@ const RegisterForm = () => {
               />
             </span>
             <span className="w-1/2">
-              <label
-                htmlFor="lastname"
-                className="labelStyle"
-              >
+              <label htmlFor="lastname" className="labelStyle">
                 Lastname
               </label>
               <input
@@ -111,10 +113,7 @@ const RegisterForm = () => {
               />
             </span>
           </div>
-          <label
-            htmlFor="email"
-            className="labelStyle mt-2"
-          >
+          <label htmlFor="email" className="labelStyle mt-2">
             E-mail
           </label>
           <input
@@ -127,10 +126,7 @@ const RegisterForm = () => {
             className="inputStyle "
             required
           />
-          <label
-            htmlFor="password"
-            className="labelStyle mt-2"
-          >
+          <label htmlFor="password" className="labelStyle mt-2">
             Password
           </label>
           <input
@@ -143,10 +139,7 @@ const RegisterForm = () => {
             className="inputStyle"
             required
           />
-          <label
-            htmlFor="password-confirm"
-            className="labelStyle mt-2"
-          >
+          <label htmlFor="password-confirm" className="labelStyle mt-2">
             Confirm password
           </label>
           <input
@@ -159,10 +152,7 @@ const RegisterForm = () => {
             className="inputStyle"
             required
           />
-          <button
-            type="submit"
-            className="subBtn"
-          >
+          <button type="submit" className="subBtn">
             Sign up
           </button>
           <Link

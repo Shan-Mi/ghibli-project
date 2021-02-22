@@ -10,7 +10,7 @@ import ErrorMessage from "./ErrorMessage";
 import cx from "classnames";
 
 const FilmDetail = () => {
-  const { setFilms, isLoggedIn } = useContext(GhibliContext);
+  const { setFilms, status } = useContext(GhibliContext);
   const [film, setFilm] = useState({});
   const [openNewReview, setOpenNewReview] = useState(false);
   // const [openEditReview, setOpenEditReview] = useState(false);
@@ -68,7 +68,7 @@ const FilmDetail = () => {
 
       <button
         onClick={handleOpenNewReview}
-        className={cx("primaryBtn", !isLoggedIn && "hidden")}
+        className={cx("primaryBtn", !status.isLoggedIn && "hidden")}
       >
         Share my story:
       </button>
@@ -82,7 +82,7 @@ const FilmDetail = () => {
           })}
       </div>
 
-      {!isLoggedIn && (
+      {!status.isLoggedIn && (
         <button
           onClick={() => history.push("/register")}
           className="primaryBtn mb-10 mx-auto"

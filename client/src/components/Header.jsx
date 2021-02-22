@@ -7,20 +7,20 @@ import { GhibliContext } from "../context/GlobalContext";
 import { logout } from "../api";
 
 const Header = () => {
-  const { user, setUser, isLoggedIn, setIsLoggedIn } = useContext(
-    GhibliContext
-  );
+  const { user, setUser, status, setStatus } = useContext(GhibliContext);
 
   const [isHidden, setIsHidden] = useState(true);
 
   useEffect(() => {
     const res = Object.keys(user).length ? true : false;
-    setIsLoggedIn(res);
-  }, [setIsLoggedIn, user]);
+    // setIsLoggedIn(res);
+    setStatus({ ...status, isLoggedIn: res });
+  }, [setStatus, user]);
 
   const handleLogout = () => {
     logout();
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
+    setStatus({ ...status, isLoggedIn: false });
     setUser({});
     localStorage.removeItem("user");
   };
@@ -52,7 +52,7 @@ const Header = () => {
         <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
           <Link
             to="/"
-            className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+            className="navBar"
             onClick={() => {
               setIsHidden(!isHidden);
             }}
@@ -62,7 +62,7 @@ const Header = () => {
 
           <Link
             to="/about"
-            className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+            className="navBar"
             onClick={() => {
               setIsHidden(!isHidden);
             }}
@@ -70,10 +70,10 @@ const Header = () => {
             <span>About</span>
           </Link>
 
-          {isLoggedIn && (
+          {status.isLoggedIn && (
             <Link
               to="/profile"
-              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+              className="navBar"
               onClick={() => {
                 setIsHidden(!isHidden);
               }}
@@ -82,10 +82,10 @@ const Header = () => {
             </Link>
           )}
 
-          {!isLoggedIn && (
+          {!status.isLoggedIn && (
             <Link
               to="/register"
-              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+              className="navBar"
               onClick={() => {
                 setIsHidden(!isHidden);
               }}
@@ -94,10 +94,10 @@ const Header = () => {
             </Link>
           )}
 
-          {!isLoggedIn ? (
+          {!status.isLoggedIn ? (
             <Link
               to="/login"
-              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+              className="navBar"
               onClick={() => {
                 setIsHidden(!isHidden);
               }}
@@ -105,10 +105,7 @@ const Header = () => {
               <span>Login</span>
             </Link>
           ) : (
-            <button
-              onClick={handleLogout}
-              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
-            >
+            <button onClick={handleLogout} className="navBar">
               <span>Logout</span>
             </button>
           )}

@@ -5,7 +5,7 @@ import { GhibliContext } from "../context/GlobalContext";
 import ErrorMessage from "./ErrorMessage";
 
 const LoginForm = () => {
-  const { setUser, setIsLoggedIn, setError } = useContext(GhibliContext);
+  const { setUser, status, setStatus, setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -15,7 +15,8 @@ const LoginForm = () => {
       const email = emailRef.current?.value;
       const password = passwordRef.current?.value;
       const payload = { email, password };
-      setIsLoggedIn(true);
+      // setIsLoggedIn(true);
+      setStatus({ ...status, isLoggedIn: true });
 
       const {
         data: {
@@ -107,9 +108,12 @@ const LoginForm = () => {
           font-medium text-white uppercase
           focus:outline-none hover:bg-gray-300 hover:shadow-none hover:transform all duration-100 ease-in-out"
           >
-            <p className="text-center ml-0 block text-gray-500 text-xs mx-4 mt-1 sm:my-auto group-hover:text-pink-700 hover:transform all duration-150 ease-in-out">
+            <Link
+              className="text-center ml-0 block text-gray-500 text-xs mx-4 mt-1 sm:my-auto group-hover:text-pink-700 hover:transform all duration-150 ease-in-out"
+              to="/verifyEmail"
+            >
               Verify your email address
-            </p>
+            </Link>
           </button>
         </div>
       </div>

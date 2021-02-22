@@ -6,7 +6,10 @@ const GlobalContext = ({ children }) => {
   const [user, setUser] = useState({});
   const [films, setFilms] = useState([]);
   const [error, setError] = useState({ hidden: true, message: "" });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [status, setStatus] = useState({
+    isLoggedIn: false,
+    isVerified: false,
+  });
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -25,8 +28,8 @@ const GlobalContext = ({ children }) => {
         // setToken,
         error,
         setError,
-        isLoggedIn,
-        setIsLoggedIn,
+        status,
+        setStatus,
       }}
     >
       {children}

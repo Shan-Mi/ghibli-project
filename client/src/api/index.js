@@ -34,7 +34,6 @@ export const resetPassword = async (payload, token) =>
   );
 
 export const getErrorMessage = (e) => e.response.data.message;
-// export const getSuccessMessage = (res) => res.data.message;
 
 export const updateUser = async (payload, token) =>
   await axios.patch(`${URL}users/updateMe`, payload, privateHeaders(token));
@@ -48,3 +47,6 @@ export const updateReview = async (payload, filmId, reviewId) =>
 
 export const likeReview = async (filmId, reviewId) =>
   await axios.patch(`${URL}films/${filmId}/reviews/${reviewId}/likeReview`);
+
+export const sendVerifyEmail = async (payload) =>
+  await axios.post(`${URL}users/verifyEmail`, payload);
