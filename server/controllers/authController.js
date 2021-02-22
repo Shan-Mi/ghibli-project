@@ -13,8 +13,10 @@ import User from "../models/userModel.js";
 dotenv.config({ path: "./../config.env" });
 const __dirname = path.resolve();
 
+const host = process.env.HOST; // frontend host localhost:3000
+
 const signToken = (id) => {
-  console.log(process.env.JWT_EXPIRES_IN);
+  // console.log(process.env.JWT_EXPIRES_IN);
   return sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
@@ -42,7 +44,7 @@ const createSendToken = (user, statusCode, req, res) => {
   res.cookie("jwt", token, cookieOptions);
   res.status(statusCode).send({
     status: "success",
-    // token,
+    token,
     data: {
       user,
     },
@@ -62,10 +64,17 @@ export const signup = catchAsync(async (req, res, next) => {
     passwordResetExpires: req.body.passwordResetExpires,
   });
 
-  const url = `${req.protocol}://${req.get("host")}/me`;
+  const verifyToken = newUser.createVerifyEmailToken();
+  await newUser.save({ validateBeforeSave: false });
 
-  await new Email(newUser, url).sendWelcome();
-  createSendToken(newUser, 201, req, res);
+  const url = `${req.protocol}://${req.get("host")}/me`; // this is for serverside
+  const newUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/users/verifyEmail/${verifyToken}`;
+
+  await new Email(newUser, newUrl).sendWelcome(); //
+  return res.status(200).json({ status: "success" });
+  // createSendToken(newUser, 201, req, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
@@ -89,10 +98,10 @@ export const login = catchAsync(async (req, res, next) => {
       )
     );
   }
-  // TODO: Add this step to check if a user's email is verified.
-  // if (!user.isVerified) {
-  //   return next(new AppError(`User's email needs to be verified first`, 401));
-  // }
+  // Add this step to check if a user's email is verified.
+  if (!user.isVerified) {
+    return next(new AppError(`User's email needs to be verified first`, 401));
+  }
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
@@ -130,8 +139,7 @@ export const protect = catchAsync(async (req, res, next) => {
   }
   // 2) Verification token,
   const decoded = await promisify(verify)(token, process.env.JWT_SECRET);
-  // console.log(decoded);
-  // { id: '5fc812a2ea315627edcdbb9d', iat: 1606947861, exp: 1614723861 }
+
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
@@ -166,9 +174,6 @@ export const restrictTo = (...roles) => {
 
 export const forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
-  // console.log(
-  //   `${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/`
-  // );
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new AppError("There is no user with that email address.", 404));
@@ -180,10 +185,8 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
   try {
     // 3) Send it to user's email
-    // const resetURL = `${req.protocol}://${req.get(
-    //   "host"
-    // )}/api/v1/users/resetPassword/${resetToken}`; // send original token
-    const resetURL = `localhost:3000/resetPassword/${resetToken}`; // send original token
+    const resetURL = `${host}/resetPassword/${resetToken}`;
+    // send original token
 
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
@@ -207,14 +210,9 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
 export const resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
-  // console.log('req', req);
-  // token = req.headers.authorization.split(" ")[1];
-  // console.log('token', token);
   const hashedToken = createHash("sha256")
     .update(req.params.token)
     .digest("hex");
-  // console.log(req.params.token)
-  // console.log('hashed token', hashedToken);
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
@@ -234,9 +232,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  // 3) Update changedPasswordAt property for the user
-
-  // 4) Log the user in, send JWT to the client
+  // 3) Log the user in, send JWT to the client
   createSendToken(user, 200, req, res);
 });
 
@@ -264,7 +260,44 @@ export const sendVerifyEmail = catchAsync(async (req, res, next) => {
     return next(new AppError("There is no user with that email address.", 404));
   }
 
-  const verifyEmailToken = user.createVerifyEmailToken();
+  const verifyToken = user.createVerifyEmailToken();
+  await user.save({ validateBeforeSave: false });
+
+  const url = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/users/verifyEmail/${verifyToken}`;
+
+  await new Email(user, url).sendWelcome();
+  // createSendToken(user, 201, req, res);
 
   next();
+});
+
+export const verifyEmail = catchAsync(async (req, res, next) => {
+  const hashedToken = createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    verifyEmailToken: hashedToken,
+    verifyEmailTokenExpires: {
+      $gt: Date.now(),
+    },
+  });
+
+  if (!user) {
+    return next(new AppError("Token is invalid or has expired", 400));
+  }
+
+  user.isVerified = true;
+  user.verifyEmailToken = undefined;
+  user.verifyEmailTokenExpires = undefined;
+  await user.save(function (err) {
+    if (err) {
+      return res.status(500).send({ message: "An unexpected error occurred" });
+    }
+    return res
+      .status(200)
+      .send({ message: "The account has been verified. Please log in." });
+  });
 });

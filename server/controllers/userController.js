@@ -4,8 +4,7 @@ import AppError from "../utils/appError.js";
 import User from "../models/userModel.js";
 import catchAsync from "../utils/catchAsync.js";
 import { getAll, getOne, updateOne, deleteOne } from "./handlerFactory.js";
-import fs from 'fs'
-
+import fs from "fs";
 
 // store image as a buffer
 const multerStorage = memoryStorage();
@@ -54,8 +53,6 @@ export function getMe(req, res, next) {
 }
 
 export const updateMe = catchAsync(async (req, res, next) => {
-  // console.log(req.file);
-  // console.log(req.body);
   // 1) Create error if user POSTs psw data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -71,11 +68,8 @@ export const updateMe = catchAsync(async (req, res, next) => {
   if (req.file) {
     filteredBody.photo = req.file.filename;
   }
-  // implement image later
 
   // 3) Update user document
-  // cuz not handle sensitive data(password), so we can use findByIdAndUpdate now.
-  // x should only contain name and email, nothing else.
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,

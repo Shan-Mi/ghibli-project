@@ -6,7 +6,6 @@ const reviewSchema = new mongoose.Schema(
     content: { type: String, required: true, minlength: 20, maxlength: 1200 },
     createdAt: { type: Date, default: Date.now },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
-
     film: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "film" },
     user: {
       type: mongoose.Schema.Types.ObjectId,

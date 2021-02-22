@@ -43,14 +43,11 @@ export default class Email {
 
   async send(template, subject) {
     // 1) render html based on a pug template
-    const html = pug.renderFile(
-      `${__dirname}/server/views/emails/${template}.pug`,
-      {
-        firstName: this.firstName,
-        url: this.url,
-        subject,
-      }
-    );
+    const html = pug.renderFile(`${__dirname}/views/emails/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject,
+    });
     // 2) define email options
     const mailOptions = {
       from: this.from,
