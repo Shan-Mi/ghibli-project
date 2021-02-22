@@ -246,8 +246,7 @@ export const updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
 
-  // 4) Log user in, send JWT
-  createSendToken(user, 200, req, res);
+  res.status(200).send({ status: "success" });
 });
 
 export const sendVerifyEmail = catchAsync(async (req, res, next) => {
@@ -264,7 +263,6 @@ export const sendVerifyEmail = catchAsync(async (req, res, next) => {
   )}/api/v1/users/verifyEmail/${verifyToken}`;
 
   await new Email(user, url).sendWelcome();
-  // createSendToken(user, 201, req, res);
 
   next();
 });
