@@ -1,9 +1,9 @@
 # Ghibli-films-site-project
 
 ## TODO:
-1) user's email needs to be verified
-2) refactor private header token part, cuz now cookie works fine.
-
+1) refactor private header token part, cuz now cookie works fine.
+2) update password
+3) create admin panel for updating and creating films data
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
 
 ## DONE:
@@ -22,6 +22,7 @@
 13) once a user click like-btn, likesCount increase by 1 (only once) by inserting user's id into likedBy array on reviewsModel, and populate likedCount
 14) Remove unused components, use ErrorMessage and error/setError from context for errorHandling globally.
 15) LikedBy heart shows different color, if the user has liked, then it's red-400, otherwise it is red-200; once been liked by currUser, it will become red-400
+16) user's email needs to be verified to login
 ## RUN
 ```
 # Run frontend (:3000) & backend (:8080) development mode
