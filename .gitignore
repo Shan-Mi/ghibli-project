@@ -31,3 +31,5 @@ server/config.env
 config.env
 
 server/public
+
+server/data
