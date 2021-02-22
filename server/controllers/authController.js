@@ -67,13 +67,12 @@ export const signup = catchAsync(async (req, res, next) => {
   const verifyToken = newUser.createVerifyEmailToken();
   await newUser.save({ validateBeforeSave: false });
 
-  const url = `${req.protocol}://${req.get("host")}/me`; // this is for serverside
-  const newUrl = `${req.protocol}://${req.get(
+  const url = `${req.protocol}://${req.get(
     "host"
   )}/api/v1/users/verifyEmail/${verifyToken}`;
 
-  await new Email(newUser, newUrl).sendWelcome(); //
-  return res.status(200).json({ status: "success" });
+  await new Email(newUser, url).sendWelcome(); //
+  res.status(200).json({ status: "success" });
   // createSendToken(newUser, 201, req, res);
 });
 
@@ -86,8 +85,7 @@ export const login = catchAsync(async (req, res, next) => {
 
   // 2) check if user exists && password is correct
   const user = await User.findOne({ email }).select("+password +active");
-  // const correct = await user.correctPassword(password, user.password);
-  // now if the user doesnot exist, it will not run the correct function
+  // now if the user does not exist, it will not run the correct function
 
   // check if user is still active
   if (user.active === false) {
@@ -102,7 +100,7 @@ export const login = catchAsync(async (req, res, next) => {
   if (!user.isVerified) {
     return next(new AppError(`User's email needs to be verified first`, 401));
   }
-
+  // check if password consist (backend check)
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
@@ -246,9 +244,7 @@ export const updatePassword = catchAsync(async (req, res, next) => {
   // 3) if so, update password
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
-  // user.passwordCurrent = req.body.passwordCurrent;
   await user.save();
-  // User.findByIdAndUpdate
 
   // 4) Log user in, send JWT
   createSendToken(user, 200, req, res);

@@ -33,7 +33,7 @@ export const resetPassword = async (payload, token) =>
     privateHeaders(token)
   );
 
-export const getErrorMessage = (e) => e.response.data.message;
+export const getErrorMessage = (e) => e.response?.data.message;
 
 export const updateUser = async (payload, token) =>
   await axios.patch(`${URL}users/updateMe`, payload, privateHeaders(token));

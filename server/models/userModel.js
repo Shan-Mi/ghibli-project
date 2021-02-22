@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "A user must have a name"], // a validator
+      maxlength: 30,
     },
     email: {
       type: String,
@@ -15,6 +16,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       validate: [validator.isEmail, "Please provide a valid email"],
+      maxlength: 254,
     },
     photo: {
       type: String,
@@ -97,12 +99,6 @@ userSchema.pre("save", function (next) {
 // in case user wanna delete their account,
 // we simply set user's active status to be false,
 // in case the user will return in the future.
-// userSchema.pre(/^find/, function (next) {
-//   // this points to the current query
-//   // before getAllUsers run User.find()
-//   this.find({ active: { $ne: false } }); // not equal to
-//   next();
-// });
 
 // instance method, userPassword is hashed, candidatePassword is not hashed
 userSchema.methods.correctPassword = async function (
@@ -133,7 +129,6 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest("hex");
 
-  // console.log({ resetToken }, this.passwordResetToken);
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
@@ -155,82 +150,3 @@ userSchema.methods.createVerifyEmailToken = function () {
 const User = mongoose.model("user", userSchema);
 
 export default User;
-
-/* 
-
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
-
-const userSchema = new mongoose.Schema(
-  {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true
-    },
-
-    password: {
-      type: String,
-      required: true
-    },
-    settings: {
-      theme: {
-        type: String,
-        required: true,
-        default: 'dark'
-      },
-      notifications: {
-        type: Boolean,
-        required: true,
-        default: true
-      },
-      compactMode: {
-        type: Boolean,
-        required: true,
-        default: false
-      }
-    }
-  },
-  { timestamps: true }
-)
-
-userSchema.pre('save', function(next) {
-  if (!this.isModified('password')) {
-    return next()
-  }
-
-  bcrypt.hash(this.password, 8, (err, hash) => {
-    if (err) {
-      return next(err)
-    }
-
-    this.password = hash
-    next()
-  })
-})
-
-userSchema.methods.checkPassword = function(password) {
-  const passwordHash = this.password
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(password, passwordHash, (err, same) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(same)
-    })
-  })
-}
-
-export const User = mongoose.model('user', userSchema)
-
-*/
-
-/* 
-- Create a long random string (128 characters is usually good) with a crypto library and store it in your database with a reference to the User ID
-- Send an email to the supplied email address with the hash as part of a link pointing back to a route on your server
-When a user clicks the link and hits your route, check for the hash passed in the URL
-- If the hash exists in the database, get the related user and set their active property to true
-- Delete the hash from the database, it is no longer needed
-*/

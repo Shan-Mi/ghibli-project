@@ -14,10 +14,13 @@ const ResetPage = () => {
 
     try {
       const payload = { email: emailRef.current?.value };
-      const res = await sendResetPassword(payload);
-      setError({ hidden: false, message: res });
+      const {
+        data: { message },
+      } = await sendResetPassword(payload);
+      // console.log(message);
+      setError({ hidden: false, message: message });
       setTimeout(() => {
-        history.push("/resetPassword");
+        history.push("/result");
       }, 3000);
     } catch (e) {
       // console.error(getErrorMessage(e));
