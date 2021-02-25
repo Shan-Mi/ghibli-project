@@ -263,7 +263,7 @@ export const sendVerifyEmail = catchAsync(async (req, res, next) => {
   )}/api/v1/users/verifyEmail/${verifyToken}`;
 
   await new Email(user, url).sendWelcome();
-
+  res.status(200).send({ status: "success" });
   next();
 });
 
