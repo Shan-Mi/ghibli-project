@@ -65,12 +65,16 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="">
+    <main className="px-20">
       <ErrorMessage />
-      <form
-        className="pt-5 flex-col px-20 pb-10 border-b border-light"
-        onSubmit={handleSubmit}
-      >
+      <h1 className="font-Montserrat font-semibold text-2xl text-center py-5">
+        Edit your profile
+      </h1>
+      <h2 className="font-Amaranth text-xl mt-5 text-gray-800">
+        Change avatar:
+      </h2>
+
+      <form className="pt-5 flex-col pb-10" onSubmit={handleSubmit}>
         <div className="flex-col ">
           <label className="block" htmlFor="name">
             Name:
@@ -80,7 +84,7 @@ const ProfilePage = () => {
             id="name"
             type="text"
             name="name"
-            value={name}
+            defaultValue={name}
           />
         </div>
         <div>
@@ -92,12 +96,15 @@ const ProfilePage = () => {
             id="email"
             type="text"
             name="email"
-            value={email}
+            defaultValue={email}
           />
         </div>
+
         <div>
-          <img className="h-28" alt="user" src={avatar} />
-          <p>{photo}</p>
+          <div className="flex items-end mb-5">
+            <img className="h-28 mr-5 rounded-full" alt="user" src={avatar} />
+            <p>{photo}</p>
+          </div>
           <input type="file" accept="image/*" id="photo" name="photo" />
         </div>
 
@@ -106,7 +113,11 @@ const ProfilePage = () => {
         </button>
       </form>
 
-      <form className="pt-5 flex-col px-20 pb-10" onSubmit={handleChangePsw}>
+      <hr className="mt-5" />
+      <h2 className="font-Amaranth text-xl mt-5 text-gray-800">
+        Change Password:
+      </h2>
+      <form className="pt-5 flex-col pb-10" onSubmit={handleChangePsw}>
         <div className="flex-col ">
           <label className="block" htmlFor="currPsw">
             Current Password
@@ -117,6 +128,7 @@ const ProfilePage = () => {
             type="password"
             name="currPsw"
             ref={currPsw}
+            autoComplete
           />
         </div>
         <div className="flex-col">
@@ -129,6 +141,7 @@ const ProfilePage = () => {
             type="password"
             name="psw1"
             ref={psw}
+            autoComplete
           />
         </div>
         <div>
@@ -141,6 +154,7 @@ const ProfilePage = () => {
             type="password"
             name="psw2"
             ref={pswConfirm}
+            autoComplete
           />
         </div>
 
@@ -148,7 +162,7 @@ const ProfilePage = () => {
           Update Password
         </button>
       </form>
-    </div>
+    </main>
   );
 };
 
