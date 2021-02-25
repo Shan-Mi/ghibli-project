@@ -66,4 +66,8 @@
   .filmEditLabel {
     @apply box-border w-28 editLabel
   }
+
+  .adminTitle{
+    @apply text-center text-3xl font-Amaranth py-5 border-b-4
+  }
 }
