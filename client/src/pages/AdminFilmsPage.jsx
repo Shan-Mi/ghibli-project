@@ -16,28 +16,11 @@ const AdminFilmsPage = () => {
     setFilms(films);
   }, [films]);
 
-  const sortByTitle = () => {
-    if (!update) {
-      films.sort((a, b) => a.title.localeCompare(b.title));
-    } else {
-      films.sort((b, a) => a.title.localeCompare(b.title));
-    }
-    setUpdate(!update);
-  };
-  const sortByTime = () => {
-    if (update) {
-      films.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
-    } else {
-      films.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
-    }
-    setUpdate(!update);
-  };
-
   const sortBy = (query) => {
     if (update) {
-      films.sort((a, b) => a.query.localeCompare(b.query));
+      films.sort((a, b) => a[query].localeCompare(b[query]));
     } else {
-      films.sort((b, a) => a.query.localeCompare(b.query));
+      films.sort((b, a) => a[query].localeCompare(b[query]));
     }
     setUpdate(!update);
   };
@@ -53,8 +36,18 @@ const AdminFilmsPage = () => {
       <table className="table-fixed w-11/12 font-Montserrat">
         <thead>
           <tr className="text-xl h-20">
-            <th className="w-6/12 ">Title</th>
-            <th className="w-4/12">CreatedAt</th>
+            <th
+              className="w-6/12 cursor-pointer"
+              onClick={() => sortBy("title")}
+            >
+              Title
+            </th>
+            <th
+              className="w-4/12 cursor-pointer"
+              onClick={() => sortBy("createdAt")}
+            >
+              CreatedAt
+            </th>
             <th className="w-2/12">Edit</th>
           </tr>
         </thead>
