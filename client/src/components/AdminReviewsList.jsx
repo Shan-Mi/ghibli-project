@@ -2,9 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const AdminReviewsList = ({ review }) => {
-  const handleEditReview = () => {
-    console.log("edit review...");
-  };
   return (
     <tr className="h-10 transform transition duration-300 hover:bg-red-50 ">
       <td className="text-center">{review.title}</td>

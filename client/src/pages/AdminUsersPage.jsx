@@ -7,6 +7,7 @@ import AdminUsersList from "../components/AdminUsersList";
 const AdminUsersPage = () => {
   const [users, setUsers] = useState();
   const [update, setUpdate] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     getAllUsers().then((res) => setUsers(res.data.data.users));
@@ -16,14 +17,10 @@ const AdminUsersPage = () => {
     setUsers(users);
   }, [users]);
 
-  const sortByName = () => {
-    if (!update) {
-      users.sort((a, b) => a.name.localeCompare(b.name));
-    } else {
-      users.sort((b, a) => a.name.localeCompare(b.name));
-    }
-    setUpdate(!update);
-  };
+  useEffect(() => {
+    getAllUsers().then((res) => setUsers(res.data.data.users));
+  }, [isDeleted]);
+
   const sortByStatus = () => {
     if (update) {
       users.sort((a, b) =>
@@ -33,6 +30,15 @@ const AdminUsersPage = () => {
       users.sort((b, a) =>
         a.active.toString().localeCompare(b.active.toString())
       );
+    }
+    setUpdate(!update);
+  };
+
+  const sortBy = (query) => {
+    if (update) {
+      users.sort((a, b) => a[query].localeCompare(b[query]));
+    } else {
+      users.sort((b, a) => a[query].localeCompare(b[query]));
     }
     setUpdate(!update);
   };
@@ -47,8 +53,17 @@ const AdminUsersPage = () => {
       <table className="table-fixed w-11/12 font-Montserrat">
         <thead>
           <tr className="text-xl h-20">
-            <th className="w-6/12 cursor-pointer" onClick={sortByName}>
+            <th
+              className="w-6/12 cursor-pointer"
+              onClick={() => sortBy("name")}
+            >
               User's Name
+            </th>
+            <th
+              className="w-4/12 cursor-pointer"
+              onClick={() => sortBy("email")}
+            >
+              Email
             </th>
             <th className="w-4/12 cursor-pointer" onClick={sortByStatus}>
               Account Status
@@ -59,7 +74,11 @@ const AdminUsersPage = () => {
         <tbody>
           {users &&
             users.map((user, index) => (
-              <AdminUsersList user={user} key={`user-${index}`} />
+              <AdminUsersList
+                user={user}
+                key={`user-${index}`}
+                setIsDeleted={setIsDeleted}
+              />
             ))}
         </tbody>
       </table>

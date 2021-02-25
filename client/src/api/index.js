@@ -60,3 +60,6 @@ export const getAllUsers = async () => await axios.get(`${URL}users`);
 
 export const updateFilm = async (payload, filmId) =>
   await axios.patch(`${URL}films/${filmId}`, payload);
+
+export const deleteUserByAdmin = async (userId) =>
+  await axios.delete(`${URL}users/${userId}`);
