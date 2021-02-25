@@ -52,7 +52,10 @@ const AdminFilmsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {films && films.map((film) => <AdminFilmsList film={film} />)}
+          {films &&
+            films.map((film, index) => (
+              <AdminFilmsList film={film} key={`film-${index}`} />
+            ))}
         </tbody>
       </table>
     </div>

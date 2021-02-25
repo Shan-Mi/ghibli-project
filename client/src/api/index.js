@@ -57,3 +57,6 @@ export const updatePassword = async (payload) =>
 export const getAllReviews = async () => await axios.get(`${URL}reviews`);
 
 export const getAllUsers = async () => await axios.get(`${URL}users`);
+
+export const updateFilm = async (payload, filmId) =>
+  await axios.patch(`${URL}films/${filmId}`, payload);

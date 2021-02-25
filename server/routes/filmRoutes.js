@@ -1,5 +1,5 @@
 import express from "express";
-import { restrictTo } from "../controllers/authController.js";
+import { protect, restrictTo } from "../controllers/authController.js";
 import {
   getFilms,
   getOneFilm,
@@ -10,9 +10,15 @@ import reviewRouter from "../routes/reviewRoutes.js";
 
 const router = express.Router();
 
-router.route("/").get(getFilms).post(restrictTo("admin"), createOneFilm);
+router
+  .route("/")
+  .get(getFilms)
+  .post(protect, restrictTo("admin"), createOneFilm);
 
-router.route("/:id").get(getOneFilm).patch(restrictTo("admin"), updateOneFilm);
+router
+  .route("/:id")
+  .get(getOneFilm)
+  .patch(protect, restrictTo("admin"), updateOneFilm);
 
 // nested route for each review for each film
 router.use("/:filmId/reviews", reviewRouter);

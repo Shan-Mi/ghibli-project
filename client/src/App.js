@@ -14,7 +14,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import CheckYourEmailPage from "./pages/CheckYourEmailPage";
 import Footer from "./components/Footer";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
-import EditFilmPage from "./pages/EditFilmPage";
+import AdminEditFilmPage from "./pages/AdminEditFilmPage";
 import AdminPage from "./pages/AdminPage";
 import AdminFilmsPage from "./pages/AdminFilmsPage";
 import AdminReviewsPage from "./pages/AdminReviewsPage";
@@ -47,7 +47,11 @@ function App() {
 
         <Route path="/admin" exact component={AdminPage} />
         <Route path="/admin/films" exact component={AdminFilmsPage} />
-        <Route path="/admin/films/:id/edit" exact component={EditFilmPage} />
+        <Route
+          path="/admin/films/:id/edit"
+          exact
+          component={AdminEditFilmPage}
+        />
         <Route path="/admin/reviews" exact component={AdminReviewsPage} />
         <Route
           path="/admin/reviews/:id"

@@ -62,4 +62,8 @@
   .editInput {
     @apply p-3 bg-blue-100 rounded-md w-full my-3
   }
+
+  .filmEditLabel {
+    @apply box-border w-28 editLabel
+  }
 }
