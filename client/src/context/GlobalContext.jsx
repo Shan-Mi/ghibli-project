@@ -24,8 +24,6 @@ const GlobalContext = ({ children }) => {
         setUser,
         films,
         setFilms,
-        // token,
-        // setToken,
         error,
         setError,
         status,

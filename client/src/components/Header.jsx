@@ -15,6 +15,7 @@ const Header = () => {
     const res = Object.keys(user).length ? true : false;
     // setIsLoggedIn(res);
     setStatus({ ...status, isLoggedIn: res });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setStatus, user]);
 
   const handleLogout = () => {

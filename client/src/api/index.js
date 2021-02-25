@@ -53,3 +53,5 @@ export const sendVerifyEmail = async (payload) =>
 
 export const updatePassword = async (payload) =>
   await axios.patch(`${URL}users/updateMyPassword`, payload);
+
+export const getAllReviews = async () => await axios.get(`${URL}reviews`);

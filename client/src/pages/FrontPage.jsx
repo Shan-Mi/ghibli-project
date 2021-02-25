@@ -14,6 +14,7 @@ const FrontPage = () => {
       } = await fetchFilms();
       const filmsData = films.films;
       setFilms(filmsData);
+      localStorage.setItem("films", JSON.stringify(filmsData));
     };
     getFilms();
   }, [setFilms]);

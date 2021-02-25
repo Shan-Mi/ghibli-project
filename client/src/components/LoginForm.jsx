@@ -5,7 +5,7 @@ import { GhibliContext } from "../context/GlobalContext";
 import ErrorMessage from "./ErrorMessage";
 
 const LoginForm = () => {
-  const { setUser, status, setStatus, setError } = useContext(GhibliContext);
+  const { setUser, setStatus, setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -15,8 +15,6 @@ const LoginForm = () => {
       const email = emailRef.current?.value;
       const password = passwordRef.current?.value;
       const payload = { email, password };
-      // setIsLoggedIn(true);
-      setStatus({ ...status, isLoggedIn: true });
 
       const {
         data: {
@@ -25,6 +23,7 @@ const LoginForm = () => {
       } = await login(payload);
 
       setUser(user);
+      setStatus({ isLoggedIn: true });
       localStorage.setItem("user", JSON.stringify(user));
     } catch (e) {
       setError({ message: getErrorMessage(e), hidden: false });
