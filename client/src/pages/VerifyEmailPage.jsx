@@ -1,23 +1,35 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getErrorMessage, sendVerifyEmail } from "../api";
 import ErrorMessage from "../components/ErrorMessage";
 import { GhibliContext } from "../context/GlobalContext";
 
 const VerifyEmailPage = () => {
-  const { setError } = useContext(GhibliContext);
+  const { status, setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const history = useHistory();
+
+  // useEffect(() => {
+  //   if (status.isVerified) {
+  //     console.log("you are verified");
+  //     return;
+  //   }
+  //   console.log("you need to verify your email account first");
+  // }, []);
 
   const handleSendVerification = async (e) => {
     e.preventDefault();
 
     try {
       const payload = { email: emailRef.current?.value };
-      const res = await sendVerifyEmail(payload);
-      setError({ hidden: false, message: res });
+      await sendVerifyEmail(payload);
+
+      setError({
+        hidden: false,
+        message: `Check your email ${emailRef.current?.value} for verfication`,
+      });
       setTimeout(() => {
-        history.push("/resetPassword");
+        history.push("/");
       }, 3000);
     } catch (e) {
       setError({ hidden: false, message: getErrorMessage(e) });
