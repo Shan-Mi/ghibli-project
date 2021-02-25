@@ -54,7 +54,7 @@ function App() {
         />
         <Route path="/admin/reviews" exact component={AdminReviewsPage} />
         <Route
-          path="/admin/reviews/:id"
+          path="/admin/reviews/:id/edit"
           exact
           component={AdminEditReviewPage}
         />
