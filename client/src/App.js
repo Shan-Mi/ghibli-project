@@ -16,9 +16,10 @@ import Footer from "./components/Footer";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import EditFilmPage from "./pages/EditFilmPage";
 import AdminPage from "./pages/AdminPage";
-import AdminFilmsReviewPage from "./pages/AdminFilmsReviewPage";
+import AdminFilmsPage from "./pages/AdminFilmsPage";
 import AdminReviewsPage from "./pages/AdminReviewsPage";
 import AdminEditReviewPage from "./pages/AdminEditReviewPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
 
 function App() {
   const { user, status } = useContext(GhibliContext);
@@ -45,10 +46,15 @@ function App() {
         <Route path="/verifyEmail" exact component={VerifyEmailPage} />
 
         <Route path="/admin" exact component={AdminPage} />
-        <Route path="/admin/films" exact component={AdminFilmsReviewPage} />
+        <Route path="/admin/films" exact component={AdminFilmsPage} />
         <Route path="/admin/films/:id/edit" exact component={EditFilmPage} />
         <Route path="/admin/reviews" exact component={AdminReviewsPage} />
-        <Route path="/admin/reviews/:id" exact component={AdminEditReviewPage} />
+        <Route
+          path="/admin/reviews/:id"
+          exact
+          component={AdminEditReviewPage}
+        />
+        <Route path="/admin/users" component={AdminUsersPage} />
 
         <Route path="*" component={Page404} />
       </Switch>

@@ -25,10 +25,16 @@ const AdminPage = () => {
           Edit films
         </button>
         <button
-          className="editBtn"
+          className="editBtn mr-10"
           onClick={() => history.push("/admin/reviews")}
         >
           Edit Reviews
+        </button>
+        <button
+          className="editBtn"
+          onClick={() => history.push("/admin/users")}
+        >
+          Edit Users
         </button>
       </div>
     </div>
