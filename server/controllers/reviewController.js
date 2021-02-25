@@ -4,7 +4,18 @@ import * as factory from "./handlerFactory.js";
 import AppError from "../utils/appError.js";
 import mongoose from "mongoose";
 
-export const getReviews = factory.getAll(Review, "reviews");
+// export const getReviews = factory.getAll(Review, "reviews")
+export const getReviews = catchAsync(async (req, res, next) => {
+  const doc = await Review.find({}).populate("film");
+  // SEND RESPONSE
+  res.status(200).json({
+    status: "success",
+    results: doc.length,
+    data: {
+      reviews: doc,
+    },
+  });
+});
 
 export const createReview = catchAsync(async (req, res, next) => {
   // HERE, we need to get user.id from params,
