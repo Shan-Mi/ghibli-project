@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import AdminEditBtns from "../components/AdminEditGroup";
 
 const AdminPage = () => {
   const history = useHistory();
@@ -18,24 +19,7 @@ const AdminPage = () => {
       </h1>
       <p className="text-center">Today is {new Date().toLocaleDateString()}</p>
       <div className="flex justify-center h-2/4 items-center">
-        <button
-          className="editBtn mr-10"
-          onClick={() => history.push("/admin/films")}
-        >
-          Edit films
-        </button>
-        <button
-          className="editBtn mr-10"
-          onClick={() => history.push("/admin/reviews")}
-        >
-          Edit Reviews
-        </button>
-        <button
-          className="editBtn"
-          onClick={() => history.push("/admin/users")}
-        >
-          Edit Users
-        </button>
+      <AdminEditBtns />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 const AdminEditReviewPage = () => {
   const history = useHistory();
   const handleGoback = () => {
-    history.push("/admin");
+    history.push("/admin/reviews");
   };
 
   return (
@@ -15,7 +15,7 @@ const AdminEditReviewPage = () => {
       >
         Go back
       </button>
-      Admin edit review page
+      <h1 className="adminTitle">Admin edit review page</h1>
     </div>
   );
 };

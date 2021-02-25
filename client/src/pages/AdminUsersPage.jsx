@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { getAllUsers } from "../api";
+import AdminEditGroup from "../components/AdminEditGroup";
+import AdminGoBackBtn from "../components/AdminGoBackBtn";
 import AdminUsersList from "../components/AdminUsersList";
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState();
   const [update, setUpdate] = useState(false);
-  const history = useHistory();
-  
+
   useEffect(() => {
     getAllUsers().then((res) => setUsers(res.data.data.users));
   }, []);
@@ -37,18 +37,13 @@ const AdminUsersPage = () => {
     setUpdate(!update);
   };
 
-  const handleGoback = () => {
-    history.push("/admin");
-  };
-
   return (
-    <div className="min-h-fullHeight flex justify-center mt-5 relative">
-      <button
-        className="absolute bg-primary -top-3 left-10 transform transition duration-250 hover:scale-110 px-5 py-2 border-t-4 border-r-4 rounded-md text-gray-50"
-        onClick={handleGoback}
-      >
-        Go back
-      </button>
+    <div className="min-h-fullHeight flex-col justify-center mt-5 relative">
+      <div className="flex justify-center">
+        <AdminGoBackBtn marginR="mr-20" location="/admin" />
+        <AdminEditGroup />
+      </div>
+      <h1 className="adminTitle">Edit Users</h1>
       <table className="table-fixed w-11/12 font-Montserrat">
         <thead>
           <tr className="text-xl h-20">

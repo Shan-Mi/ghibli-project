@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getErrorMessage, updateFilm } from "../api";
-import { TiArrowBack } from "react-icons/ti";
-import { Link } from "react-router-dom";
+import AdminGoBackBtn from "../components/AdminGoBackBtn";
 
 const AdminEditFilmPage = (props) => {
   const [film, setFilm] = useState({
@@ -30,13 +29,7 @@ const AdminEditFilmPage = (props) => {
 
   return (
     <div className="px-20 min-h-fullHeight relative">
-      <Link
-        className="w-max flex items-center text-xl bg-gray-200 px-3 py-1 rounded-full sticky top-0 -ml-10 transform hover:bg-gray-300 delay-200 ease-in-out"
-        to="/admin/films"
-      >
-        <TiArrowBack className="text-primary" />
-        <span className="text-primary">Go back</span>
-      </Link>
+      <AdminGoBackBtn location="/admin/films" />
 
       <h1 className="font-Montserrat text-2xl text-center my-5">
         Edit film detail:

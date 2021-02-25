@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { getAllReviews } from "../api";
+import AdminEditGroup from "../components/AdminEditGroup";
+import AdminGoBackBtn from "../components/AdminGoBackBtn";
 import AdminReviewsList from "../components/AdminReviewsList";
 
 const AdminReviewsPage = () => {
   const [reviews, setReviews] = useState();
   const [update, setUpdate] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     getAllReviews()
       .then((res) => {
-        console.log(res.data.data.reviews);
+        // console.log(res.data.data.reviews);
         setReviews(res.data.data.reviews);
       })
       .catch((e) => console.error(e.response));
@@ -36,7 +36,6 @@ const AdminReviewsPage = () => {
     }
 
     if (update) {
-      console.log([query]);
       reviews.sort((a, b) => a[query].localeCompare(b[query]));
     } else {
       reviews.sort((b, a) => a[query].localeCompare(b[query]));
@@ -44,18 +43,13 @@ const AdminReviewsPage = () => {
     setUpdate(!update);
   };
 
-  const handleGoback = () => {
-    history.push("/admin");
-  };
-
   return (
-    <div className="min-h-fullHeight flex justify-center mt-5 relative">
-      <button
-        className="absolute bg-primary -top-3 left-10 transform transition duration-250 hover:scale-110 px-5 py-2 border-t-4 border-r-4 rounded-md text-gray-50"
-        onClick={handleGoback}
-      >
-        Go back
-      </button>
+    <div className="min-h-fullHeight flex-col justify-center mt-5 relative">
+      <div className="flex justify-center">
+        <AdminGoBackBtn marginR="mr-20" location="/admin" />
+        <AdminEditGroup />
+      </div>
+      <h1 className="adminTitle">Edit Reviews</h1>
 
       <table className="table-fixed w-11/12 font-Montserrat">
         <thead>
@@ -84,12 +78,7 @@ const AdminReviewsPage = () => {
             >
               Film
             </th>
-            <th
-              onClick={() => console.log("editing...")}
-              className="w-2/12 cursor-pointer"
-            >
-              Edit
-            </th>
+            <th className="w-2/12 cursor-pointer">Edit</th>
           </tr>
         </thead>
         <tbody>
