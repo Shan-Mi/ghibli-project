@@ -50,4 +50,16 @@
   .block{
     @apply font-Amaranth text-gray-700
   }
+
+  .editDivStyle {
+    @apply flex my-5 items-center
+  }
+
+  .editLabel {
+    @apply font-Amaranth mr-10 text-xl 
+  }
+
+  .editInput {
+    @apply p-3 bg-blue-100 rounded-md w-full my-3
+  }
 }
