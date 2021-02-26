@@ -74,4 +74,8 @@
   .custom-ui {
     @apply text-center w-128 p-10 bg-blue-500 shadow-md text-white flex-col;
   }
+
+  .aboutMeTextStyle {
+    @apply font-Amaranth text-lg text-dark  mb-5;
+  }
 }
