@@ -9,15 +9,6 @@ const AdminReviewsPage = () => {
   const [update, setUpdate] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
-  // useEffect(() => {
-  //   getAllReviews()
-  //     .then((res) => {
-  //       // console.log(res.data.data.reviews);
-  //       setReviews(res.data.data.reviews);
-  //     })
-  //     .catch((e) => console.error(e.response));
-  // }, []);
-
   useEffect(() => {
     getAllReviews().then((res) => setReviews(res.data.data.reviews));
   }, [isDeleted]);
@@ -25,16 +16,29 @@ const AdminReviewsPage = () => {
   const sortBy = (query) => {
     const newQuery = query.split(".");
 
+    const nullUserReview = reviews.filter((review) => review.user === null);
+    const filteredBody = reviews.filter((review) => review.user !== null);
+
     if (newQuery.length > 1) {
       // we know in our condition, max length === 2
       if (update) {
-        reviews.sort((a, b) =>
-          a[newQuery[0]][newQuery[1]].localeCompare(b[newQuery[0]][newQuery[1]])
-        );
+        setReviews([
+          ...nullUserReview,
+          ...filteredBody.sort((a, b) =>
+            a[newQuery[0]][newQuery[1]].localeCompare(
+              b[newQuery[0]][newQuery[1]]
+            )
+          ),
+        ]);
       } else {
-        reviews.sort((b, a) =>
-          a[newQuery[0]][newQuery[1]].localeCompare(b[newQuery[0]][newQuery[1]])
-        );
+        setReviews([
+          ...filteredBody.sort((b, a) =>
+            a[newQuery[0]][newQuery[1]].localeCompare(
+              b[newQuery[0]][newQuery[1]]
+            )
+          ),
+          ...nullUserReview,
+        ]);
       }
       setUpdate(!update);
       return;
