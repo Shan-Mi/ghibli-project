@@ -8,11 +8,18 @@ import Review from "./Review";
 import ReviewCreater from "./ReviewCreater";
 import ErrorMessage from "./ErrorMessage";
 import cx from "classnames";
+// import { Skeleton } from "antd";
+import CircleLoading from "react-loadingg/lib/CircleLoading";
 
 const FilmDetail = () => {
   const { setFilms, status } = useContext(GhibliContext);
   const [film, setFilm] = useState({});
   const [openNewReview, setOpenNewReview] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState({
+    active: true,
+    loading: true,
+  });
+
   // const [openEditReview, setOpenEditReview] = useState(false);
   const slug = useLocation().pathname.split("/")[2];
   const history = useHistory();
@@ -26,6 +33,7 @@ const FilmDetail = () => {
       setFilms(filmsData);
       const [currentFilm] = getOneFilm(slug, films.films);
       setFilm(currentFilm);
+      setLoadingStatus({ ...loadingStatus, loading: false });
     };
     // TODO: NEED TO avoid multiple fetching data, if data is in context, we don't need to fetch from api.
     getFilms();
@@ -48,21 +56,25 @@ const FilmDetail = () => {
   };
 
   return (
-    <div className="px-10 ">
+    <div className="px-10 min-h-fullHeight">
       <ErrorMessage />
-      <div>
-        <h1 className="text-3xl text-center font-Montserrat py-10 font-bold text-gray-800">
-          {title}
-        </h1>
-        <p className="text-justify font-Montserrat pb-5">{description}</p>
-        <p>{rating}</p>
-        <p>{releasedDate}</p>
+      {loadingStatus.loading ? (
+        <CircleLoading />
+      ) : (
+        <div>
+          <h1 className="text-3xl text-center font-Montserrat py-10 font-bold text-gray-800">
+            {title}
+          </h1>
+          <p className="text-justify font-Montserrat pb-5">{description}</p>
+          <p>Rating: {rating}</p>
+          <p>Released At: {new Date(releasedDate).toLocaleDateString()}</p>
 
-        <ReactPlayer url={trailer} />
+          <ReactPlayer url={trailer} />
 
-        <p>{directors}</p>
-        <p>{runtime}</p>
-      </div>
+          <p>Director: {directors}</p>
+          <p>Runtime: {runtime}</p>
+        </div>
+      )}
 
       <hr className="mt-10" />
 
