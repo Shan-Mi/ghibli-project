@@ -3,22 +3,23 @@ import { getAllUsers } from "../api";
 import AdminEditGroup from "../components/AdminEditGroup";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
 import AdminUsersList from "../components/AdminUsersList";
+import CircleLoading from "react-loadingg/lib/CircleLoading";
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState();
   const [update, setUpdate] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-
-  // useEffect(() => {
-  //   getAllUsers().then((res) => setUsers(res.data.data.users));
-  // }, []);
+  const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
     setUsers(users);
   }, [users]);
 
   useEffect(() => {
-    getAllUsers().then((res) => setUsers(res.data.data.users));
+    getAllUsers().then((res) => {
+      setUsers(res.data.data.users);
+      setIsloading(false);
+    });
   }, [isDeleted]);
 
   const sortByStatus = () => {
@@ -50,39 +51,44 @@ const AdminUsersPage = () => {
         <AdminEditGroup />
       </div>
       <h1 className="adminTitle">Edit Users</h1>
-      <table className="table-fixed w-11/12 font-Montserrat">
-        <thead>
-          <tr className="text-xl h-20">
-            <th
-              className="w-6/12 cursor-pointer"
-              onClick={() => sortBy("name")}
-            >
-              User's Name
-            </th>
-            <th
-              className="w-4/12 cursor-pointer"
-              onClick={() => sortBy("email")}
-            >
-              Email
-            </th>
-            <th className="w-4/12 cursor-pointer" onClick={sortByStatus}>
-              Account Status
-            </th>
-            <th className="w-2/12">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users &&
-            users.map((user, index) => (
-              <AdminUsersList
-                user={user}
-                key={`user-${index}`}
-                setIsDeleted={setIsDeleted}
-                isDeleted={isDeleted}
-              />
-            ))}
-        </tbody>
-      </table>
+
+      {isLoading ? (
+        <CircleLoading />
+      ) : (
+        <table className="table-fixed w-11/12 font-Montserrat">
+          <thead>
+            <tr className="text-xl h-20">
+              <th
+                className="w-6/12 cursor-pointer"
+                onClick={() => sortBy("name")}
+              >
+                User's Name
+              </th>
+              <th
+                className="w-4/12 cursor-pointer"
+                onClick={() => sortBy("email")}
+              >
+                Email
+              </th>
+              <th className="w-4/12 cursor-pointer" onClick={sortByStatus}>
+                Account Status
+              </th>
+              <th className="w-2/12">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.map((user, index) => (
+                <AdminUsersList
+                  user={user}
+                  key={`user-${index}`}
+                  setIsDeleted={setIsDeleted}
+                  isDeleted={isDeleted}
+                />
+              ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

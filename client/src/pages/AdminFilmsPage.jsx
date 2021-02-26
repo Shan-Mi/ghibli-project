@@ -5,18 +5,23 @@ import AdminFilmsList from "../components/AdminFilmsList";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import CircleLoading from "react-loadingg/lib/CircleLoading";
 
 const AdminFilmsPage = () => {
   const [films, setFilms] = useState();
   const [update, setUpdate] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
     setFilms(films);
   }, [films]);
 
   useEffect(() => {
-    fetchFilms().then((res) => setFilms(res.data.data.films));
+    fetchFilms().then((res) => {
+      setFilms(res.data.data.films);
+      setIsloading(false);
+    });
   }, [isDeleted]);
 
   const sortBy = (query) => {
@@ -46,36 +51,41 @@ const AdminFilmsPage = () => {
           </span>
         </Link>
       </div>
-      <table className="table-fixed w-11/12 font-Montserrat mt-10 m-auto">
-        <thead>
-          <tr className="text-xl h-20">
-            <th
-              className="w-6/12 cursor-pointer"
-              onClick={() => sortBy("title")}
-            >
-              Title
-            </th>
-            <th
-              className="w-4/12 cursor-pointer"
-              onClick={() => sortBy("createdAt")}
-            >
-              CreatedAt
-            </th>
-            <th className="w-2/12">Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {films &&
-            films.map((film, index) => (
-              <AdminFilmsList
-                film={film}
-                key={`film-${index}`}
-                setIsDeleted={setIsDeleted}
-                isDeleted={isDeleted}
-              />
-            ))}
-        </tbody>
-      </table>
+
+      {isLoading ? (
+        <CircleLoading />
+      ) : (
+        <table className="table-fixed w-11/12 font-Montserrat mt-10 m-auto">
+          <thead>
+            <tr className="text-xl h-20">
+              <th
+                className="w-6/12 cursor-pointer"
+                onClick={() => sortBy("title")}
+              >
+                Title
+              </th>
+              <th
+                className="w-4/12 cursor-pointer"
+                onClick={() => sortBy("createdAt")}
+              >
+                CreatedAt
+              </th>
+              <th className="w-2/12">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {films &&
+              films.map((film, index) => (
+                <AdminFilmsList
+                  film={film}
+                  key={`film-${index}`}
+                  setIsDeleted={setIsDeleted}
+                  isDeleted={isDeleted}
+                />
+              ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
