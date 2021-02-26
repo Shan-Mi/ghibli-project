@@ -8,22 +8,20 @@ import { logout } from "../api";
 
 const Header = () => {
   const { user, setUser, status, setStatus } = useContext(GhibliContext);
-
   const [isHidden, setIsHidden] = useState(true);
 
   useEffect(() => {
     const res = Object.keys(user).length ? true : false;
-    // setIsLoggedIn(res);
     setStatus({ ...status, isLoggedIn: res });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setStatus, user]);
 
   const handleLogout = () => {
     logout();
-    // setIsLoggedIn(false);
     setStatus({ ...status, isLoggedIn: false });
     setUser({});
     localStorage.removeItem("user");
+    localStorage.removeItem("films");
   };
 
   return (
@@ -106,9 +104,9 @@ const Header = () => {
               <span>Login</span>
             </Link>
           ) : (
-            <button onClick={handleLogout} className="navBar">
+            <Link to="/" onClick={handleLogout} className="navBar">
               <span>Logout</span>
-            </button>
+            </Link>
           )}
         </div>
       </div>
