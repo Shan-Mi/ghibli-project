@@ -5,7 +5,9 @@ import {
   getOneFilm,
   createOneFilm,
   updateOneFilm,
-  deleteOneFilm
+  deleteOneFilm,
+  uploadFilmImages,
+  resizeFilmImages,
 } from "../controllers/filmController.js";
 import reviewRouter from "../routes/reviewRoutes.js";
 
@@ -14,12 +16,24 @@ const router = express.Router();
 router
   .route("/")
   .get(getFilms)
-  .post(protect, restrictTo("admin"), createOneFilm);
+  .post(
+    protect,
+    restrictTo("admin"),
+    uploadFilmImages,
+    resizeFilmImages,
+    createOneFilm
+  );
 
 router
   .route("/:id")
   .get(getOneFilm)
-  .patch(protect, restrictTo("admin"), updateOneFilm)
+  .patch(
+    protect,
+    restrictTo("admin"),
+    uploadFilmImages,
+    resizeFilmImages,
+    updateOneFilm
+  )
   .delete(protect, restrictTo("admin"), deleteOneFilm);
 
 // nested route for each review for each film
