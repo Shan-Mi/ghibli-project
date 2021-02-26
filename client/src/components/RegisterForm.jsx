@@ -1,12 +1,10 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { register } from "../api";
 import { formatInput } from "../utilities";
-import { GhibliContext } from "../context/GlobalContext";
-import ErrorMessage from "./ErrorMessage";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegisterForm = () => {
-  const { setUser, setError } = useContext(GhibliContext);
   const FirstNameInput = useRef();
   const LastNameInput = useRef();
   const EmailInput = useRef();
@@ -19,13 +17,9 @@ const RegisterForm = () => {
       e.preventDefault();
 
       if (PasswordInput.current?.value !== PasswordConfirmInput.current.value) {
-        setError({
-          message: "Passwords are not consistent",
-          hidden: false,
-        });
-        console.error("your psw are not consistent with your password");
-        return;
+        return notifyError("Passwords are not consistent");
       }
+
       const payload = {
         name: `${formatInput(FirstNameInput.current.value)} ${formatInput(
           LastNameInput.current.value
@@ -35,42 +29,26 @@ const RegisterForm = () => {
         passwordConfirm: `${PasswordConfirmInput.current.value}`,
       };
 
-      // const {
-      //   data: {
-      //     data: { user },
-      //   },
-      // } = await register(payload);
-
-      // setUser(user);
       await register(payload);
+      notifySuccess("Your account has been registered successfully");
       history.push("/result");
-
-      // if (result?.data?.data.status === "success") {
-      //   console.log("sent verification mail");
-      //   history.push("/result");
-      //   return;
-      // }
-      // history.push("/");
     } catch (e) {
       if (e.response?.data?.error?.errors?.password?.kind === "minlength") {
-        return setError({
-          message: "Password should have at least 8 char",
-          hidden: false,
-        });
+        return notifyError("Password should have at least 8 char");
       }
 
       if (e.response?.data.name === "MongoError") {
-        return setError({
-          message: "Email already exists",
-          hidden: false,
-        });
+        return notifyError("Email already exists");
       }
     }
   };
 
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
   return (
     <div className="grid place-items-center">
-      <ErrorMessage />
+      <ToastContainer />
       <div className="w-11/12 p-12 bg-white sm:w-8/12 md:w-1/2 lg:w-5/12">
         <h1 className="text-xl font-semibold">
           <span className="block text-center font-Montserrat text-xl mb-5">
@@ -123,7 +101,7 @@ const RegisterForm = () => {
             placeholder="john.doe@company.com"
             autoComplete="email"
             ref={EmailInput}
-            className="inputStyle "
+            className="inputStyle"
             required
           />
           <label htmlFor="password" className="labelStyle mt-2">
@@ -134,7 +112,7 @@ const RegisterForm = () => {
             type="password"
             name="password"
             placeholder="********"
-            autoComplete="new-password"
+            autoComplete="password"
             ref={PasswordInput}
             className="inputStyle"
             required

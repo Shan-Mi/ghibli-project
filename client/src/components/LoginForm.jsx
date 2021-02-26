@@ -2,10 +2,10 @@ import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { getErrorMessage, login } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
-import ErrorMessage from "./ErrorMessage";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginForm = () => {
-  const { setUser, setStatus, setError } = useContext(GhibliContext);
+  const { setUser, setStatus } = useContext(GhibliContext);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -25,15 +25,18 @@ const LoginForm = () => {
       setUser(user);
       setStatus({ isLoggedIn: true });
       localStorage.setItem("user", JSON.stringify(user));
+      notifySuccess("You have successfully logged in.");
     } catch (e) {
-      setError({ message: getErrorMessage(e), hidden: false });
+      notifyError(getErrorMessage(e));
     }
   };
 
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-      <ErrorMessage />
-
+      <ToastContainer />
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 

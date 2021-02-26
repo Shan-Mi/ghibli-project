@@ -1,26 +1,33 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { GhibliContext } from "../context/GlobalContext";
-import { updateUser, updatePassword } from "../api";
+import {
+  updateUser,
+  updatePassword,
+  getErrorMessage,
+  getOneUser,
+} from "../api";
 import { imgURL } from "../constants";
-import ErrorMessage from "../components/ErrorMessage";
+import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
-  const {
-    user: { name, photo, email },
-    setUser,
-    setError,
-  } = useContext(GhibliContext);
-
+  const { user, setUser } = useContext(GhibliContext);
   const [avatar, setAvatar] = useState();
   const currPsw = useRef();
   const psw = useRef();
   const pswConfirm = useRef();
+  const [isAdmin, setIsAdmin] = useState(false);
   // TODO: to remove previous image url from db
-  // const [prevAvatar, setPrevAvatar] = useState();
 
   useEffect(() => {
-    setAvatar(`${imgURL}${photo}`);
-  }, [photo]);
+    setAvatar(`${imgURL}${user.photo}`);
+  }, [user]);
+
+  useEffect(() => {
+    getOneUser(user._id).then((res) =>
+      setIsAdmin(res.data.data.user.role === "admin")
+    );
+  }, [user._id]);
 
   const handleSubmit = async (e) => {
     try {
@@ -38,7 +45,7 @@ const ProfilePage = () => {
       // now we should remove the previous avatar from our db
       // use fs.unlink() async one to do the work
     } catch (e) {
-      console.log(e);
+      console.error(e.response);
     }
   };
 
@@ -52,24 +59,41 @@ const ProfilePage = () => {
     try {
       const result = await updatePassword(payload);
       console.log(result);
+      notifySuccess("Profile information saved successfully");
     } catch (e) {
       console.error(e.response);
-      const {
-        data: { message },
-      } = e.response;
-      setError({
-        hidden: false,
-        message: message,
-      });
+
+      getErrorMessage(e)
+        .split(",")
+        .map((err) => notifyError(err));
     }
   };
 
+  const handleImageLoad = () => {
+    console.log("image loaded successfully");
+  };
+
+  const handleImageError = () => {
+    console.log("something went wrong");
+    setAvatar(`${imgURL}default.jpg`);
+  };
+
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
   return (
     <main className="px-20">
-      <ErrorMessage />
+      <ToastContainer />
       <h1 className="font-Montserrat font-semibold text-2xl text-center py-5">
         Edit your profile
       </h1>
+
+      {isAdmin && (
+        <Link to="/admin" className="primaryBtn w-max bg-dark text-gray-50">
+          Go to Admin Panel
+        </Link>
+      )}
+
       <h2 className="font-Amaranth text-xl mt-5 text-gray-800">
         Change avatar:
       </h2>
@@ -84,7 +108,7 @@ const ProfilePage = () => {
             id="name"
             type="text"
             name="name"
-            defaultValue={name}
+            defaultValue={user.name}
           />
         </div>
         <div>
@@ -96,14 +120,20 @@ const ProfilePage = () => {
             id="email"
             type="text"
             name="email"
-            defaultValue={email}
+            defaultValue={user.email}
           />
         </div>
 
         <div>
           <div className="flex items-end mb-5">
-            <img className="h-28 mr-5 rounded-full" alt="user" src={avatar} />
-            <p>{photo}</p>
+            <img
+              className="h-28 mr-5 rounded-full"
+              alt="user"
+              src={avatar}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+            />
+            <p>{user.photo}</p>
           </div>
           <input type="file" accept="image/*" id="photo" name="photo" />
         </div>
@@ -128,7 +158,7 @@ const ProfilePage = () => {
             type="password"
             name="currPsw"
             ref={currPsw}
-            autoComplete
+            autoComplete="on"
           />
         </div>
         <div className="flex-col">
@@ -141,7 +171,7 @@ const ProfilePage = () => {
             type="password"
             name="psw1"
             ref={psw}
-            autoComplete
+            autoComplete="on"
           />
         </div>
         <div>
@@ -154,7 +184,7 @@ const ProfilePage = () => {
             type="password"
             name="psw2"
             ref={pswConfirm}
-            autoComplete
+            autoComplete="on"
           />
         </div>
 
