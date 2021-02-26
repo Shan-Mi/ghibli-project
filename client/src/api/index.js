@@ -51,6 +51,9 @@ export const updateUser = async (payload) =>
 
 export const getAllUsers = async () => await axios.get(`${URL}users`);
 
+export const getOneUser = async (userId) =>
+  await axios.get(`${URL}users/${userId}`);
+
 /* review */
 // in payload, should have {userId, filmId, title, content}
 export const createNewReview = async (payload, filmId) =>
