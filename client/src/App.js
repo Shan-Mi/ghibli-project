@@ -1,5 +1,8 @@
+import { useContext } from "react";
+import { GhibliContext } from "./context/GlobalContext";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import FrontPage from "./pages/FrontPage";
 import FilmPage from "./pages/FilmPage";
 import LoginPage from "./pages/LoginPage";
@@ -8,11 +11,8 @@ import ProfilePage from "./pages/ProfilePage";
 import Page404 from "./pages/Page404";
 import About from "./pages/About";
 import ResetPage from "./pages/ResetPage";
-import { GhibliContext } from "./context/GlobalContext";
-import { useContext } from "react";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import CheckYourEmailPage from "./pages/CheckYourEmailPage";
-import Footer from "./components/Footer";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import AdminEditFilmPage from "./pages/AdminEditFilmPage";
 import AdminPage from "./pages/AdminPage";
@@ -20,7 +20,7 @@ import AdminFilmsPage from "./pages/AdminFilmsPage";
 import AdminReviewsPage from "./pages/AdminReviewsPage";
 import AdminEditReviewPage from "./pages/AdminEditReviewPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
-import AdminCreateFilmPage from "./pages/AdminCreateFilmPage"; 
+import AdminCreateFilmPage from "./pages/AdminCreateFilmPage";
 
 function App() {
   const { user, status } = useContext(GhibliContext);
