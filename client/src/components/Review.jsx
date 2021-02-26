@@ -81,8 +81,9 @@ const Review = ({ review }) => {
   };
 
   useEffect(() => {
-    setAvatar(`${imgURL}${user.photo}`);
+    setAvatar(`${imgURL}${user?.photo}`);
   }, [user]);
+
   const handleImageLoad = () => {
     console.log("image loaded successfully");
   };
