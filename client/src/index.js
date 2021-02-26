@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import "antd/dist/antd.css";
 import App from "./App";
 import axios from "axios";
 import reportWebVitals from "./reportWebVitals";

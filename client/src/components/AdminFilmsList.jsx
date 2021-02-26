@@ -2,7 +2,6 @@ import React from "react";
 import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { Link, useHistory } from "react-router-dom";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import { GenerateConfirmUI } from "../utilities";
 import { deleteFilmByAdmin } from "../api";
 

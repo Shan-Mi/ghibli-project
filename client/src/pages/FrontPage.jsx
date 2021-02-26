@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { fetchFilms } from "../api";
 import FilmReview from "../components/FilmReview";
 import { GhibliContext } from "../context/GlobalContext";
-
+import { Spin, Alert } from "antd";
 // Here comes films reviews part.
 const FrontPage = () => {
   const { films, setFilms } = useContext(GhibliContext);
@@ -30,9 +30,13 @@ const FrontPage = () => {
           </div>
         </div>
       ) : (
-        <h1 className="text-3xl font-Amaranth italic">
-          Something went wrong, please try again later.
-        </h1>
+        <Spin tip="Loading...">
+          <Alert
+            message="Alert message title"
+            description="Further details about the context of this alert."
+            type="info"
+          />
+        </Spin>
       )}
     </main>
   );

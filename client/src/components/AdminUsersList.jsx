@@ -1,7 +1,6 @@
 import React from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { deleteUserByAdmin } from "../api";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import { GenerateConfirmUI } from "../utilities";
 
 const AdminUsersList = ({ user, setIsDeleted, isDeleted }) => {
