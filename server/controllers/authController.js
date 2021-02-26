@@ -40,11 +40,12 @@ const createSendToken = (user, statusCode, req, res) => {
   }
 
   user.password = undefined;
-
+  // set cookie on client side
   res.cookie("jwt", token, cookieOptions);
+  // also send back data, now we don't send back token directly
   res.status(statusCode).send({
     status: "success",
-    token,
+    // token,
     data: {
       user,
     },
@@ -109,7 +110,6 @@ export const login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
-// Set-Cookie: flavor=choco; SameSite=None; Secure
 export function logout(req, res) {
   res.status(202).clearCookie("jwt").json({ status: "success" });
   // ADD this, try to see if it works
