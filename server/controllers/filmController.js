@@ -62,3 +62,4 @@ export const getFilms = factory.getAll(Film, "films");
 export const getOneFilm = factory.getOne(Film, "film");
 export const createOneFilm = factory.createOne(Film, "film");
 export const updateOneFilm = factory.updateOne(Film, "film");
+export const deleteOneFilm = factory.deleteOne(Film);
