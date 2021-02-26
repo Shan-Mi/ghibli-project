@@ -17,26 +17,24 @@ const multerFilter = (req, file, cb) => {
 
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
-export const uploadTourImages = upload.fields([
+export const uploadFilmImages = upload.fields([
   { name: "imageCover", maxCount: 1 },
   { name: "images", maxCount: 3 },
 ]);
 
-// upload.single('image'); req.file
-// upload.array('images', 5); req.files
-export const resizeTourImages = catchAsync(async (req, res, next) => {
-  console.log("after resize tour images", req.files);
+export const resizeFilmImages = catchAsync(async (req, res, next) => {
+  console.log("after resize film images", req.files);
   // if there is no images, go to next middleware
   if (!req.files.imageCover || !req.files.images) {
     return next();
   }
-  const imageCoverFileName = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+  const imageCoverFileName = `film-${req.params.id}-${Date.now()}-cover.jpeg`;
   // 1) cover image
   await sharp(req.files.imageCover[0].buffer)
     .resize(2000, 1333)
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(`public/img/tours/${imageCoverFileName}`);
+    .toFile(`public/img/films/${imageCoverFileName}`);
   req.body.imageCover = imageCoverFileName;
   // then it will update, cuz it's in the body
 
@@ -45,12 +43,12 @@ export const resizeTourImages = catchAsync(async (req, res, next) => {
 
   await Promise.all(
     req.files.images.map(async (file, index) => {
-      const fileName = `tour-${req.params.id}-${Date.now()}-${index + 1}.jpeg`;
+      const fileName = `film-${req.params.id}-${Date.now()}-${index + 1}.jpeg`;
       await sharp(req.files.images[index].buffer)
         .resize(2000, 1333)
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(`public/img/tours/${fileName}`);
+        .toFile(`public/img/films/${fileName}`);
       req.body.images.push(fileName);
     })
   );
