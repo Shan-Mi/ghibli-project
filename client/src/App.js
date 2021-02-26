@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { GhibliContext } from "./context/GlobalContext";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/Header";
@@ -40,10 +40,14 @@ function App() {
         <Route path="/register" component={RegisterPage} />
         <Route path="/resetPassword/:token" component={ResetPasswordPage} />
         <Route path="/sendResetPassword" component={ResetPage} />
-        <Route path="/profile">
-          {status.isLoggedIn === true ? <ProfilePage /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/result" component={CheckYourEmailPage} />
+        <Route
+          path="/profile"
+          render={() =>
+            status.isLoggedIn === true ? <ProfilePage /> : <Redirect to="/" />
+          }
+        />
+
+        <Route path="/result" exact component={CheckYourEmailPage} />
         <Route path="/verifyEmail" exact component={VerifyEmailPage} />
 
         <Route path="/admin" exact component={AdminPage} />
@@ -53,15 +57,18 @@ function App() {
           exact
           component={AdminEditFilmPage}
         />
-        <Route path="/admin/films/create" component={AdminCreateFilmPage} />
+        <Route
+          path="/admin/films/create"
+          exact
+          component={AdminCreateFilmPage}
+        />
         <Route path="/admin/reviews" exact component={AdminReviewsPage} />
         <Route
           path="/admin/reviews/:id/edit"
           exact
           component={AdminEditReviewPage}
         />
-        <Route path="/admin/users" component={AdminUsersPage} />
-
+        <Route path="/admin/users" exact component={AdminUsersPage} />
         <Route path="*" component={Page404} />
       </Switch>
       <Footer />
