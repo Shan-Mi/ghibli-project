@@ -20,12 +20,13 @@ import AdminFilmsPage from "./pages/AdminFilmsPage";
 import AdminReviewsPage from "./pages/AdminReviewsPage";
 import AdminEditReviewPage from "./pages/AdminEditReviewPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
+import AdminCreateFilmPage from "./pages/AdminCreateFilmPage"; 
 
 function App() {
   const { user, status } = useContext(GhibliContext);
 
   return (
-    <div className="flex-col ">
+    <div className="flex-col">
       <Header />
       <Switch>
         <Route path="/" exact component={FrontPage} />
@@ -52,6 +53,7 @@ function App() {
           exact
           component={AdminEditFilmPage}
         />
+        <Route path="/admin/films/create" component={AdminCreateFilmPage} />
         <Route path="/admin/reviews" exact component={AdminReviewsPage} />
         <Route
           path="/admin/reviews/:id/edit"
