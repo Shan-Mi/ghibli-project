@@ -30,6 +30,9 @@ module.exports = {
         fullHeight: "calc(-276px + 100vh)",
         full: "100%",
       },
+      backgroundImage: (theme) => ({
+        "hero-pattern": "url('/src/images/ghost.png')",
+      }),
     },
   },
   variants: {
