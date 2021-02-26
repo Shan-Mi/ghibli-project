@@ -4,7 +4,6 @@ import * as factory from "./handlerFactory.js";
 import AppError from "../utils/appError.js";
 import mongoose from "mongoose";
 
-// export const getReviews = factory.getAll(Review, "reviews")
 export const getReviews = catchAsync(async (req, res, next) => {
   const doc = await Review.find({}).populate("film");
   // SEND RESPONSE
@@ -67,7 +66,16 @@ export const likeReview = catchAsync(async (req, res, next) => {
     setDefaultsOnInsert: true,
     fields: { likedBy: 1, likedCount: 1 },
   };
-  const result = await Review.findOneAndUpdate(query, update, options);
+  const result = await Review.findOneAndUpdate(
+    query,
+    update,
+    options,
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+    }
+  );
 
   res.status(200).json(result);
 });
@@ -97,7 +105,6 @@ export const updateReview = catchAsync(async (req, res, next) => {
     }
   );
 
-  // console.log(doc);
   if (!doc) {
     return next(new AppError("Only creator can edit this review", 404));
   }
