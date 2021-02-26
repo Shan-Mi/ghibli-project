@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { getAllUsers } from "../api";
 import AdminEditGroup from "../components/AdminEditGroup";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
@@ -10,6 +11,15 @@ const AdminUsersPage = () => {
   const [update, setUpdate] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLoading, setIsloading] = useState(true);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      history.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     setUsers(users);
@@ -59,18 +69,21 @@ const AdminUsersPage = () => {
           <thead>
             <tr className="text-xl h-20">
               <th
-                className="w-6/12 cursor-pointer"
+                className="w-6/12 cursor-pointer adminTitleHover"
                 onClick={() => sortBy("name")}
               >
                 User's Name
               </th>
               <th
-                className="w-4/12 cursor-pointer"
+                className="w-4/12 cursor-pointer adminTitleHover"
                 onClick={() => sortBy("email")}
               >
                 Email
               </th>
-              <th className="w-4/12 cursor-pointer" onClick={sortByStatus}>
+              <th
+                className="w-4/12 cursor-pointer adminTitleHover"
+                onClick={sortByStatus}
+              >
                 Account Status
               </th>
               <th className="w-2/12">Delete</th>

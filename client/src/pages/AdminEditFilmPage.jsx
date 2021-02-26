@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { getErrorMessage, updateFilm } from "../api";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
 
 const AdminEditFilmPage = (props) => {
   const [film, setFilm] = useState({
-    ...props.location.filmProps.film,
+    ...props.location?.filmProps?.film,
   });
-  const [textLength, setTextLength] = useState(film.description.length);
+  const [textLength, setTextLength] = useState(film?.description?.length);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      history.push("/");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await updateFilm(film, film._id);
-      console.log(data);
+      await updateFilm(film, film._id);
       notifySuccess("Film information saved successfully");
     } catch (e) {
       console.error(e.response.data);

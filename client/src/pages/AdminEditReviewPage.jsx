@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const AdminEditReviewPage = () => {
@@ -7,6 +7,14 @@ const AdminEditReviewPage = () => {
     history.push("/admin/reviews");
   };
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      history.push("/");
+    }
+  }, []);
+  
   return (
     <div className="min-h-fullHeight flex justify-center mt-5 relative">
       <button

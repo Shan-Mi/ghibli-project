@@ -4,7 +4,7 @@ import AdminEditGroup from "../components/AdminEditGroup";
 import AdminFilmsList from "../components/AdminFilmsList";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import CircleLoading from "react-loadingg/lib/CircleLoading";
 
 const AdminFilmsPage = () => {
@@ -12,6 +12,14 @@ const AdminFilmsPage = () => {
   const [update, setUpdate] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLoading, setIsloading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      history.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     setFilms(films);
@@ -59,13 +67,13 @@ const AdminFilmsPage = () => {
           <thead>
             <tr className="text-xl h-20">
               <th
-                className="w-6/12 cursor-pointer"
+                className="w-6/12 cursor-pointer adminTitleHover"
                 onClick={() => sortBy("title")}
               >
                 Title
               </th>
               <th
-                className="w-4/12 cursor-pointer"
+                className="w-4/12 cursor-pointer adminTitleHover"
                 onClick={() => sortBy("createdAt")}
               >
                 CreatedAt

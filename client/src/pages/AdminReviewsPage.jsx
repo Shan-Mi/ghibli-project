@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { getAllReviews } from "../api";
 import AdminEditGroup from "../components/AdminEditGroup";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
@@ -11,6 +12,15 @@ const AdminReviewsPage = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isLoading, setIsloading] = useState(true);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      history.push("/");
+    }
+  }, []);
+  
   useEffect(() => {
     getAllReviews().then((res) => {
       setReviews(res.data.data.reviews);
@@ -64,7 +74,7 @@ const AdminReviewsPage = () => {
         <AdminEditGroup />
       </div>
       <h1 className="adminTitle">Edit Reviews</h1>
-      
+
       {isLoading ? (
         <CircleLoading />
       ) : (
@@ -73,25 +83,25 @@ const AdminReviewsPage = () => {
             <tr className="text-xl h-20">
               <th
                 onClick={() => sortBy("title")}
-                className="w-6/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out "
+                className="w-6/12 cursor-pointer adminTitleHover"
               >
                 Title
               </th>
               <th
                 onClick={() => sortBy("createdAt")}
-                className="w-4/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out"
+                className="w-4/12 cursor-pointer adminTitleHover"
               >
                 Created At
               </th>
               <th
                 onClick={() => sortBy("user.name")}
-                className="w-4/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out"
+                className="w-4/12 cursor-pointer adminTitleHover"
               >
                 Created By
               </th>
               <th
                 onClick={() => sortBy("film.title")}
-                className="w-4/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out"
+                className="w-4/12 cursor-pointer adminTitleHover"
               >
                 Film
               </th>
