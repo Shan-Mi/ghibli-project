@@ -2,7 +2,7 @@
 # Understructure 👩🏻‍💻
 
 ## TODO:
-1) create admin panel for updating and creating films data
+1) create admin panel for creating films data
 2) use react-toast for displaying error/success message, to make your life easier..
 3) fix film page, maybe add some reviewsPage, and on film page, we list out several most liked reviews, and with a show all button. once clicked that button, we go to reviews page for this film. (if have time, will think about that.)
 4) add pagination or lazy loading...
@@ -35,6 +35,11 @@
 21) edit reviews: edit part not done
 22) edit users: done.
 23) All fields can be sorted once clicked title accordingly
+24) delete one film/review/user functionality part is done
+25) refactor components and styles to reuse repeated parts
+26) refactor sort function, due to new condition (if a user has been deletet, user === null)
+27) add loading status indicator
+28) use react-toast for error messages/success messages (works fine, will update frontend part accordingly too)
 ## RUN
 ```
 # Run frontend (:3000) & backend (:8080) development mode
