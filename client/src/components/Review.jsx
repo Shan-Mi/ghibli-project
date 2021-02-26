@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getOneFilm } from "../utilities";
 import { GhibliContext } from "../context/GlobalContext";
@@ -6,16 +6,13 @@ import cx from "classnames";
 import { updateReview, likeReview, getErrorMessage } from "../api";
 import EditReviewGroup from "./EditReviewGroup";
 import { AiTwotoneHeart } from "react-icons/ai";
+import { imgURL } from "../constants";
 
 const Review = ({ review }) => {
-  const {
-    user,
-    title,
-    content,
-    id: reviewId,
-    likedBy,
-  } = review;
+  const { user, title, content, id: reviewId, likedBy } = review;
   const currUser = JSON.parse(localStorage.getItem("user"));
+  const [avatar, setAvatar] = useState();
+
   const { films, setError } = useContext(GhibliContext);
   const [textLength, setTextLength] = useState(content.length);
   const [isEditable, setIsEditable] = useState(false);
@@ -83,6 +80,18 @@ const Review = ({ review }) => {
     }
   };
 
+  useEffect(() => {
+    setAvatar(`${imgURL}${user.photo}`);
+  }, [user]);
+  const handleImageLoad = () => {
+    console.log("image loaded successfully");
+  };
+
+  const handleImageError = () => {
+    console.log("something went wrong");
+    setAvatar(`${imgURL}default.jpg`);
+  };
+
   return (
     <div className="relative mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 py-5 shadow-lg max-w-2xl rounded-md mb-10 px-8">
       <input
@@ -135,27 +144,42 @@ const Review = ({ review }) => {
           />
         )
       }
+      <div className="flex">
+        <div className="flex items-end mb-5 flex-1">
+          <img
+            className="mr-5 rounded-full h-10"
+            alt="user"
+            src={avatar}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+          />
+        </div>
+        <div className="flex-3">
+          <p className="font-Montserrat pb-2 pr-3 text-right font-light">
+            {!user?._id
+              ? "deleted user".toUpperCase()
+              : user?.name.toUpperCase()}
+          </p>
+          <p className="font-Montserrat pb-2 pr-3 text-right italic text-sm font-light">
+            {!currReview.updatedAt ||
+            currReview.createdAt === currReview.updatedAt
+              ? formatDate(currReview.createdAt)
+              : `Edited at: ${formatDate(currReview.updatedAt)}`}
+          </p>
 
-      <p className="font-Montserrat pb-2 pr-3 text-right font-light">
-        {!user?._id ? "deleted user".toUpperCase() : user?.name.toUpperCase()}
-      </p>
-      <p className="font-Montserrat pb-2 pr-3 text-right italic text-sm font-light">
-        {!currReview.updatedAt || currReview.createdAt === currReview.updatedAt
-          ? formatDate(currReview.createdAt)
-          : `Edited at: ${formatDate(currReview.updatedAt)}`}
-      </p>
-
-      <div className="flex justify-end items-center w-10 ml-auto">
-        <button
-          className={cx(
-            "mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7",
-            likes.isLiked ? "text-red-400" : "text-primary"
-          )}
-          onClick={handleLikesClick}
-        >
-          <AiTwotoneHeart className="w-5 h-5" />
-        </button>
-        <p>{likes.count}</p>
+          <div className="flex justify-end items-center w-10 ml-auto pr-3">
+            <button
+              className={cx(
+                "mr-2 cursor-pointer hover:text-red-400 rounded-full p-1 h-7",
+                likes.isLiked ? "text-red-400" : "text-primary"
+              )}
+              onClick={handleLikesClick}
+            >
+              <AiTwotoneHeart className="w-5 h-5" />
+            </button>
+            <p>{likes.count}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
