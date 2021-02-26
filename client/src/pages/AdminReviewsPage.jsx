@@ -7,15 +7,20 @@ import AdminReviewsList from "../components/AdminReviewsList";
 const AdminReviewsPage = () => {
   const [reviews, setReviews] = useState();
   const [update, setUpdate] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  // useEffect(() => {
+  //   getAllReviews()
+  //     .then((res) => {
+  //       // console.log(res.data.data.reviews);
+  //       setReviews(res.data.data.reviews);
+  //     })
+  //     .catch((e) => console.error(e.response));
+  // }, []);
 
   useEffect(() => {
-    getAllReviews()
-      .then((res) => {
-        // console.log(res.data.data.reviews);
-        setReviews(res.data.data.reviews);
-      })
-      .catch((e) => console.error(e.response));
-  }, []);
+    getAllReviews().then((res) => setReviews(res.data.data.reviews));
+  }, [isDeleted]);
 
   const sortBy = (query) => {
     const newQuery = query.split(".");
@@ -56,35 +61,40 @@ const AdminReviewsPage = () => {
           <tr className="text-xl h-20">
             <th
               onClick={() => sortBy("title")}
-              className="w-6/12 cursor-pointer"
+              className="w-6/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out "
             >
               Title
             </th>
             <th
               onClick={() => sortBy("createdAt")}
-              className="w-4/12 cursor-pointer"
+              className="w-4/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out"
             >
               Created At
             </th>
             <th
               onClick={() => sortBy("user.name")}
-              className="w-4/12 cursor-pointer"
+              className="w-4/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out"
             >
               Created By
             </th>
             <th
               onClick={() => sortBy("film.title")}
-              className="w-4/12 cursor-pointer"
+              className="w-4/12 cursor-pointer transform hover:text-gray-500 duration-200 ease-in-out"
             >
               Film
             </th>
-            <th className="w-2/12 cursor-pointer">Edit</th>
+            <th className="w-2/12">Edit</th>
           </tr>
         </thead>
         <tbody>
           {reviews &&
             reviews.map((review, index) => (
-              <AdminReviewsList review={review} key={`review-${index}`} />
+              <AdminReviewsList
+                review={review}
+                key={`review-${index}`}
+                setIsDeleted={setIsDeleted}
+                isDeleted={isDeleted}
+              />
             ))}
         </tbody>
       </table>

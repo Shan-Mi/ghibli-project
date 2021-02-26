@@ -1,5 +1,6 @@
 import React from "react";
 import { BiEdit } from "react-icons/bi";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 import { Link, useHistory } from "react-router-dom";
 
 const AdminFilmsList = ({ film }) => {
@@ -15,17 +16,20 @@ const AdminFilmsList = ({ film }) => {
       <td className="text-center">
         {new Date(film.createdAt).toLocaleString()}
       </td>
-      <td className="">
+      <td className="flex justify-evenly">
         <Link
           to={{
             pathname: `/admin/films/${film.slug}/edit`,
             filmProps: { film: film },
           }}
-          className="primaryBtn my-3"
+          className="primaryBtn my-3 ml-0 flex items-center"
           onClick={handleEditFilm}
         >
           <BiEdit className="m-auto" />
         </Link>
+        <button className="primaryBtn my-3 ml-0 bg-indigo-300">
+          <RiDeleteBin5Fill className="cursor-pointer" />
+        </button>
       </td>
     </tr>
   );

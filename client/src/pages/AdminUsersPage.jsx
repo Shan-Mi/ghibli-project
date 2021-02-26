@@ -9,9 +9,9 @@ const AdminUsersPage = () => {
   const [update, setUpdate] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
-  useEffect(() => {
-    getAllUsers().then((res) => setUsers(res.data.data.users));
-  }, []);
+  // useEffect(() => {
+  //   getAllUsers().then((res) => setUsers(res.data.data.users));
+  // }, []);
 
   useEffect(() => {
     setUsers(users);
@@ -78,6 +78,7 @@ const AdminUsersPage = () => {
                 user={user}
                 key={`user-${index}`}
                 setIsDeleted={setIsDeleted}
+                isDeleted={isDeleted}
               />
             ))}
         </tbody>
