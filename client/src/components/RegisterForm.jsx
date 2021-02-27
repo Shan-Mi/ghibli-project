@@ -31,7 +31,9 @@ const RegisterForm = () => {
 
       await register(payload);
       notifySuccess("Your account has been registered successfully");
-      history.push("/result");
+      setTimeout(() => {
+        history.push("/result");
+      }, 2500);
     } catch (e) {
       if (e.response?.data?.error?.errors?.password?.kind === "minlength") {
         return notifyError("Password should have at least 8 char");
