@@ -1,11 +1,16 @@
-import React from 'react'
-import FilmDetail from '../components/FilmDetail'
+import React, { useEffect } from "react";
+import FilmDetail from "../components/FilmDetail";
 
-// Here should contain 2 parts
-// one for film detail area
-// one for reviews area
-const FilmPage = () => (
-  <FilmDetail />
-)
+const FilmPage = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
-export default FilmPage
+  return <FilmDetail />;
+};
+
+export default FilmPage;
