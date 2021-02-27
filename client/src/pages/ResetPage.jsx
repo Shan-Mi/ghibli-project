@@ -1,37 +1,38 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getErrorMessage, sendResetPassword } from "../api";
-import ErrorMessage from "../components/ErrorMessage";
-import { GhibliContext } from "../context/GlobalContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const ResetPage = () => {
-  const { setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const history = useHistory();
 
   const handleResetPsw = async (e) => {
     e.preventDefault();
-
     try {
       const payload = { email: emailRef.current?.value };
       const {
         data: { message },
       } = await sendResetPassword(payload);
-      // console.log(message);
-      setError({ hidden: false, message: message });
+
+      notifySuccess(message);
+
       setTimeout(() => {
         history.push("/result");
       }, 3000);
     } catch (e) {
-      // console.error(getErrorMessage(e));
-      setError({ hidden: false, message: getErrorMessage(e) });
+      getErrorMessage(e)
+        .split(",")
+        .map((err) => notifyError(err));
     }
   };
 
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-      <ErrorMessage />
-
+      <ToastContainer />
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 

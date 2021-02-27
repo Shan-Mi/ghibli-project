@@ -6,6 +6,7 @@ import cx from "classnames";
 import { updateReview, likeReview, getErrorMessage } from "../api";
 import EditReviewGroup from "./EditReviewGroup";
 import { AiTwotoneHeart } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
 import { imgURL } from "../constants";
 
 const Review = ({ review }) => {
@@ -13,7 +14,7 @@ const Review = ({ review }) => {
   const currUser = JSON.parse(localStorage.getItem("user"));
   const [avatar, setAvatar] = useState();
 
-  const { films, setError } = useContext(GhibliContext);
+  const { films } = useContext(GhibliContext);
   const [textLength, setTextLength] = useState(content.length);
   const [isEditable, setIsEditable] = useState(false);
   const titleRef = useRef();
@@ -27,7 +28,7 @@ const Review = ({ review }) => {
     count: likedBy.length,
     isLiked: likedBy.includes(currUser?._id),
   });
-  // Add error handling
+
   const handleUpdate = async (e) => {
     try {
       const title = titleRef.current?.value;
@@ -38,17 +39,11 @@ const Review = ({ review }) => {
           data: { review },
         },
       } = await updateReview(payload, filmId, reviewId);
-      // console.log("res from db", review);
+
       setCurrReview(review);
       setIsEditable(false);
     } catch (e) {
-      const {
-        data: { message },
-      } = e.response;
-      setError({
-        hidden: false,
-        message: message,
-      });
+      notifyError(getErrorMessage(e));
     }
   };
 
@@ -75,8 +70,7 @@ const Review = ({ review }) => {
       const { data } = await likeReview(filmId, reviewId);
       setLikes({ count: data.likedCount, isLiked: true });
     } catch (e) {
-      // console.error(e.response.data.message);
-      setError({ hidden: false, message: getErrorMessage(e) });
+      notifyError(getErrorMessage(e));
     }
   };
 
@@ -93,8 +87,11 @@ const Review = ({ review }) => {
     setAvatar(`${imgURL}default.jpg`);
   };
 
+  const notifyError = (message) => toast.error(message);
+
   return (
     <div className="relative mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 py-5 shadow-lg max-w-2xl rounded-md mb-10 px-8">
+      <ToastContainer />
       <input
         ref={titleRef}
         className={cx(

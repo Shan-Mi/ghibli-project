@@ -1,21 +1,11 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getErrorMessage, sendVerifyEmail } from "../api";
-import ErrorMessage from "../components/ErrorMessage";
-import { GhibliContext } from "../context/GlobalContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const VerifyEmailPage = () => {
-  const { status, setError } = useContext(GhibliContext);
   const emailRef = useRef();
   const history = useHistory();
-
-  // useEffect(() => {
-  //   if (status.isVerified) {
-  //     console.log("you are verified");
-  //     return;
-  //   }
-  //   console.log("you need to verify your email account first");
-  // }, []);
 
   const handleSendVerification = async (e) => {
     e.preventDefault();
@@ -24,22 +14,25 @@ const VerifyEmailPage = () => {
       const payload = { email: emailRef.current?.value };
       await sendVerifyEmail(payload);
 
-      setError({
-        hidden: false,
-        message: `Check your email ${emailRef.current?.value} for verfication`,
-      });
+      notifySuccess(
+        `Check your email ${emailRef.current?.value} for verfication`
+      );
       setTimeout(() => {
         history.push("/");
       }, 3000);
     } catch (e) {
-      setError({ hidden: false, message: getErrorMessage(e) });
+      getErrorMessage(e)
+        .split(",")
+        .map((err) => notifyError(err));
     }
   };
 
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-      <ErrorMessage />
-
+      <ToastContainer />
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 

@@ -6,7 +6,6 @@ import { getOneFilm } from "../utilities";
 import ReactPlayer from "react-player";
 import Review from "./Review";
 import ReviewCreater from "./ReviewCreater";
-import ErrorMessage from "./ErrorMessage";
 import cx from "classnames";
 // import { Skeleton } from "antd";
 import CircleLoading from "react-loadingg/lib/CircleLoading";
@@ -57,7 +56,6 @@ const FilmDetail = () => {
 
   return (
     <div className="px-10 min-h-fullHeight">
-      <ErrorMessage />
       {loadingStatus.loading ? (
         <CircleLoading />
       ) : (

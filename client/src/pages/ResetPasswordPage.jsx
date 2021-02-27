@@ -1,11 +1,11 @@
 import React, { useRef, useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { getErrorMessage, resetPassword } from "../api";
-import ErrorMessage from "../components/ErrorMessage";
+import { ToastContainer, toast } from "react-toastify";
 import { GhibliContext } from "../context/GlobalContext";
 
 const ResetPasswordPage = () => {
-  const { setUser, setError } = useContext(GhibliContext);
+  const { setUser } = useContext(GhibliContext);
   const history = useHistory();
   const psw = useRef();
   const pswConfirm = useRef();
@@ -29,24 +29,27 @@ const ResetPasswordPage = () => {
       } = await resetPassword(payload, tokenVal);
 
       if (status === 200) {
-        setError({
-          message: "You have successfully reset password.",
-          hidden: false,
-        });
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-        history.push("/");
+        notifySuccess("You have successfully reset password.");
+        notifySuccess("You will be redirected to front-page in 3 seconds.");
+        setTimeout(() => {
+          setUser(user);
+          localStorage.setItem("user", JSON.stringify(user));
+          history.push("/");
+        }, 3000);
       }
     } catch (e) {
-      // console.error(e.response);
-      setError({ message: getErrorMessage(e), hidden: false });
+      getErrorMessage(e)
+        .split(",")
+        .map((err) => notifyError(err));
     }
   };
 
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+
   return (
     <div className="flex flex-col h-fullHeight bg-gray-100">
-      <ErrorMessage />
-
+      <ToastContainer />
       <div className="grid place-items-center mx-2 my-20 sm:my-auto">
         <div
           className="w-11/12 p-12 sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-4/12 

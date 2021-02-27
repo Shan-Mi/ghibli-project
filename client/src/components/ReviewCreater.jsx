@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { createNewReview } from "../api";
+import { createNewReview, getErrorMessage } from "../api";
 import { GhibliContext } from "../context/GlobalContext";
 import { getOneFilm } from "../utilities";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { ToastContainer, toast } from "react-toastify";
 
 const ReviewCreater = ({ setOpenNewReview }) => {
   const [textLength, setTextLength] = useState(0);
   const titleRef = useRef();
   const contentRef = useRef();
-  const { films, error, setError } = useContext(GhibliContext);
+  const { films } = useContext(GhibliContext);
   const { id } = useParams();
   const [film] = getOneFilm(id, films);
   const filmId = film.id;
@@ -30,46 +31,22 @@ const ReviewCreater = ({ setOpenNewReview }) => {
       await createNewReview(payload, filmId);
       setOpenNewReview(false);
     } catch (e) {
-      const {
-        data: { message },
-      } = e.response;
-      // console.log(data);
-      // if (Object.keys(data).includes("errors")) {
-      // this is any validation error
-      setError({
-        hidden: false,
-        message: message,
-      });
-      // }
-
-      // if (data.code === 11000) {
-      //   // this 11000 is for handling mongo error
-      //   const { keyPattern } = data;
-      //   if (Object.keys(keyPattern).includes("film", "user")) {
-      //     return setError({
-      //       hidden: false,
-      //       message: "One user can only create one review.",
-      //     });
-      //   }
-      // }
+      getErrorMessage(e)
+        .split(",")
+        .map((err) => notifyError(err));
     }
   };
 
-  useEffect(() => {
-    // hide error message after 4500 ms if the user is not closing this component by themselves.
-    const timer = setTimeout(() => {
-      setError({ ...error, hidden: true });
-    }, 4500);
-    return () => clearTimeout(timer);
-  }, [error, setError]);
-
   const handleCloseErr = () => {
-    setError({ message: "", hidden: true });
     setOpenNewReview(false);
   };
 
+  const notifyError = (message) => toast.error(message);
+
   return (
     <div className="relative mt-10 ">
+      <ToastContainer />
+
       <form
         ref={(el) => (myFormRef = el)}
         onSubmit={handleSubmit}
