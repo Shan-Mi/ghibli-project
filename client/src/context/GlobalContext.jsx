@@ -5,7 +5,6 @@ export const GhibliContext = createContext({});
 const GlobalContext = ({ children }) => {
   const [user, setUser] = useState({});
   const [films, setFilms] = useState([]);
-  const [error, setError] = useState({ hidden: true, message: "" });
   const [status, setStatus] = useState({
     isLoggedIn: false,
     isVerified: false,
@@ -24,8 +23,6 @@ const GlobalContext = ({ children }) => {
         setUser,
         films,
         setFilms,
-        error,
-        setError,
         status,
         setStatus,
       }}
