@@ -10,6 +10,10 @@
     @apply px-4 py-2 font-Montserrat text-gray-100 bg-indigo-300 rounded-md transform hover:bg-indigo-500 duration-200 ease-in-out;
   }
 
+  .editInputOutline {
+    @apply focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent;
+  }
+
   .primaryBtn {
     @apply px-5 py-2 mt-5 ml-auto block bg-primary rounded-md text-dark font-Amaranth transform hover:bg-light hover:text-gray-100 duration-200 ease-in-out;
   }
