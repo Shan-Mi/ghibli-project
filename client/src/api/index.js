@@ -16,6 +16,9 @@ export const fetchFilm = (id) => axios.get(`${URL}${id}`);
 export const updateFilm = async (payload, filmId) =>
   await axios.patch(`${URL}films/${filmId}`, payload);
 
+export const createFilm = async (payload) =>
+  await axios.post(`${URL}films/`, payload);
+
 /* auth */
 
 export const login = async (payload) =>
