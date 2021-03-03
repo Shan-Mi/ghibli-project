@@ -8,6 +8,7 @@ module.exports = {
         Amaranth: ["Amaranth", "sans-serif"],
       },
       spacing: {
+        res: "56.25%",
         128: "32rem",
         144: "36rem",
       },
@@ -29,6 +30,9 @@ module.exports = {
         "3/4": "75%",
         fullHeight: "calc(-276px + 100vh)",
         full: "100%",
+      },
+      minWidth: {
+        s: "360px",
       },
       backgroundImage: (theme) => ({
         "hero-pattern": "url('/src/images/ghost.png')",
