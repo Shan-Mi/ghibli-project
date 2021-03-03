@@ -4,11 +4,10 @@
 ## TODO:
 1) fix film page, maybe add some reviewsPage, and on film page, we list out several most liked reviews, and with a show all button. once clicked that button, we go to reviews page for this film. (if have time, will think about that.)
 2 add pagination or lazy loading...(low priority)
-3) make detail page prettier...(high priority)
 
 - ~~can use aggregation for sorting films by director's name; (maybe unnecessary)~~
 
-## DONE: (32)
+## DONE: (35)
 1) make sure data can upload to db;
 2) route /model/ controller (get for now) for films;
 3) set up virtual part for reviews and users;
@@ -29,6 +28,9 @@
 18) update password (on frontend profile page) and error handling
 29) add loading status checking for all pages
 31) replace the old ErrorMessage component with error toaster
+33) add overlay and responsive video player for trailer on film detail page
+34) add image galary for images on detail page
+35) simple responsive layout for images & rating info on detail page (need to be improved)
 
 ---
 ### admin
