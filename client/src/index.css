@@ -83,6 +83,10 @@
   }
 
   .aboutMeTextStyle {
-    @apply font-Amaranth text-lg text-dark  mb-5;
+    @apply font-Amaranth text-lg text-dark mb-5;
+  }
+
+  .filmInfo {
+    @apply md:pb-10 font-bold flex justify-between w-80 m-auto md:m-0;
   }
 }

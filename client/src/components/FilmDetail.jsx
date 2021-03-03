@@ -8,7 +8,10 @@ import Review from "./Review";
 import ReviewCreater from "./ReviewCreater";
 import cx from "classnames";
 // import { Skeleton } from "antd";
+import "react-image-gallery/styles/css/image-gallery.css";
+import ImageGallery from "react-image-gallery";
 import CircleLoading from "react-loadingg/lib/CircleLoading";
+import { filmImgURL } from "../constants";
 
 const FilmDetail = () => {
   const { setFilms, status } = useContext(GhibliContext);
@@ -18,6 +21,8 @@ const FilmDetail = () => {
     active: true,
     loading: true,
   });
+
+  const [imageList, setImageList] = useState();
 
   // const [openEditReview, setOpenEditReview] = useState(false);
   const slug = useLocation().pathname.split("/")[2];
@@ -32,6 +37,12 @@ const FilmDetail = () => {
       setFilms(filmsData);
       const [currentFilm] = getOneFilm(slug, films.films);
       setFilm(currentFilm);
+      setImageList(
+        currentFilm.images.map((image) => ({
+          original: `${filmImgURL}${image}`,
+        }))
+      );
+      // console.log(currentFilm.images);
       setLoadingStatus({ ...loadingStatus, loading: false });
     };
     // TODO: NEED TO avoid multiple fetching data, if data is in context, we don't need to fetch from api.
@@ -50,6 +61,10 @@ const FilmDetail = () => {
     trailer,
   } = film;
 
+  console.log(imageList);
+  // const imageList = images.map((image) => `${filmImgURL}${image}`);
+  // console.log(imageList)
+
   const handleOpenNewReview = () => {
     setOpenNewReview(true);
   };
@@ -64,15 +79,34 @@ const FilmDetail = () => {
             {title}
           </h1>
           <p className="text-justify font-Montserrat pb-5">{description}</p>
-          <p>Rating: {rating}</p>
-          <p>Released At: {new Date(releasedDate).toLocaleDateString()}</p>
 
-          <ReactPlayer url={trailer} />
-
-          <p>Director: {directors}</p>
-          <p>Runtime: {runtime}</p>
+          <div className="xs:flex-col items-center mt-5 justify-between w-full max-w-screen-xl m-auto lg:flex">
+            <ReactPlayer
+              url={trailer}
+              className="max-w-max m-auto lg:m-0 md:max-w-full md:max-h-full"
+            />
+            <div className="flex-col justify-center items-center  md:flex md:mt-10">
+              <p className="filmInfo">
+                Rating: <span className="font-normal">{rating}</span>
+              </p>
+              <p className="filmInfo">
+                Released At:
+                <span className="font-normal">
+                  {new Date(releasedDate).toLocaleDateString()}
+                </span>
+              </p>
+              <p className="filmInfo">
+                Director: <span className="font-normal">{directors}</span>
+              </p>
+              <p className="filmInfo">
+                Runtime: <span className="font-normal">{runtime}</span>
+              </p>
+            </div>
+          </div>
         </div>
       )}
+
+      {imageList && <ImageGallery items={imageList} showThumbnails={false} />}
 
       <hr className="mt-10" />
 
