@@ -89,4 +89,8 @@
   .filmInfo {
     @apply md:pb-10 font-bold flex justify-between w-80 m-auto md:m-0;
   }
+
+  .imgGalaryStyle {
+    @apply w-4/5 m-auto max-w-screen-md min-w-s;
+  }
 }
