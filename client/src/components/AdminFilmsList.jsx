@@ -33,6 +33,9 @@ const AdminFilmsList = ({ film, setIsDeleted, isDeleted }) => {
       <td className="text-center">
         {new Date(film.createdAt).toLocaleString()}
       </td>
+      <td className="text-center">
+        {new Date(film.updatedAt).toLocaleString()}
+      </td>
       <td className="flex justify-evenly">
         <Link
           to={{
