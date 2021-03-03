@@ -6,7 +6,6 @@ import { getOneFilm } from "../utilities";
 import Review from "./Review";
 import ReviewCreater from "./ReviewCreater";
 import cx from "classnames";
-// import { Skeleton } from "antd";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import CircleLoading from "react-loadingg/lib/CircleLoading";

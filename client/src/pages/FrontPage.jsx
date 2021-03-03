@@ -2,12 +2,10 @@ import React, { useContext, useEffect } from "react";
 import { fetchFilms } from "../api";
 import FilmReview from "../components/FilmReview";
 import { GhibliContext } from "../context/GlobalContext";
-// import { Spin, Alert } from "antd";
 import CircleLoading from "react-loadingg/lib/CircleLoading";
-// Here comes films reviews part.
+
 const FrontPage = () => {
   const { films, setFilms } = useContext(GhibliContext);
-  // const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
     const getFilms = async () => {
@@ -19,7 +17,6 @@ const FrontPage = () => {
       // localStorage.setItem("films", JSON.stringify(filmsData));
     };
     getFilms();
-    // setIsloading(false);
   }, [setFilms]);
 
   return (
