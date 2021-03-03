@@ -11,6 +11,8 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import CircleLoading from "react-loadingg/lib/CircleLoading";
 import { filmImgURL } from "../constants";
+import { IoCloseCircleOutline } from "react-icons/io5";
+
 import ResponsivePlayer from "./ResponsivePlayer";
 
 const FilmDetail = () => {
@@ -95,10 +97,10 @@ const FilmDetail = () => {
             onClick={closeOverlay}
           >
             <button
-              className="text-red-50 text-2xl absolute top-5 right-5"
+              className="text-red-50 text-2xl absolute top-10 right-10"
               onClick={closeOverlay}
             >
-              X
+              <IoCloseCircleOutline className="text-3xl transform hover:scale-110 duration-150 ease-in-out" />
             </button>
             <ResponsivePlayer className="w-80" trailer={trailer} />
           </div>
