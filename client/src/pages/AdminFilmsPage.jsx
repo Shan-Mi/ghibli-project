@@ -19,7 +19,7 @@ const AdminFilmsPage = () => {
     if (user?.role !== "admin") {
       history.push("/");
     }
-  }, []);
+  }, [history, user?.role]);
 
   useEffect(() => {
     setFilms(films);
@@ -77,6 +77,12 @@ const AdminFilmsPage = () => {
                 onClick={() => sortBy("createdAt")}
               >
                 CreatedAt
+              </th>
+              <th
+                className="w-4/12 cursor-pointer adminTitleHover"
+                onClick={() => sortBy("updatedAt")}
+              >
+                EditedAt
               </th>
               <th className="w-2/12">Edit</th>
             </tr>

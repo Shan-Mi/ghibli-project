@@ -3,13 +3,18 @@ import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getErrorMessage, updateFilm } from "../api";
 import AdminGoBackBtn from "../components/AdminGoBackBtn";
+import { filmImgURL } from "../constants";
 
 const AdminEditFilmPage = (props) => {
   const [film, setFilm] = useState({
     ...props.location?.filmProps?.film,
   });
   const [textLength, setTextLength] = useState(film?.description?.length);
-
+  const [coverImage, setCoverImage] = useState(
+    `${filmImgURL}${film?.imageCover}`
+  );
+  // const [images, setImages] = useState(`${filmImgURL}${film?.images}`);
+  // console.log(images);
   const user = JSON.parse(localStorage.getItem("user"));
   const history = useHistory();
 
@@ -17,12 +22,39 @@ const AdminEditFilmPage = (props) => {
     if (user?.role !== "admin") {
       history.push("/");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+  // TODO: if there is no onChange event for image input, then we don't include them in the upload patch pack.
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let form = new FormData();
+    const title = film?.title;
+    const description = film?.description;
+    const directors = film?.directors;
+    const rating = film?.rating;
+    const trailer = film?.trailer;
+    const releasedDate = film?.releasedDate;
+    const runtime = film?.runtime;
+    const [imageCover] =
+      document.querySelector("#imageCover").files || film.imageCover;
+    const fileList = document.querySelector("#uploadedImages").files;
+    const images = Object.values(fileList) || film.images;
+
+    form.append("title", title);
+    form.append("description", description);
+    form.append("directors", directors);
+    form.append("releasedDate", releasedDate);
+    form.append("rating", rating);
+    form.append("runtime", runtime);
+    form.append("trailer", trailer);
+    form.append("imageCover", imageCover);
+    images.forEach((image) => form.append("images", image));
+
     try {
-      await updateFilm(film, film._id);
+      const { data } = await updateFilm(form, film._id);
+      console.log(data);
       notifySuccess("Film information saved successfully");
     } catch (e) {
       console.error(e.response.data);
@@ -35,6 +67,14 @@ const AdminEditFilmPage = (props) => {
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
 
+  const handleOnChange = (e) => {
+    // const target = e.target.value.split("\");
+    console.log(e.target.value);
+    // const [, , last] = e.target.value;
+
+    // console.log(last);
+  };
+
   return (
     <div className="px-20 min-h-fullHeight relative">
       <AdminGoBackBtn location="/admin/films" />
@@ -44,7 +84,12 @@ const AdminEditFilmPage = (props) => {
       </h1>
 
       <ToastContainer />
-      <form className="flex-col" onSubmit={handleSubmit}>
+      <form
+        className="flex-col"
+        onSubmit={handleSubmit}
+        action="/multiple-upload"
+        encType="multipart/form-data"
+      >
         <div className="editDivStyle">
           <label className="filmEditLabel" htmlFor="title">
             Title
@@ -105,14 +150,36 @@ const AdminEditFilmPage = (props) => {
             id="imageCover"
             type="file"
             name="imageCover"
-            value={film.coverImage}
+            onChange={handleOnChange}
+          />
+          <img
+            className="w-10 transform hover:scale-150 duration-150 ease-in-out"
+            onError={() => setCoverImage(`${filmImgURL}default.png`)}
+            src={coverImage}
+            alt={film?.title}
           />
         </div>
 
-        {/* <label htmlFor="images">Images:</label>
-        <input id="image1" type="file" name="image1" value={film.images[0]} />
-        <input id="image2" type="file" name="image2" value={film.images[1]} />
-        <input id="image3" type="file" name="image3" value={film.images[2]} /> */}
+        <div className="editDivStyle">
+          <label htmlFor="uploadedImages" className="filmEditLabel">
+            Images:
+          </label>
+          <input
+            id="uploadedImages"
+            type="file"
+            name="uploadedImages"
+            multiple
+          />
+          {/* images &&
+            images.map((image) => (
+              <img
+                src={image}
+                alt={film?.title}
+                className="w-10 transform hover:scale-150 duration-150 ease-in-out"
+              />
+            )) */}
+        </div>
+
         <div className="editDivStyle">
           <label className="filmEditLabel" htmlFor="rating">
             Rating:

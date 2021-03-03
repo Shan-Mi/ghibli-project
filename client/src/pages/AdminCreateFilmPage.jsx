@@ -28,8 +28,8 @@ const AdminCreateFilmPage = () => {
     const rating = film?.rating;
     const trailer = film?.trailer;
     const releasedDate = film?.releasedDate;
-    const [imageCover] = document.querySelector("#imageCover").files;
     const runtime = film?.runtime;
+    const [imageCover] = document.querySelector("#imageCover").files;
     const fileList = document.querySelector("#uploadedImages").files;
     const images = Object.values(fileList);
 
@@ -40,13 +40,18 @@ const AdminCreateFilmPage = () => {
     form.append("rating", rating);
     form.append("runtime", runtime);
     form.append("trailer", trailer);
-    form.append("imageCover", imageCover);
+    // add this, so that make sure it will not pass film validation
+    if (imageCover) {
+      form.append("imageCover", imageCover);
+    }
+
     images.forEach((image) => form.append("images", image));
 
     try {
       const { data } = await createFilm(form);
       console.log(data);
       notifySuccess("Film information saved successfully");
+      return;
     } catch (e) {
       console.error(e.response.data);
       getErrorMessage(e)
@@ -71,7 +76,7 @@ const AdminCreateFilmPage = () => {
         className="flex-col"
         onSubmit={handleSubmit}
         action="/multiple-upload"
-        enctype="multipart/form-data"
+        encType="multipart/form-data"
       >
         <div className="editDivStyle">
           <label className="filmEditLabel" htmlFor="title">

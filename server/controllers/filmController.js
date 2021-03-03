@@ -24,14 +24,14 @@ export const uploadFilmImages = upload.fields([
 ]);
 
 export const resizeFilmImages = catchAsync(async (req, res, next) => {
-  // console.log("after resize film images", req.files);
   const slug = slugify(req.body.title, { lower: true });
 
   // if there is no images, go to next middleware
-  req.body.imageCover = `film-${slug}-${Date.now()}-cover.jpeg`;
-
   if (!req.files.imageCover || !req.files.images) {
     return next();
+    // return next(new AppError("You have to upload coverImage", 400));
+  } else {
+    req.body.imageCover = `film-${slug}-${Date.now()}-cover.jpeg`;
   }
 
   // 1) cover image
@@ -41,22 +41,24 @@ export const resizeFilmImages = catchAsync(async (req, res, next) => {
     .jpeg({ quality: 90 })
     .toFile(`public/img/films/${req.body.imageCover}`);
 
-  // then it will update, cuz it's in the body
+  console.log(req.body.imageCover);
 
   // 2) images
   req.body.images = [];
 
-  await Promise.all(
-    req.files.images.map(async (file, index) => {
-      const fileName = `film-${slug}-${Date.now()}-${index + 1}.jpeg`;
-      await sharp(req.files.images[index].buffer)
-        .resize(2000, 1333)
-        .toFormat("jpeg")
-        .jpeg({ quality: 90 })
-        .toFile(`public/img/films/${fileName}`);
-      req.body.images.push(fileName);
-    })
-  );
+  if (req.files.images) {
+    await Promise.all(
+      req.files.images.map(async (file, index) => {
+        const fileName = `film-${slug}-${Date.now()}-${index + 1}.jpeg`;
+        await sharp(req.files.images[index].buffer)
+          .resize(2000, 1333)
+          .toFormat("jpeg")
+          .jpeg({ quality: 90 })
+          .toFile(`public/img/films/${fileName}`);
+        req.body.images.push(fileName);
+      })
+    );
+  }
 
   next();
 });
