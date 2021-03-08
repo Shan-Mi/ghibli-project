@@ -1,4 +1,12 @@
 # Ghibli-films-site-project
+
+**Backend RESTful api URL**
+> https://ghibli-project-shan.herokuapp.com
+
+**API documentation (super simple demonstration)**
+> https://documenter.getpostman.com/view/10522951/Tz5m8zRd
+
+
 # Understructure 👩🏻‍💻
 
 ## TODO:
