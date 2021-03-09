@@ -6,6 +6,8 @@
 **API documentation (super simple demonstration)**
 > https://documenter.getpostman.com/view/10522951/Tz5m8zRd
 
+**Client side page** *please use allow cors extension for now, will fix later*
+> https://ghibli-project.netlify.app/
 
 # Understructure 👩🏻‍💻
 
