@@ -58,7 +58,7 @@
 32) create new film
 33) upload film images/coverImage w/ multer
 
-## RUN
+## RUN (OBS! please don't do anything!)
 ```
 # Run frontend (:3000) & backend (:8080) development mode
 `yarn start` or `npm start`
