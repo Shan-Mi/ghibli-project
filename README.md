@@ -9,7 +9,14 @@
 **Client side page** *works fine on Firefox now*
 > https://ghibli-project.netlify.app/
 
-# Understructure 👩🏻‍💻
+![Landing page](https://user-images.githubusercontent.com/54848603/120082566-f5cde800-c0c3-11eb-8a0f-bbc6de859127.png)
+![Register form](https://user-images.githubusercontent.com/54848603/120082581-0aaa7b80-c0c4-11eb-909a-d0f07b587bc5.png)
+![Login form](https://user-images.githubusercontent.com/54848603/120082575-04b49a80-c0c4-11eb-8198-db4a09baadf1.png)
+![Reset password](https://user-images.githubusercontent.com/54848603/120082587-0d0cd580-c0c4-11eb-9cf9-3270db832b38.png)
+![Write a review](https://user-images.githubusercontent.com/54848603/120082591-1007c600-c0c4-11eb-98b8-86e7c0753369.png)
+![About](https://user-images.githubusercontent.com/54848603/120082597-15651080-c0c4-11eb-89cc-586a0d33916d.png)
+
+# 👩🏻‍💻 Will not make any changes
 
 ## TODO:
 1) fix film page, maybe add some reviewsPage, and on film page, we list out several most liked reviews, and with a show all button. once clicked that button, we go to reviews page for this film. (if have time, will think about that.)
